@@ -5,8 +5,8 @@ import { useSEO } from '../hooks/useSEO';
 
 const AboutPage = () => {
   useSEO({
-    title: 'Om oss | Zylora - Teamet bakom tjänsten',
-    description: 'Lär känna teamet bakom Zylora. Vi hjälper svenska företag få betalt för sina fakturor — innan det går till inkasso. Baserat i Göteborg.',
+    title: 'Om Zylora | Betalningstjänst från Göteborg',
+    description: 'Zylora är en betalningstjänst från Göteborg som hjälper företag få betalt för sina fakturor — innan det går till inkasso.',
     canonical: 'https://zylora.se/om-oss',
   });
 
@@ -29,7 +29,7 @@ const AboutPage = () => {
             <span className="text-sm font-medium text-gray-400">Om oss</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
-            Teamet bakom Zylora
+            Om Zylora
           </h1>
           <p className="text-gray-400 text-lg">
             Vi hjälper svenska företag få betalt — utan att förstöra kundrelationer.
@@ -41,12 +41,11 @@ const AboutPage = () => {
 
           {/* Intro */}
           <div className="glass border border-white/10 rounded-2xl p-8">
-            <h2 className="text-xl font-display font-semibold text-white mb-4">Vilka är vi?</h2>
+            <h2 className="text-xl font-display font-semibold text-white mb-4">Vad vi gör</h2>
             <p className="text-gray-300 leading-relaxed">
-              Zylora är ett team baserat i Göteborg som specialiserat sig på att hjälpa företag
-              få betalt för sina fakturor — innan det går till inkasso. Vi kombinerar personlig
-              service med smart teknik för att lösa betalningsproblem på ett sätt som bevarar
-              era kundrelationer.
+              Zylora är en betalningstjänst från Göteborg som hjälper företag få betalt för sina
+              fakturor — innan det går till inkasso. Vi kombinerar personlig service med smart
+              teknik för att lösa betalningsproblem på ett sätt som bevarar era kundrelationer.
             </p>
           </div>
 
