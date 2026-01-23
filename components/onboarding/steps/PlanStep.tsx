@@ -13,12 +13,19 @@ interface PlanStepProps {
   onboarding: {
     progress: {
       tenantId: string | null;
+      signupData: {
+        companyName: string;
+        orgNumber: string;
+        email: string;
+        password: string;
+      } | null;
     };
     isLoading: boolean;
     error: string | null;
     completeStep: (step: 'plan') => void;
     goBack: () => void;
     setPlanSelected: (selected: boolean) => void;
+    createCheckoutWithSignup: (planId: string, successUrl: string, cancelUrl: string) => Promise<string | null>;
     clearError: () => void;
   };
 }
@@ -74,9 +81,13 @@ const FALLBACK_PLANS: Plan[] = [
 ];
 
 const PlanStep: React.FC<PlanStepProps> = ({ onboarding }) => {
-  const { progress, goBack, completeStep, setPlanSelected } = onboarding;
+  const { progress, goBack, completeStep, setPlanSelected, createCheckoutWithSignup, isLoading: onboardingLoading, error: onboardingError } = onboarding;
   const billing = useBilling(progress.tenantId);
-  const { plans, isLoading, isCreatingCheckout, error, fetchPlans, createCheckout } = billing;
+  const { plans, isLoading: billingLoading, error: billingError, fetchPlans } = billing;
+
+  const isLoading = onboardingLoading || billingLoading;
+  const error = onboardingError || billingError;
+  const [isCreatingCheckout, setIsCreatingCheckout] = useState(false);
 
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
@@ -89,15 +100,18 @@ const PlanStep: React.FC<PlanStepProps> = ({ onboarding }) => {
 
   const handleSelectPlan = async (planId: string) => {
     setSelectedPlan(planId);
+    setIsCreatingCheckout(true);
 
-    const successUrl = `${window.location.origin}/onboarding?step=fortnox&payment=success`;
-    const cancelUrl = `${window.location.origin}/onboarding?step=plan&payment=cancelled`;
+    const successUrl = `${window.location.origin}/onboarding?payment=success`;
+    const cancelUrl = `${window.location.origin}/onboarding?payment=cancelled`;
 
-    const checkoutUrl = await createCheckout(planId, successUrl, cancelUrl);
+    // Use createCheckoutWithSignup which sends all signup data to backend
+    const checkoutUrl = await createCheckoutWithSignup(planId, successUrl, cancelUrl);
+
+    setIsCreatingCheckout(false);
 
     if (checkoutUrl) {
-      // Mark plan as selected before redirecting
-      setPlanSelected(true);
+      // Redirect to Stripe - user + tenant will be created after payment
       window.location.href = checkoutUrl;
     }
   };

@@ -5,10 +5,18 @@ export type OnboardingStep = 'welcome' | 'plan' | 'fortnox' | 'integrations' | '
 
 const ONBOARDING_STEPS: OnboardingStep[] = ['welcome', 'plan', 'fortnox', 'integrations', 'complete'];
 
+interface SignupData {
+  companyName: string;
+  orgNumber: string;
+  email: string;
+  password: string;
+}
+
 interface OnboardingProgress {
   currentStep: OnboardingStep;
   completedSteps: OnboardingStep[];
   tenantId: string | null;
+  signupData: SignupData | null;
   planSelected: boolean;
   fortnoxConnected: boolean;
   integrationsConfigured: string[];
@@ -29,6 +37,7 @@ const getInitialProgress = (): OnboardingProgress => {
     currentStep: 'welcome',
     completedSteps: [],
     tenantId: null,
+    signupData: null,
     planSelected: false,
     fortnoxConnected: false,
     integrationsConfigured: [],
@@ -91,46 +100,31 @@ export const useOnboarding = () => {
     }
   }, [progress.currentStep]);
 
-  // Create tenant (Step 1)
-  const createTenant = useCallback(async (data: {
+  // Save signup data (Step 1) - NO database writes yet
+  const saveSignupData = useCallback((data: {
     companyName: string;
     orgNumber: string;
     email: string;
     password: string;
   }) => {
+    setProgress((prev) => ({
+      ...prev,
+      signupData: data,
+    }));
+  }, []);
+
+  // Validate signup data against existing records
+  const validateSignupData = useCallback(async (data: {
+    companyName: string;
+    orgNumber: string;
+    email: string;
+  }): Promise<boolean> => {
     setIsLoading(true);
     setError(null);
 
     try {
-      // First create the auth user
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
-      });
-
-      if (authError) {
-        // Translate common errors to Swedish
-        let errorMessage = authError.message;
-        if (authError.message.includes('rate') || authError.message.includes('429') || authError.message.includes('security purposes')) {
-          errorMessage = 'För många försök. Vänta en minut och försök igen.';
-        } else if (authError.message.includes('already registered') || authError.message.includes('User already registered')) {
-          errorMessage = 'E-postadressen är redan registrerad. Försök logga in istället.';
-        } else if (authError.message.includes('valid email')) {
-          errorMessage = 'Ogiltig e-postadress';
-        } else if (authError.message.includes('Password')) {
-          errorMessage = 'Lösenordet måste vara minst 6 tecken';
-        }
-        throw new Error(errorMessage);
-      }
-
-      if (!authData.user) {
-        throw new Error('Kunde inte skapa användare');
-      }
-
-      // Create tenant via Edge Function (uses service_role to bypass RLS)
-      // No auth token needed - Edge Function uses service_role key
       const response = await fetch(
-        `https://bosofhcunxbvfusvllsm.supabase.co/functions/v1/create-tenant`,
+        `https://bosofhcunxbvfusvllsm.supabase.co/functions/v1/validate-signup`,
         {
           method: 'POST',
           headers: {
@@ -138,8 +132,6 @@ export const useOnboarding = () => {
             'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvc29maGN1bnhidmZ1c3ZsbHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMzAwODksImV4cCI6MjA4NDYwNjA4OX0.JktnLgmno5up9aTKBhexRf0DPPZsFq1LnKrL5PHAINc',
           },
           body: JSON.stringify({
-            user_id: authData.user.id,
-            company_name: data.companyName,
             org_number: data.orgNumber,
             email: data.email,
           }),
@@ -149,23 +141,69 @@ export const useOnboarding = () => {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Kunde inte skapa företagskonto');
+        throw new Error(result.error || 'Validering misslyckades');
       }
 
-      setProgress((prev) => ({
-        ...prev,
-        tenantId: result.tenant.id,
-      }));
-
-      return result.tenant;
+      return true;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Ett fel uppstod';
       setError(message);
-      throw err;
+      return false;
     } finally {
       setIsLoading(false);
     }
   }, []);
+
+  // Create checkout session with signup data (Step 2)
+  const createCheckoutWithSignup = useCallback(async (
+    planId: string,
+    successUrl: string,
+    cancelUrl: string
+  ): Promise<string | null> => {
+    if (!progress.signupData) {
+      setError('Ingen registreringsdata tillgänglig');
+      return null;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `https://bosofhcunxbvfusvllsm.supabase.co/functions/v1/create-checkout-with-signup`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvc29maGN1bnhidmZ1c3ZsbHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMzAwODksImV4cCI6MjA4NDYwNjA4OX0.JktnLgmno5up9aTKBhexRf0DPPZsFq1LnKrL5PHAINc',
+          },
+          body: JSON.stringify({
+            company_name: progress.signupData.companyName,
+            org_number: progress.signupData.orgNumber,
+            email: progress.signupData.email,
+            password: progress.signupData.password,
+            plan_id: planId,
+            success_url: successUrl,
+            cancel_url: cancelUrl,
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Kunde inte skapa checkout');
+      }
+
+      return result.checkout_url;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Ett fel uppstod';
+      setError(message);
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [progress.signupData]);
 
   // Update tenant settings (for integrations)
   const updateTenantSettings = useCallback(async (settings: Record<string, unknown>) => {
@@ -228,6 +266,7 @@ export const useOnboarding = () => {
       currentStep: 'welcome',
       completedSteps: [],
       tenantId: null,
+      signupData: null,
       planSelected: false,
       fortnoxConnected: false,
       integrationsConfigured: [],
@@ -255,7 +294,9 @@ export const useOnboarding = () => {
     goBack,
 
     // Actions
-    createTenant,
+    saveSignupData,
+    validateSignupData,
+    createCheckoutWithSignup,
     updateTenantSettings,
     setFortnoxConnected,
     setPlanSelected,

@@ -1,0 +1,81 @@
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
+
+serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { headers: corsHeaders })
+  }
+
+  try {
+    const { org_number, email } = await req.json()
+
+    if (!org_number || !email) {
+      return new Response(
+        JSON.stringify({ error: 'org_number och email krävs' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    const supabaseAdmin = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+      { auth: { autoRefreshToken: false, persistSession: false } }
+    )
+
+    // Check if org_number exists
+    const { data: existingOrg } = await supabaseAdmin
+      .from('tenants')
+      .select('id')
+      .eq('org_number', org_number)
+      .single()
+
+    if (existingOrg) {
+      return new Response(
+        JSON.stringify({ error: 'Ett företag med detta organisationsnummer finns redan registrerat' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    // Check if email exists in tenants
+    const { data: existingEmail } = await supabaseAdmin
+      .from('tenants')
+      .select('id')
+      .eq('email', email)
+      .single()
+
+    if (existingEmail) {
+      return new Response(
+        JSON.stringify({ error: 'Ett företag med denna e-postadress finns redan registrerat' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    // Check if email exists in auth
+    const { data: authUsers } = await supabaseAdmin.auth.admin.listUsers()
+    const emailExists = authUsers?.users?.some(u => u.email === email)
+
+    if (emailExists) {
+      return new Response(
+        JSON.stringify({ error: 'E-postadressen är redan registrerad. Försök logga in istället.' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    return new Response(
+      JSON.stringify({ valid: true }),
+      { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    )
+
+  } catch (error) {
+    console.error('Error:', error)
+    return new Response(
+      JSON.stringify({ error: 'Ett oväntat fel uppstod' }),
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    )
+  }
+})
