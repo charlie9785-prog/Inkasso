@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Building2, Mail, Lock, Hash, ArrowRight, Loader2, AlertTriangle } from 'lucide-react';
+import { Building2, Mail, Lock, Hash, ArrowRight, Loader2, AlertTriangle, CheckCircle2, Inbox } from 'lucide-react';
 
 interface WelcomeStepProps {
   onboarding: {
@@ -17,7 +17,7 @@ interface WelcomeStepProps {
 }
 
 const WelcomeStep: React.FC<WelcomeStepProps> = ({ onboarding }) => {
-  const { isLoading, error, createTenant, completeStep, clearError } = onboarding;
+  const { isLoading, error, createTenant, clearError } = onboarding;
 
   const [formData, setFormData] = useState({
     companyName: '',
@@ -27,6 +27,7 @@ const WelcomeStep: React.FC<WelcomeStepProps> = ({ onboarding }) => {
     confirmPassword: '',
   });
   const [formError, setFormError] = useState<string | null>(null);
+  const [signupComplete, setSignupComplete] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -83,13 +84,73 @@ const WelcomeStep: React.FC<WelcomeStepProps> = ({ onboarding }) => {
         email: formData.email,
         password: formData.password,
       });
-      completeStep('welcome');
+      // Show email confirmation message instead of proceeding
+      setSignupComplete(true);
     } catch {
       // Error is handled by the hook
     }
   };
 
   const displayError = formError || error;
+
+  // Show email confirmation screen after successful signup
+  if (signupComplete) {
+    return (
+      <div className="max-w-md mx-auto text-center">
+        <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-green-500/20 to-emerald-500/10 flex items-center justify-center mb-6">
+          <Inbox className="w-10 h-10 text-green-400" />
+        </div>
+
+        <h2 className="text-2xl font-display font-semibold text-white mb-2">
+          Kolla din e-post!
+        </h2>
+        <p className="text-gray-400 mb-6">
+          Vi har skickat en bekräftelselänk till <span className="text-white font-medium">{formData.email}</span>
+        </p>
+
+        <div className="glass border border-white/10 rounded-xl p-6 mb-6 text-left">
+          <h3 className="text-white font-medium mb-3 flex items-center gap-2">
+            <CheckCircle2 className="w-5 h-5 text-green-400" />
+            Nästa steg
+          </h3>
+          <ol className="space-y-3 text-sm text-gray-400">
+            <li className="flex gap-3">
+              <span className="w-5 h-5 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center flex-shrink-0 text-xs font-medium">1</span>
+              <span>Öppna din e-post och hitta meddelandet från Zylora</span>
+            </li>
+            <li className="flex gap-3">
+              <span className="w-5 h-5 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center flex-shrink-0 text-xs font-medium">2</span>
+              <span>Klicka på bekräftelselänken i mejlet</span>
+            </li>
+            <li className="flex gap-3">
+              <span className="w-5 h-5 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center flex-shrink-0 text-xs font-medium">3</span>
+              <span>Logga in för att fortsätta med onboardingen</span>
+            </li>
+          </ol>
+        </div>
+
+        <div className="space-y-3">
+          <a
+            href="/login"
+            className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white font-medium transition-all"
+          >
+            <span>Gå till inloggning</span>
+            <ArrowRight className="w-5 h-5" />
+          </a>
+
+          <p className="text-xs text-gray-500">
+            Fick du inget mejl? Kolla skräpposten eller{' '}
+            <button
+              onClick={() => setSignupComplete(false)}
+              className="text-violet-400 hover:text-violet-300"
+            >
+              försök igen
+            </button>
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-md mx-auto">

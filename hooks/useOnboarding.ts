@@ -127,29 +127,37 @@ export const useOnboarding = () => {
         throw new Error('Kunde inte skapa användare');
       }
 
-      // Then create the tenant
-      const { data: tenant, error: tenantError } = await supabase
-        .from('tenants')
-        .insert({
-          id: authData.user.id,
-          name: data.companyName,
-          org_number: data.orgNumber,
-          email: data.email,
-          subscription_status: 'trialing',
-        })
-        .select()
-        .single();
+      // Create tenant via Edge Function (uses service_role to bypass RLS)
+      // No auth token needed - Edge Function uses service_role key
+      const response = await fetch(
+        `https://bosofhcunxbvfusvllsm.supabase.co/functions/v1/create-tenant`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvc29maGN1bnhidmZ1c3ZsbHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMzAwODksImV4cCI6MjA4NDYwNjA4OX0.JktnLgmno5up9aTKBhexRf0DPPZsFq1LnKrL5PHAINc',
+          },
+          body: JSON.stringify({
+            user_id: authData.user.id,
+            company_name: data.companyName,
+            org_number: data.orgNumber,
+            email: data.email,
+          }),
+        }
+      );
 
-      if (tenantError) {
-        throw new Error(tenantError.message);
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Kunde inte skapa företagskonto');
       }
 
       setProgress((prev) => ({
         ...prev,
-        tenantId: tenant.id,
+        tenantId: result.tenant.id,
       }));
 
-      return tenant;
+      return result.tenant;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Ett fel uppstod';
       setError(message);
