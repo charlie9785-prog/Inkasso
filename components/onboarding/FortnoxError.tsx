@@ -3,6 +3,16 @@ import { XCircle, ArrowLeft, RefreshCw, HelpCircle } from 'lucide-react';
 import { navigate } from '../../lib/navigation';
 
 const FortnoxError: React.FC = () => {
+  // Check if user came from onboarding
+  const isFromOnboarding = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('from') === 'onboarding' ||
+           localStorage.getItem('zylora_onboarding_progress') !== null;
+  }, []);
+
+  const targetUrl = isFromOnboarding ? '/onboarding' : '/dashboard';
+  const targetLabel = isFromOnboarding ? 'Tillbaka till onboarding' : 'Tillbaka till dashboarden';
+
   // Parse error from query params
   const errorInfo = useMemo(() => {
     const params = new URLSearchParams(window.location.search);
@@ -51,12 +61,11 @@ const FortnoxError: React.FC = () => {
   }, []);
 
   const handleRetry = () => {
-    // Go back to dashboard integrations to retry
-    navigate('/dashboard');
+    navigate(targetUrl);
   };
 
   const handleGoBack = () => {
-    navigate('/dashboard');
+    navigate(targetUrl);
   };
 
   return (
@@ -105,7 +114,7 @@ const FortnoxError: React.FC = () => {
             className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white transition-all"
           >
             <ArrowLeft className="w-5 h-5" />
-            <span>Tillbaka till dashboarden</span>
+            <span>{targetLabel}</span>
           </button>
         </div>
 

@@ -1,16 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { CheckCircle2, ArrowRight, Loader2 } from 'lucide-react';
 import { navigate } from '../../lib/navigation';
 
 const FortnoxSuccess: React.FC = () => {
   const [countdown, setCountdown] = useState(5);
 
+  // Check if user came from onboarding
+  const isFromOnboarding = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('from') === 'onboarding' ||
+           localStorage.getItem('zylora_onboarding_progress') !== null;
+  }, []);
+
+  const targetUrl = isFromOnboarding ? '/onboarding?fortnox=success' : '/dashboard';
+  const targetLabel = isFromOnboarding ? 'Fortsätt onboarding' : 'Gå till dashboarden';
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          navigate('/dashboard');
+          navigate(targetUrl);
           return 0;
         }
         return prev - 1;
@@ -18,10 +28,10 @@ const FortnoxSuccess: React.FC = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [targetUrl]);
 
   const handleContinue = () => {
-    navigate('/dashboard');
+    navigate(targetUrl);
   };
 
   return (
@@ -49,7 +59,7 @@ const FortnoxSuccess: React.FC = () => {
             <span className="font-medium">Anslutning lyckades</span>
           </div>
           <p className="text-sm text-gray-400">
-            Du kommer att omdirigeras till dashboarden om {countdown} sekunder...
+            Du kommer att omdirigeras om {countdown} sekunder...
           </p>
           <div className="flex justify-center">
             <Loader2 className="w-5 h-5 text-gray-500 animate-spin" />
@@ -61,7 +71,7 @@ const FortnoxSuccess: React.FC = () => {
           onClick={handleContinue}
           className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white font-medium transition-all"
         >
-          <span>Gå till dashboarden</span>
+          <span>{targetLabel}</span>
           <ArrowRight className="w-5 h-5" />
         </button>
 

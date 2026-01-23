@@ -19,6 +19,7 @@ import ThankYou from './components/ThankYou';
 import { AuthProvider } from './components/auth/AuthContext';
 import LoginPage from './components/auth/LoginPage';
 import Dashboard from './components/dashboard/Dashboard';
+import OnboardingFlow from './components/onboarding/OnboardingFlow';
 import FortnoxSuccess from './components/onboarding/FortnoxSuccess';
 import FortnoxError from './components/onboarding/FortnoxError';
 import { useAuth } from './hooks/useAuth';
@@ -27,7 +28,7 @@ import { navigate } from './lib/navigation';
 // Re-export navigate for backwards compatibility
 export { navigate };
 
-type Page = 'home' | 'terms' | 'privacy' | 'about' | 'thankyou' | 'login' | 'dashboard' | 'fortnox-success' | 'fortnox-error';
+type Page = 'home' | 'terms' | 'privacy' | 'about' | 'thankyou' | 'login' | 'dashboard' | 'onboarding' | 'fortnox-success' | 'fortnox-error';
 
 // Background Effects Component
 const BackgroundEffects: React.FC = () => (
@@ -128,6 +129,8 @@ const AppRouter: React.FC = () => {
         return 'login';
       case '/dashboard':
         return 'dashboard';
+      case '/onboarding':
+        return 'onboarding';
       case '/onboarding/fortnox/success':
         return 'fortnox-success';
       case '/onboarding/fortnox/error':
@@ -155,6 +158,18 @@ const AppRouter: React.FC = () => {
   // Login page
   if (currentPage === 'login') {
     return <LoginRoute />;
+  }
+
+  // Onboarding (public - user creates account here)
+  if (currentPage === 'onboarding') {
+    return (
+      <main className="min-h-screen bg-dark-950 text-white antialiased relative">
+        <BackgroundEffects />
+        <div className="relative z-10">
+          <OnboardingFlow />
+        </div>
+      </main>
+    );
   }
 
   // Dashboard (protected)
