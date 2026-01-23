@@ -26,3 +26,4 @@ jobs:
           supabase functions deploy stripe-webhook --no-verify-jwt
           supabase functions deploy send-verification-code --no-verify-jwt
           supabase functions deploy verify-email-code --no-verify-jwt
+          supabase functions deploy fortnox-oauth --no-verify-jwt
