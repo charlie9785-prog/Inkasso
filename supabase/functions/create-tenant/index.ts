@@ -65,6 +65,23 @@ serve(async (req) => {
 
     if (tenantError) {
       console.error('Error creating tenant:', tenantError)
+
+      // Handle duplicate org_number
+      if (tenantError.message.includes('tenants_org_number_key')) {
+        return new Response(
+          JSON.stringify({ error: 'Ett företag med detta organisationsnummer finns redan registrerat' }),
+          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        )
+      }
+
+      // Handle duplicate email
+      if (tenantError.message.includes('tenants_email_key')) {
+        return new Response(
+          JSON.stringify({ error: 'Ett företag med denna e-postadress finns redan registrerat' }),
+          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        )
+      }
+
       return new Response(
         JSON.stringify({ error: 'Kunde inte skapa företagskonto: ' + tenantError.message }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
