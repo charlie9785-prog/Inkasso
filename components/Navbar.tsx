@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone, ArrowRight } from 'lucide-react';
 import { navigate } from '../lib/navigation';
+import logoImg from '../assets/logo.png';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -26,7 +27,7 @@ const Navbar = () => {
         {/* Logo */}
         <a href="#" className="flex items-center gap-3 group">
           <img
-            src="/Logo.png"
+            src={logoImg}
             alt="Zylora"
             className="h-10 w-auto group-hover:scale-105 transition-transform duration-300"
           />

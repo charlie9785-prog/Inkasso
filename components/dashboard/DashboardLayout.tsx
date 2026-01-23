@@ -15,6 +15,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { DashboardView } from '../../types/dashboard';
 import { navigate } from '../../lib/navigation';
 import Notifications from './Notifications';
+import logoImg from '../../assets/logo.png';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -67,7 +68,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           <div className="h-16 flex items-center justify-between px-6 border-b border-white/10">
             <button onClick={() => navigate('/')} className="flex items-center gap-3 group">
               <img
-                src="/Logo.png"
+                src={logoImg}
                 alt="Zylora"
                 className="h-8 w-auto group-hover:scale-105 transition-transform duration-300"
               />
