@@ -25,27 +25,39 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-3 group">
+        <button onClick={() => navigate('/')} className="flex items-center gap-3 group">
           <img
             src={logoImg}
             alt="Zylora"
             className="h-14 w-auto group-hover:scale-105 transition-transform duration-300"
           />
           <span className="font-display font-bold text-xl tracking-tight text-white">Zylora</span>
-        </a>
+        </button>
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-1">
-          {['Tjänster', 'Arbetssätt', 'Priser', 'Kontakt'].map((item, i) => (
-            <a
-              key={item}
-              href={`#${['services', 'process', 'pricing', 'contact'][i]}`}
-              className="relative px-5 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors group"
-            >
-              {item}
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-violet-500 to-blue-500 group-hover:w-full transition-all duration-300" />
-            </a>
-          ))}
+          {['Tjänster', 'Arbetssätt', 'Priser', 'Kontakt'].map((item, i) => {
+            const sectionId = ['services', 'process', 'pricing', 'contact'][i];
+            return (
+              <button
+                key={item}
+                onClick={() => {
+                  if (window.location.pathname !== '/') {
+                    navigate('/');
+                    setTimeout(() => {
+                      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  } else {
+                    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="relative px-5 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors group"
+              >
+                {item}
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-violet-500 to-blue-500 group-hover:w-full transition-all duration-300" />
+              </button>
+            );
+          })}
           <button
             onClick={() => navigate('/om-oss')}
             className="relative px-5 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors group"
@@ -99,16 +111,28 @@ const Navbar = () => {
         }`}
       >
         <div className="p-6 flex flex-col gap-2">
-          {['Tjänster', 'Arbetssätt', 'Priser', 'Kontakt'].map((item, i) => (
-            <a
-              key={item}
-              href={`#${['services', 'process', 'pricing', 'contact'][i]}`}
-              className="px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {item}
-            </a>
-          ))}
+          {['Tjänster', 'Arbetssätt', 'Priser', 'Kontakt'].map((item, i) => {
+            const sectionId = ['services', 'process', 'pricing', 'contact'][i];
+            return (
+              <button
+                key={item}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  if (window.location.pathname !== '/') {
+                    navigate('/');
+                    setTimeout(() => {
+                      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  } else {
+                    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="px-4 py-3 text-left text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+              >
+                {item}
+              </button>
+            );
+          })}
           <button
             onClick={() => {
               navigate('/om-oss');
