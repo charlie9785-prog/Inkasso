@@ -95,7 +95,7 @@ serve(async (req) => {
         const authUrl = new URL('https://apps.fortnox.se/oauth-v1/auth')
         authUrl.searchParams.set('client_id', FORTNOX_CLIENT_ID)
         authUrl.searchParams.set('redirect_uri', redirectUri)
-        authUrl.searchParams.set('scope', 'invoice customer article payment')
+        authUrl.searchParams.set('scope', 'invoice customer')
         authUrl.searchParams.set('state', state)
         authUrl.searchParams.set('response_type', 'code')
 
