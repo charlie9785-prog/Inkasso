@@ -3,11 +3,22 @@
 -- Kör detta i Supabase SQL Editor
 -- ========================================
 
--- 1. Tenants - användare kan läsa sin egen tenant
+-- 1. Tenants - användare kan hantera sin egen tenant
 DROP POLICY IF EXISTS "Users can view own tenant" ON tenants;
 CREATE POLICY "Users can view own tenant" ON tenants
   FOR SELECT
   USING (id = auth.uid());
+
+DROP POLICY IF EXISTS "Users can create own tenant" ON tenants;
+CREATE POLICY "Users can create own tenant" ON tenants
+  FOR INSERT
+  WITH CHECK (id = auth.uid());
+
+DROP POLICY IF EXISTS "Users can update own tenant" ON tenants;
+CREATE POLICY "Users can update own tenant" ON tenants
+  FOR UPDATE
+  USING (id = auth.uid())
+  WITH CHECK (id = auth.uid());
 
 -- 2. Customers - användare kan läsa kunder som tillhör deras tenant
 DROP POLICY IF EXISTS "Users can view own customers" ON customers;

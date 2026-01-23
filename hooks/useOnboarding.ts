@@ -109,7 +109,18 @@ export const useOnboarding = () => {
       });
 
       if (authError) {
-        throw new Error(authError.message);
+        // Translate common errors to Swedish
+        let errorMessage = authError.message;
+        if (authError.message.includes('rate') || authError.message.includes('429') || authError.message.includes('security purposes')) {
+          errorMessage = 'För många försök. Vänta en minut och försök igen.';
+        } else if (authError.message.includes('already registered') || authError.message.includes('User already registered')) {
+          errorMessage = 'E-postadressen är redan registrerad. Försök logga in istället.';
+        } else if (authError.message.includes('valid email')) {
+          errorMessage = 'Ogiltig e-postadress';
+        } else if (authError.message.includes('Password')) {
+          errorMessage = 'Lösenordet måste vara minst 6 tecken';
+        }
+        throw new Error(errorMessage);
       }
 
       if (!authData.user) {
