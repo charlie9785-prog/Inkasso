@@ -48,7 +48,7 @@ const FortnoxStep: React.FC<FortnoxStepProps> = ({ onboarding }) => {
 
   return (
     <div>
-      <FortnoxOnboarding onComplete={handleComplete} onSkip={handleSkip} />
+      <FortnoxOnboarding onComplete={handleComplete} onSkip={handleSkip} tenantId={progress.tenantId} />
 
       {/* Back button */}
       <div className="flex justify-center mt-6">

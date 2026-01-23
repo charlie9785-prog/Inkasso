@@ -18,10 +18,12 @@ import { useFortnoxIntegration } from '../../hooks/useFortnoxIntegration';
 interface FortnoxOnboardingProps {
   onComplete: () => void;
   onSkip?: () => void;
+  tenantId?: string | null;
 }
 
-const FortnoxOnboarding: React.FC<FortnoxOnboardingProps> = ({ onComplete, onSkip }) => {
+const FortnoxOnboarding: React.FC<FortnoxOnboardingProps> = ({ onComplete, onSkip, tenantId: propTenantId }) => {
   const { tenant } = useAuth();
+  const effectiveTenantId = tenant?.id || propTenantId || undefined;
   const {
     status,
     syncResult,
@@ -36,14 +38,14 @@ const FortnoxOnboarding: React.FC<FortnoxOnboardingProps> = ({ onComplete, onSki
     syncData,
     disconnect,
     clearError,
-  } = useFortnoxIntegration(tenant?.id);
+  } = useFortnoxIntegration(effectiveTenantId);
 
   // Check status on mount and when returning from OAuth
   useEffect(() => {
-    if (tenant?.id) {
+    if (effectiveTenantId) {
       checkStatus();
     }
-  }, [tenant?.id, checkStatus]);
+  }, [effectiveTenantId, checkStatus]);
 
   const handleConnect = async () => {
     const authUrl = await startOAuth();
