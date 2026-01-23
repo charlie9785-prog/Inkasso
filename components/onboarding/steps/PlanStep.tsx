@@ -36,6 +36,7 @@ interface PlanStepProps {
     goBack: () => void;
     setPlanSelected: (selected: boolean) => void;
     createCheckoutWithSignup: (planId: string, successUrl: string, cancelUrl: string) => Promise<string | null>;
+    loginAfterPayment: () => Promise<boolean>;
     clearError: () => void;
   };
 }
@@ -62,9 +63,10 @@ const PLANS: Plan[] = [
 ];
 
 const PlanStep: React.FC<PlanStepProps> = ({ onboarding }) => {
-  const { progress, goBack, completeStep, setPlanSelected, createCheckoutWithSignup, isLoading, error } = onboarding;
+  const { progress, goBack, completeStep, setPlanSelected, createCheckoutWithSignup, loginAfterPayment, isLoading, error } = onboarding;
   const [isCreatingCheckout, setIsCreatingCheckout] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const handleSelectPlan = async (planId: string) => {
     setSelectedPlan(planId);
@@ -87,11 +89,20 @@ const PlanStep: React.FC<PlanStepProps> = ({ onboarding }) => {
   // Check if returning from successful payment
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('payment') === 'success') {
-      setPlanSelected(true);
-      completeStep('plan');
+    if (params.get('payment') === 'success' && !isLoggingIn) {
+      setIsLoggingIn(true);
+
+      // Login and fetch tenant ID, then proceed
+      loginAfterPayment().then((success) => {
+        if (success) {
+          completeStep('plan');
+        }
+        setIsLoggingIn(false);
+        // Clear URL params
+        window.history.replaceState({}, '', window.location.pathname);
+      });
     }
-  }, [completeStep, setPlanSelected]);
+  }, [completeStep, loginAfterPayment, isLoggingIn]);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -117,7 +128,7 @@ const PlanStep: React.FC<PlanStepProps> = ({ onboarding }) => {
       )}
 
       {/* Loading state */}
-      {isLoading ? (
+      {isLoading || isLoggingIn ? (
         <div className="flex items-center justify-center py-12">
           <Loader2 className="w-8 h-8 text-violet-400 animate-spin" />
         </div>

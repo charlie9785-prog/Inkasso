@@ -336,6 +336,59 @@ export const useOnboarding = () => {
     }));
   }, []);
 
+  // Login after payment and fetch tenant ID
+  const loginAfterPayment = useCallback(async (): Promise<boolean> => {
+    if (!progress.signupData) {
+      setError('Ingen registreringsdata tillgänglig');
+      return false;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Login with the credentials from signup
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+        email: progress.signupData.email,
+        password: progress.signupData.password,
+      });
+
+      if (authError) {
+        throw new Error(authError.message);
+      }
+
+      if (!authData.user) {
+        throw new Error('Kunde inte logga in');
+      }
+
+      // Fetch tenant ID
+      const { data: tenant, error: tenantError } = await supabase
+        .from('tenants')
+        .select('id')
+        .eq('email', progress.signupData.email)
+        .single();
+
+      if (tenantError || !tenant) {
+        throw new Error('Kunde inte hitta företagskonto');
+      }
+
+      // Save tenant ID to progress
+      setProgress((prev) => ({
+        ...prev,
+        tenantId: tenant.id,
+        planSelected: true,
+      }));
+
+      return true;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Ett fel uppstod';
+      setError(message);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [progress.signupData]);
+
   const resetOnboarding = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
     setProgress({
@@ -380,6 +433,7 @@ export const useOnboarding = () => {
     setFortnoxConnected,
     setPlanSelected,
     addConfiguredIntegration,
+    loginAfterPayment,
     resetOnboarding,
     clearError,
   };
