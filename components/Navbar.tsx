@@ -26,7 +26,7 @@ const Navbar = () => {
         {/* Logo */}
         <a href="#" className="flex items-center gap-3 group">
           <img
-            src="/logo.png"
+            src="/Logo.png"
             alt="Zylora"
             className="h-10 w-auto group-hover:scale-105 transition-transform duration-300"
           />
