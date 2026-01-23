@@ -31,6 +31,7 @@ const Navbar = () => {
             alt="Zylora"
             className="h-10 w-auto group-hover:scale-105 transition-transform duration-300"
           />
+          <span className="font-display font-bold text-xl tracking-tight text-white">Zylora</span>
         </a>
 
         {/* Desktop Links */}

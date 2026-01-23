@@ -72,6 +72,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 alt="Zylora"
                 className="h-8 w-auto group-hover:scale-105 transition-transform duration-300"
               />
+              <span className="font-display font-bold text-lg tracking-tight text-white">Zylora</span>
             </button>
             <button
               className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
