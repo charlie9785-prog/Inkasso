@@ -35,16 +35,6 @@ serve(async (req) => {
       }
     )
 
-    // Verify that the user exists in auth.users
-    const { data: authUser, error: authError } = await supabaseAdmin.auth.admin.getUserById(user_id)
-
-    if (authError || !authUser) {
-      return new Response(
-        JSON.stringify({ error: 'Användaren finns inte' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
-
     // Check if tenant already exists
     const { data: existingTenant } = await supabaseAdmin
       .from('tenants')
