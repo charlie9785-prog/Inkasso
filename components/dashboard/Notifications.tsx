@@ -209,7 +209,7 @@ const Notifications: React.FC<NotificationsProps> = ({ onViewCase }) => {
   };
 
   return (
-    <div className="relative z-[100]">
+    <div className="relative">
       {/* Notification Bell Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -228,12 +228,12 @@ const Notifications: React.FC<NotificationsProps> = ({ onViewCase }) => {
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 z-[998]"
+            className="fixed inset-0 bg-black/20 z-[9998]"
             onClick={() => setIsOpen(false)}
           />
 
-          {/* Dropdown Panel */}
-          <div className="absolute right-0 mt-2 w-96 max-h-[70vh] overflow-hidden glass border border-white/10 rounded-xl shadow-2xl z-[999]">
+          {/* Dropdown Panel - Fixed position to escape stacking context */}
+          <div className="fixed top-16 right-4 w-96 max-h-[70vh] overflow-hidden glass border border-white/10 rounded-xl shadow-2xl z-[9999]">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-white/10">
               <h3 className="text-lg font-display font-semibold text-white">
