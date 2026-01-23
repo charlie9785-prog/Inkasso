@@ -67,7 +67,7 @@ serve(async (req) => {
         name: company_name,
         org_number: org_number,
         email: email,
-        subscription_status: 'trialing',
+        subscription_status: 'trial',
         settings: {},
       })
       .select()
