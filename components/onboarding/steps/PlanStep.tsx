@@ -6,7 +6,9 @@ import {
   AlertTriangle,
   Sparkles,
   ArrowLeft,
+  ExternalLink,
 } from 'lucide-react';
+import { navigate } from '../../../lib/navigation';
 
 interface Plan {
   id: string;
@@ -67,6 +69,7 @@ const PlanStep: React.FC<PlanStepProps> = ({ onboarding }) => {
   const [isCreatingCheckout, setIsCreatingCheckout] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const handleSelectPlan = async (planId: string) => {
     setSelectedPlan(planId);
@@ -184,10 +187,46 @@ const PlanStep: React.FC<PlanStepProps> = ({ onboarding }) => {
                   ))}
                 </ul>
 
+                {/* Terms acceptance checkbox */}
+                <label className="flex items-start gap-3 mb-4 cursor-pointer group">
+                  <div className="relative flex-shrink-0 mt-0.5">
+                    <input
+                      type="checkbox"
+                      checked={termsAccepted}
+                      onChange={(e) => setTermsAccepted(e.target.checked)}
+                      className="sr-only peer"
+                    />
+                    <div className={`w-5 h-5 rounded border-2 transition-all ${
+                      termsAccepted
+                        ? 'bg-violet-500 border-violet-500'
+                        : 'border-white/30 group-hover:border-white/50'
+                    }`}>
+                      {termsAccepted && (
+                        <Check className="w-4 h-4 text-white absolute top-0.5 left-0.5" />
+                      )}
+                    </div>
+                  </div>
+                  <span className="text-sm text-gray-400 leading-tight">
+                    Jag godkänner Zyloras{' '}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.open('/villkor', '_blank');
+                      }}
+                      className="text-violet-400 hover:text-violet-300 inline-flex items-center gap-1"
+                    >
+                      användarvillkor
+                      <ExternalLink className="w-3 h-3" />
+                    </button>
+                  </span>
+                </label>
+
                 {/* Select button */}
                 <button
                   onClick={() => handleSelectPlan(plan.id)}
-                  disabled={isCreatingCheckout}
+                  disabled={isCreatingCheckout || !termsAccepted}
                   className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
                     plan.popular
                       ? 'bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white'
