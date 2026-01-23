@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Bell,
   X,
@@ -223,19 +224,19 @@ const Notifications: React.FC<NotificationsProps> = ({ onViewCase }) => {
         )}
       </button>
 
-      {/* Notification Dropdown */}
-      {isOpen && (
+      {/* Notification Dropdown - rendered via portal to escape stacking context */}
+      {isOpen && createPortal(
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/20 z-[9998]"
+            className="fixed inset-0 bg-black/30 z-[99998]"
             onClick={() => setIsOpen(false)}
           />
 
-          {/* Dropdown Panel - Fixed position to escape stacking context */}
-          <div className="fixed top-16 right-4 w-96 max-h-[70vh] overflow-hidden glass border border-white/10 rounded-xl shadow-2xl z-[9999]">
+          {/* Dropdown Panel */}
+          <div className="fixed top-20 right-6 w-96 max-h-[70vh] overflow-hidden bg-[#1a1a2e] border border-white/20 rounded-xl shadow-2xl z-[99999]">
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-white/10">
+            <div className="flex items-center justify-between p-4 border-b border-white/10 bg-[#1a1a2e]">
               <h3 className="text-lg font-display font-semibold text-white">
                 Notifikationer
               </h3>
@@ -258,7 +259,7 @@ const Notifications: React.FC<NotificationsProps> = ({ onViewCase }) => {
             </div>
 
             {/* Notification List */}
-            <div className="max-h-[50vh] overflow-y-auto">
+            <div className="max-h-[50vh] overflow-y-auto bg-[#1a1a2e]">
               {isLoading ? (
                 <div className="p-4 space-y-3">
                   {[...Array(3)].map((_, i) => (
@@ -321,7 +322,7 @@ const Notifications: React.FC<NotificationsProps> = ({ onViewCase }) => {
 
             {/* Footer */}
             {notifications.length > 0 && (
-              <div className="p-3 border-t border-white/10">
+              <div className="p-3 border-t border-white/10 bg-[#1a1a2e]">
                 <button
                   onClick={() => {
                     generateNotifications();
@@ -333,7 +334,8 @@ const Notifications: React.FC<NotificationsProps> = ({ onViewCase }) => {
               </div>
             )}
           </div>
-        </>
+        </>,
+        document.body
       )}
     </div>
   );
