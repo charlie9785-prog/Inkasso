@@ -62,6 +62,12 @@ const Navbar = () => {
             <Phone className="w-4 h-4" />
             <span>072-962 68 22</span>
           </a>
+          <button
+            onClick={() => navigate('/login')}
+            className="px-5 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors"
+          >
+            Logga in
+          </button>
           <a
             href="https://calendly.com/carl-zylora/30min"
             target="_blank"
@@ -118,6 +124,15 @@ const Navbar = () => {
             <Phone className="w-4 h-4" />
             <span>072-962 68 22</span>
           </a>
+          <button
+            onClick={() => {
+              navigate('/login');
+              setMobileMenuOpen(false);
+            }}
+            className="px-4 py-3 text-left text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+          >
+            Logga in
+          </button>
           <a
             href="https://calendly.com/carl-zylora/30min"
             target="_blank"
