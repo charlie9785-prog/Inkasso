@@ -60,8 +60,20 @@ serve(async (req) => {
         )
       }
 
-      case 'connect': {
-        if (!tenantId) {
+      case 'connect':
+      case 'authorize': {
+        // Support both GET with query param and POST with body
+        let tid = tenantId
+        if (!tid && req.method === 'POST') {
+          try {
+            const body = await req.json()
+            tid = body.tenant_id
+          } catch {
+            // ignore
+          }
+        }
+
+        if (!tid) {
           return new Response(
             JSON.stringify({ error: 'tenant_id krävs' }),
             { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -76,7 +88,7 @@ serve(async (req) => {
         }
 
         // Generate state with tenant_id for callback
-        const state = btoa(JSON.stringify({ tenant_id: tenantId }))
+        const state = btoa(JSON.stringify({ tenant_id: tid }))
 
         const redirectUri = `${Deno.env.get('SUPABASE_URL')}/functions/v1/fortnox-oauth?action=callback`
 
@@ -88,7 +100,7 @@ serve(async (req) => {
         authUrl.searchParams.set('response_type', 'code')
 
         return new Response(
-          JSON.stringify({ auth_url: authUrl.toString() }),
+          JSON.stringify({ authorization_url: authUrl.toString() }),
           { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         )
       }
@@ -161,7 +173,18 @@ serve(async (req) => {
       }
 
       case 'disconnect': {
-        if (!tenantId) {
+        // Support both GET with query param and POST with body
+        let tid = tenantId
+        if (!tid && req.method === 'POST') {
+          try {
+            const body = await req.json()
+            tid = body.tenant_id
+          } catch {
+            // ignore
+          }
+        }
+
+        if (!tid) {
           return new Response(
             JSON.stringify({ error: 'tenant_id krävs' }),
             { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -176,7 +199,7 @@ serve(async (req) => {
             fortnox_refresh_token: null,
             fortnox_token_expires_at: null,
           })
-          .eq('id', tenantId)
+          .eq('id', tid)
 
         if (updateError) {
           console.error('Error disconnecting:', updateError)
