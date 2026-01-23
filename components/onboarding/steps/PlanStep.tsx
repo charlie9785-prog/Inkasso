@@ -45,7 +45,7 @@ const PLANS: Plan[] = [
   {
     id: 'plan_standard',
     name: 'Standard',
-    description: 'Komplett inkassohantering för ditt företag',
+    description: 'Komplett betalningsuppföljning för ditt företag',
     price: 1900,
     currency: 'SEK',
     interval: 'month',
@@ -55,7 +55,6 @@ const PLANS: Plan[] = [
       'Automatiska påminnelser (E-post, SMS, Telefon)',
       'Fortnox-integration',
       '10% success fee (max 10 000 kr/faktura)',
-      'AI-driven telefoni',
       'Avancerade rapporter',
       'Prioriterad support',
     ],
@@ -105,7 +104,7 @@ const PlanStep: React.FC<PlanStepProps> = ({ onboarding }) => {
           Välj din plan
         </h2>
         <p className="text-gray-400 mt-2">
-          Välj den plan som passar ditt företag bäst. Du kan alltid uppgradera senare.
+          Kom igång med automatisk betalningsuppföljning idag.
         </p>
       </div>
 
