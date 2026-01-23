@@ -49,18 +49,6 @@ const AboutPage = () => {
             </p>
           </div>
 
-          {/* Team Photo Placeholder */}
-          <div className="glass border border-white/10 rounded-2xl overflow-hidden">
-            <div className="aspect-[16/9] bg-gradient-to-br from-violet-500/10 to-blue-500/10 flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-violet-500/20 to-blue-500/20 border border-white/10 flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-12 h-12 text-violet-400" />
-                </div>
-                <p className="text-gray-500 text-sm">Teamfoto kommer snart</p>
-              </div>
-            </div>
-          </div>
-
           {/* Why we started */}
           <div className="glass border border-white/10 rounded-2xl p-8">
             <div className="flex items-center gap-3 mb-4">
