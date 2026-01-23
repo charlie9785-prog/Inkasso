@@ -29,7 +29,7 @@ const Navbar = () => {
           <img
             src={logoImg}
             alt="Zylora"
-            className="h-10 w-auto group-hover:scale-105 transition-transform duration-300"
+            className="h-14 w-auto group-hover:scale-105 transition-transform duration-300"
           />
           <span className="font-display font-bold text-xl tracking-tight text-white">Zylora</span>
         </a>

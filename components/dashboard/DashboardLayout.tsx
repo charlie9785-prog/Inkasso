@@ -70,7 +70,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               <img
                 src={logoImg}
                 alt="Zylora"
-                className="h-8 w-auto group-hover:scale-105 transition-transform duration-300"
+                className="h-11 w-auto group-hover:scale-105 transition-transform duration-300"
               />
               <span className="font-display font-bold text-lg tracking-tight text-white">Zylora</span>
             </button>
