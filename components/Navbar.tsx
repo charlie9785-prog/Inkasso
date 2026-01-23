@@ -25,11 +25,11 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center gap-3 group">
-          <div className="relative">
-            <div className="w-8 h-8 bg-gradient-to-br from-violet-500 to-blue-600 rounded-lg rotate-45 group-hover:rotate-[405deg] transition-transform duration-700" />
-            <div className="absolute inset-0 w-8 h-8 bg-gradient-to-br from-violet-500 to-blue-600 rounded-lg rotate-45 blur-lg opacity-50 group-hover:opacity-80 transition-opacity" />
-          </div>
-          <span className="font-display font-bold text-xl tracking-tight text-white">Zylora</span>
+          <img
+            src="/logo.png"
+            alt="Zylora"
+            className="h-10 w-auto group-hover:scale-105 transition-transform duration-300"
+          />
         </a>
 
         {/* Desktop Links */}

@@ -66,10 +66,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           {/* Logo */}
           <div className="h-16 flex items-center justify-between px-6 border-b border-white/10">
             <button onClick={() => navigate('/')} className="flex items-center gap-3 group">
-              <div className="relative">
-                <div className="w-8 h-8 bg-gradient-to-br from-violet-500 to-blue-600 rounded-lg rotate-45 group-hover:rotate-[405deg] transition-transform duration-700" />
-              </div>
-              <span className="font-display font-bold text-lg tracking-tight text-white">Zylora</span>
+              <img
+                src="/logo.png"
+                alt="Zylora"
+                className="h-8 w-auto group-hover:scale-105 transition-transform duration-300"
+              />
             </button>
             <button
               className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
