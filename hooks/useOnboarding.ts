@@ -17,6 +17,7 @@ interface OnboardingProgress {
   completedSteps: OnboardingStep[];
   tenantId: string | null;
   signupData: SignupData | null;
+  emailVerified: boolean;
   planSelected: boolean;
   fortnoxConnected: boolean;
   integrationsConfigured: string[];
@@ -38,6 +39,7 @@ const getInitialProgress = (): OnboardingProgress => {
     completedSteps: [],
     tenantId: null,
     signupData: null,
+    emailVerified: false,
     planSelected: false,
     fortnoxConnected: false,
     integrationsConfigured: [],
@@ -110,7 +112,81 @@ export const useOnboarding = () => {
     setProgress((prev) => ({
       ...prev,
       signupData: data,
+      emailVerified: false,
     }));
+  }, []);
+
+  // Send verification code to email
+  const sendVerificationCode = useCallback(async (email: string): Promise<boolean> => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `https://bosofhcunxbvfusvllsm.supabase.co/functions/v1/send-verification-code`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvc29maGN1bnhidmZ1c3ZsbHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMzAwODksImV4cCI6MjA4NDYwNjA4OX0.JktnLgmno5up9aTKBhexRf0DPPZsFq1LnKrL5PHAINc',
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Kunde inte skicka verifieringskod');
+      }
+
+      return true;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Ett fel uppstod';
+      setError(message);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Verify email code
+  const verifyEmailCode = useCallback(async (email: string, code: string): Promise<boolean> => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `https://bosofhcunxbvfusvllsm.supabase.co/functions/v1/verify-email-code`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvc29maGN1bnhidmZ1c3ZsbHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMzAwODksImV4cCI6MjA4NDYwNjA4OX0.JktnLgmno5up9aTKBhexRf0DPPZsFq1LnKrL5PHAINc',
+          },
+          body: JSON.stringify({ email, code }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Ogiltig verifieringskod');
+      }
+
+      setProgress((prev) => ({
+        ...prev,
+        emailVerified: true,
+      }));
+
+      return true;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Ett fel uppstod';
+      setError(message);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
   // Validate signup data against existing records
@@ -267,6 +343,7 @@ export const useOnboarding = () => {
       completedSteps: [],
       tenantId: null,
       signupData: null,
+      emailVerified: false,
       planSelected: false,
       fortnoxConnected: false,
       integrationsConfigured: [],
@@ -295,6 +372,8 @@ export const useOnboarding = () => {
 
     // Actions
     saveSignupData,
+    sendVerificationCode,
+    verifyEmailCode,
     validateSignupData,
     createCheckoutWithSignup,
     updateTenantSettings,

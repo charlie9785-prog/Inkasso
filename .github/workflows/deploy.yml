@@ -24,3 +24,5 @@ jobs:
           supabase functions deploy validate-signup --no-verify-jwt
           supabase functions deploy create-checkout-with-signup --no-verify-jwt
           supabase functions deploy stripe-webhook
+          supabase functions deploy send-verification-code --no-verify-jwt
+          supabase functions deploy verify-email-code --no-verify-jwt
