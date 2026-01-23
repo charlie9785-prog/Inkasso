@@ -7,7 +7,17 @@ import {
   Sparkles,
   ArrowLeft,
 } from 'lucide-react';
-import { useBilling, Plan } from '../../../hooks/useBilling';
+
+interface Plan {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  currency: string;
+  interval: 'month' | 'year';
+  features: string[];
+  popular?: boolean;
+}
 
 interface PlanStepProps {
   onboarding: {
@@ -30,73 +40,32 @@ interface PlanStepProps {
   };
 }
 
-// Fallback plans if API fails
-const FALLBACK_PLANS: Plan[] = [
+// Single plan
+const PLANS: Plan[] = [
   {
-    id: 'plan_starter',
-    name: 'Starter',
-    description: 'Perfekt för mindre företag',
-    price: 499,
-    currency: 'SEK',
-    interval: 'month',
-    features: [
-      'Upp till 50 ärenden/månad',
-      'E-postpåminnelser',
-      'Grundläggande rapporter',
-      'E-postsupport',
-    ],
-  },
-  {
-    id: 'plan_pro',
-    name: 'Professional',
-    description: 'För växande företag',
-    price: 999,
+    id: 'plan_standard',
+    name: 'Standard',
+    description: 'Komplett inkassohantering för ditt företag',
+    price: 1900,
     currency: 'SEK',
     interval: 'month',
     popular: true,
     features: [
-      'Upp till 200 ärenden/månad',
-      'E-post + SMS-påminnelser',
+      'Obegränsade ärenden',
+      'Automatiska påminnelser (E-post, SMS, Telefon)',
       'Fortnox-integration',
+      '10% success fee (max 10 000 kr/faktura)',
+      'AI-driven telefoni',
       'Avancerade rapporter',
       'Prioriterad support',
-    ],
-  },
-  {
-    id: 'plan_enterprise',
-    name: 'Enterprise',
-    description: 'För stora organisationer',
-    price: 2499,
-    currency: 'SEK',
-    interval: 'month',
-    features: [
-      'Obegränsade ärenden',
-      'Alla påminnelsekanaler',
-      'Alla integrationer',
-      'AI-driven telefoni',
-      'Dedikerad kontaktperson',
-      'Anpassade rapporter',
     ],
   },
 ];
 
 const PlanStep: React.FC<PlanStepProps> = ({ onboarding }) => {
-  const { progress, goBack, completeStep, setPlanSelected, createCheckoutWithSignup, isLoading: onboardingLoading, error: onboardingError } = onboarding;
-  const billing = useBilling(progress.tenantId);
-  const { plans, isLoading: billingLoading, error: billingError, fetchPlans } = billing;
-
-  const isLoading = onboardingLoading || billingLoading;
-  const error = onboardingError || billingError;
+  const { progress, goBack, completeStep, setPlanSelected, createCheckoutWithSignup, isLoading, error } = onboarding;
   const [isCreatingCheckout, setIsCreatingCheckout] = useState(false);
-
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
-
-  // Fetch plans on mount
-  useEffect(() => {
-    fetchPlans();
-  }, [fetchPlans]);
-
-  const displayPlans = plans.length > 0 ? plans : FALLBACK_PLANS;
 
   const handleSelectPlan = async (planId: string) => {
     setSelectedPlan(planId);
@@ -156,8 +125,8 @@ const PlanStep: React.FC<PlanStepProps> = ({ onboarding }) => {
       ) : (
         <>
           {/* Plans grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {displayPlans.map((plan) => (
+          <div className="grid grid-cols-1 md:grid-cols-1 max-w-md mx-auto gap-6 mb-8">
+            {PLANS.map((plan) => (
               <div
                 key={plan.id}
                 className={`relative glass border rounded-2xl p-6 transition-all ${
