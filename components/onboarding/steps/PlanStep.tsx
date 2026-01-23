@@ -43,7 +43,7 @@ interface PlanStepProps {
 // Single plan
 const PLANS: Plan[] = [
   {
-    id: 'price_1Ssmj9Rou0T9LBA6uwL6eYoT',
+    id: import.meta.env.VITE_STRIPE_PRICE_ID || 'price_1Ssmj9Rou0T9LBA6uwL6eYoT',
     name: 'Standard',
     description: 'Komplett betalningsuppföljning för ditt företag',
     price: 1900,
