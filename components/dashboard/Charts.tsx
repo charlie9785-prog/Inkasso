@@ -245,7 +245,7 @@ const Charts: React.FC<ChartsProps> = ({ collectedOverTime, statusDistribution, 
           </div>
           <div>
             <h3 className="text-lg font-display font-semibold text-white">
-              Indrivet belopp
+              Återvunnet belopp
             </h3>
             <p className="text-sm text-gray-500">Senaste 12 månaderna</p>
           </div>

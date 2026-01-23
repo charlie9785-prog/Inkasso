@@ -58,7 +58,7 @@ const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, periodComparison, 
       format: 'currency',
     },
     {
-      label: 'Indrivet belopp',
+      label: 'Återvunnet belopp',
       value: stats.collectedAmount,
       icon: TrendingUp,
       color: 'emerald',
@@ -188,7 +188,7 @@ const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, periodComparison, 
             {/* Collected Amount */}
             <div className="p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-gray-400">Indrivet</span>
+                <span className="text-xs text-gray-400">Återvunnet</span>
                 <ComparisonIndicator change={periodComparison.collectedChange} />
               </div>
               <p className="text-xl font-bold text-white">
@@ -230,7 +230,7 @@ const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, periodComparison, 
             {/* Average Days to Collect */}
             <div className="p-4 rounded-lg bg-amber-500/10 border border-amber-500/20">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-gray-400">Snitt indrivningstid</span>
+                <span className="text-xs text-gray-400">Snitt handläggningstid</span>
                 <ComparisonIndicator change={periodComparison.avgDaysChange} invertColors />
               </div>
               <p className="text-xl font-bold text-white">

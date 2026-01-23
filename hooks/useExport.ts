@@ -214,15 +214,15 @@ export const useExport = (): UseExportReturn => {
         `Aktiva ärenden: ${stats.activeCases}`,
         `Avslutade ärenden: ${stats.closedCases}`,
         `Totalt belopp: ${formatCurrency(stats.totalAmount)}`,
-        `Indrivet belopp: ${formatCurrency(stats.collectedAmount)}`,
+        `Återvunnet belopp: ${formatCurrency(stats.collectedAmount)}`,
         `Väntande belopp: ${formatCurrency(stats.pendingAmount)}`,
         `Success rate: ${stats.successRate.toFixed(1)}%`,
         '',
         '-'.repeat(60),
         'JÄMFÖRELSE MED FÖREGÅENDE MÅNAD',
         '-'.repeat(60),
-        `Indrivet denna månad: ${formatCurrency(periodComparison.collectedAmount)}`,
-        `Indrivet förra månaden: ${formatCurrency(periodComparison.collectedAmountPrev)}`,
+        `Återvunnet denna månad: ${formatCurrency(periodComparison.collectedAmount)}`,
+        `Återvunnet förra månaden: ${formatCurrency(periodComparison.collectedAmountPrev)}`,
         `Förändring: ${periodComparison.collectedChange > 0 ? '+' : ''}${periodComparison.collectedChange.toFixed(1)}%`,
         '',
         `Avslutade ärenden denna månad: ${periodComparison.casesResolved}`,
@@ -233,12 +233,12 @@ export const useExport = (): UseExportReturn => {
         `Nya ärenden förra månaden: ${periodComparison.newCasesPrev}`,
         `Förändring: ${periodComparison.newCasesChange > 0 ? '+' : ''}${periodComparison.newCasesChange.toFixed(1)}%`,
         '',
-        `Genomsnittlig indrivningstid: ${periodComparison.avgDaysToCollect.toFixed(0)} dagar`,
-        `Genomsnittlig indrivningstid (förra): ${periodComparison.avgDaysToCollectPrev.toFixed(0)} dagar`,
+        `Genomsnittlig handläggningstid: ${periodComparison.avgDaysToCollect.toFixed(0)} dagar`,
+        `Genomsnittlig handläggningstid (förra): ${periodComparison.avgDaysToCollectPrev.toFixed(0)} dagar`,
       ];
 
       if (timeline.length > 0) {
-        lines.push('', '-'.repeat(60), 'INDRIVET BELOPP PER MÅNAD', '-'.repeat(60));
+        lines.push('', '-'.repeat(60), 'ÅTERVUNNET BELOPP PER MÅNAD', '-'.repeat(60));
         timeline.forEach((point) => {
           const date = new Date(point.date);
           const monthName = date.toLocaleDateString('sv-SE', { month: 'long', year: 'numeric' });

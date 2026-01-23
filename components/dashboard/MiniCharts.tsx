@@ -26,7 +26,7 @@ const statusLabels: Record<string, string> = {
   paid: 'Betalda',
   closed: 'Avslutade',
   legal: 'Rättsliga',
-  in_collection: 'Under indrivning',
+  in_collection: 'Under bevakning',
   new: 'Nya',
   paused: 'Pausade',
   handed_off: 'Överlämnade',
@@ -197,7 +197,7 @@ const MiniCharts: React.FC<MiniChartsProps> = ({ collectedOverTime, statusDistri
               <TrendingUp className="w-4 h-4 text-violet-400" />
             </div>
             <div>
-              <h4 className="text-sm font-medium text-white">Indrivet</h4>
+              <h4 className="text-sm font-medium text-white">Återvunnet</h4>
               <p className="text-xs text-gray-500">Senaste 12 mån</p>
             </div>
           </div>

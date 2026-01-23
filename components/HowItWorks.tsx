@@ -268,7 +268,7 @@ const HowItWorks = () => {
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-50"></span>
                           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                         </span>
-                        <span className="text-sm text-emerald-400">+15 840 kr indriven</span>
+                        <span className="text-sm text-emerald-400">+15 840 kr återvunnen</span>
                       </div>
                     </div>
                   )}

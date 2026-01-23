@@ -90,7 +90,7 @@ const Pricing = () => {
                       <span className="text-5xl md:text-6xl font-display font-bold text-white">1 900</span>
                       <span className="text-xl text-gray-400">kr/mån</span>
                     </div>
-                    <p className="text-violet-400/80 text-sm mt-1">+ 10% performance fee på indrivna belopp</p>
+                    <p className="text-violet-400/80 text-sm mt-1">+ 10% performance fee på återvunna belopp</p>
                   </div>
                 </div>
               </div>
@@ -137,8 +137,8 @@ const Pricing = () => {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               { icon: Receipt, title: 'Management fee', desc: '1 900 kr/månad för att ha tjänsten aktiv. Ingen startavgift, ingen bindningstid.', color: 'violet' },
-              { icon: CreditCard, title: 'Performance fee', desc: '10% på belopp som drivs in efter att vi påbörjat uppföljningen. Ni får betalt direkt till ert konto.', color: 'blue' },
-              { icon: Shield, title: 'Ingen risk', desc: 'Vi tjänar bara pengar när ni gör det. Ingen ersättning om inget drivs in (utöver månadsavgiften).', color: 'emerald' },
+              { icon: CreditCard, title: 'Performance fee', desc: '10% på belopp som återvinns efter att vi påbörjat uppföljningen. Ni får betalt direkt till ert konto.', color: 'blue' },
+              { icon: Shield, title: 'Ingen risk', desc: 'Vi tjänar bara pengar när ni gör det. Ingen ersättning om inget återvinns (utöver månadsavgiften).', color: 'emerald' },
             ].map((item, index) => {
               const colorMap: Record<string, { bg: string; border: string; text: string; hover: string }> = {
                 violet: { bg: 'bg-violet-500/10', border: 'border-violet-500/20', text: 'text-violet-400', hover: 'hover:border-violet-500/30' },
@@ -175,10 +175,10 @@ const Pricing = () => {
               </div>
               <div>
                 <h4 className="text-lg font-display font-semibold text-white mb-2">
-                  Vad räknas som indrivet belopp?
+                  Vad räknas som återvunnet belopp?
                 </h4>
                 <p className="text-gray-400 leading-relaxed">
-                  Som indrivet belopp räknas betalningar som inkommit efter att Zylora tagit över uppföljningen av fakturan. Betalningar som skett innan uppdragets start omfattas inte.
+                  Som återvunnet belopp räknas betalningar som inkommit efter att Zylora tagit över uppföljningen av fakturan. Betalningar som skett innan uppdragets start omfattas inte.
                 </p>
               </div>
             </div>

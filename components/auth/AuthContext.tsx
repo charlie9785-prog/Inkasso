@@ -26,7 +26,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Fetch tenant data for the logged-in user
@@ -66,45 +67,46 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Initialize auth state
   useEffect(() => {
-    const initAuth = async () => {
-      try {
-        // Get current session
-        const { data: { session: currentSession } } = await supabase.auth.getSession();
+    let isMounted = true;
 
-        if (currentSession) {
-          setSession(currentSession);
-          setUser(currentSession.user);
-          await fetchTenant(currentSession.user.id);
-        }
-      } catch (err) {
-        console.error('Error initializing auth:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    initAuth();
-
-    // Listen for auth changes
+    // Listen for auth changes - this fires immediately with current session
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, newSession) => {
+      (event, newSession) => {
+        if (!isMounted) return;
+
+        console.log('Auth state change:', event, newSession?.user?.email);
         setSession(newSession);
         setUser(newSession?.user ?? null);
+        setIsInitialized(true);
 
         if (newSession?.user) {
-          await fetchTenant(newSession.user.id);
+          fetchTenant(newSession.user.id).catch(console.error);
         } else {
           setTenant(null);
         }
 
         if (event === 'SIGNED_OUT') {
-          setIsLoading(false);
           navigate('/login');
         }
       }
     );
 
+    // Also do a manual check in case onAuthStateChange doesn't fire
+    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+      if (!isMounted) return;
+      if (currentSession) {
+        setSession(currentSession);
+        setUser(currentSession.user);
+        fetchTenant(currentSession.user.id).catch(console.error);
+      }
+      setIsInitialized(true);
+    }).catch((err) => {
+      console.error('Error getting session:', err);
+      if (isMounted) setIsInitialized(true);
+    });
+
     return () => {
+      isMounted = false;
       subscription.unsubscribe();
     };
   }, [fetchTenant]);
@@ -169,7 +171,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     tenant,
     session,
     isAuthenticated: !!user && !!session,
-    isLoading,
+    isLoading: isLoading || !isInitialized,
     error,
     login,
     logout,

@@ -87,9 +87,9 @@ BEGIN
     (v_invoice_8, v_tenant_id, v_customer_3, 'F-2025-006', 45000, 20000,
      CURRENT_DATE - INTERVAL '50 days', CURRENT_DATE - INTERVAL '20 days', 'in_collection'),
 
-    -- Nya ärenden
+    -- Nya ärenden (pending = nyligen förfallen)
     (v_invoice_9, v_tenant_id, v_customer_4, 'F-2025-007', 6800, 6800,
-     CURRENT_DATE - INTERVAL '18 days', CURRENT_DATE - INTERVAL '3 days', 'new'),
+     CURRENT_DATE - INTERVAL '18 days', CURRENT_DATE - INTERVAL '3 days', 'pending'),
 
     -- Pausad
     (v_invoice_10, v_tenant_id, v_customer_6, 'F-2025-008', 15200, 15200,
@@ -98,77 +98,77 @@ BEGIN
     RAISE NOTICE '10 fakturor skapade';
 
     -- Skapa betalningar
-    INSERT INTO payments (id, tenant_id, invoice_id, amount_sek, payment_date, source) VALUES
-    (gen_random_uuid(), v_tenant_id, v_invoice_5, 8900, CURRENT_DATE - INTERVAL '8 days', 'bank_transfer'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_6, 4200, CURRENT_DATE - INTERVAL '5 days', 'swish'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_7, 22000, CURRENT_DATE - INTERVAL '20 days', 'bank_transfer'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_8, 15000, CURRENT_DATE - INTERVAL '12 days', 'bank_transfer'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_8, 10000, CURRENT_DATE - INTERVAL '5 days', 'bank_transfer');
+    INSERT INTO payments (id, tenant_id, invoice_id, customer_id, amount_sek, payment_date, source) VALUES
+    (gen_random_uuid(), v_tenant_id, v_invoice_5, v_customer_4, 8900, CURRENT_DATE - INTERVAL '8 days', 'bank_transfer'),
+    (gen_random_uuid(), v_tenant_id, v_invoice_6, v_customer_6, 4200, CURRENT_DATE - INTERVAL '5 days', 'swish'),
+    (gen_random_uuid(), v_tenant_id, v_invoice_7, v_customer_1, 22000, CURRENT_DATE - INTERVAL '20 days', 'bank_transfer'),
+    (gen_random_uuid(), v_tenant_id, v_invoice_8, v_customer_3, 15000, CURRENT_DATE - INTERVAL '12 days', 'bank_transfer'),
+    (gen_random_uuid(), v_tenant_id, v_invoice_8, v_customer_3, 10000, CURRENT_DATE - INTERVAL '5 days', 'bank_transfer');
 
     RAISE NOTICE '5 betalningar skapade';
 
     -- Skapa kommunikationshistorik
-    INSERT INTO communication_log (id, tenant_id, invoice_id, channel, subject, status, ai_summary, created_at) VALUES
-    -- F-2025-001 (aktiv inkasso)
-    (gen_random_uuid(), v_tenant_id, v_invoice_1, 'email', 'Betalningspåminnelse - Faktura F-2025-001', 'delivered',
+    INSERT INTO communication_log (id, tenant_id, invoice_id, customer_id, direction, channel, subject, status, ai_summary, created_at) VALUES
+    -- F-2025-001 (aktiv inkasso) - Erik Johansson
+    (gen_random_uuid(), v_tenant_id, v_invoice_1, v_customer_1, 'outbound', 'email', 'Betalningspåminnelse - Faktura F-2025-001', 'delivered',
      'Första påminnelse skickad. Faktura på 18 500 kr förfallen 25 dagar.', CURRENT_DATE - INTERVAL '22 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_1, 'sms', 'Påminnelse om obetald faktura', 'delivered',
+    (gen_random_uuid(), v_tenant_id, v_invoice_1, v_customer_1, 'outbound', 'sms', 'Påminnelse om obetald faktura', 'delivered',
      'SMS-påminnelse skickad till kund.', CURRENT_DATE - INTERVAL '15 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_1, 'phone', 'Uppföljningssamtal', 'completed',
+    (gen_random_uuid(), v_tenant_id, v_invoice_1, v_customer_1, 'outbound', 'phone', 'Uppföljningssamtal', 'completed',
      'Talade med Erik. Han lovade betala inom 5 dagar. Inväntar betalning.', CURRENT_DATE - INTERVAL '10 days'),
 
-    -- F-2025-002 (aktiv inkasso - företag)
-    (gen_random_uuid(), v_tenant_id, v_invoice_2, 'email', 'Betalningspåminnelse - Faktura F-2025-002', 'delivered',
+    -- F-2025-002 (aktiv inkasso - företag) - Nordisk Teknik AB
+    (gen_random_uuid(), v_tenant_id, v_invoice_2, v_customer_3, 'outbound', 'email', 'Betalningspåminnelse - Faktura F-2025-002', 'delivered',
      'Påminnelse skickad till Nordisk Teknik AB. Belopp: 67 000 kr.', CURRENT_DATE - INTERVAL '37 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_2, 'email', 'Andra påminnelsen - Faktura F-2025-002', 'delivered',
+    (gen_random_uuid(), v_tenant_id, v_invoice_2, v_customer_3, 'outbound', 'email', 'Andra påminnelsen - Faktura F-2025-002', 'delivered',
      'Andra påminnelse skickad. Ingen respons på första.', CURRENT_DATE - INTERVAL '30 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_2, 'phone', 'Kontaktförsök', 'failed',
+    (gen_random_uuid(), v_tenant_id, v_invoice_2, v_customer_3, 'outbound', 'phone', 'Kontaktförsök', 'failed',
      'Inget svar på telefon. Lämnade röstmeddelande.', CURRENT_DATE - INTERVAL '25 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_2, 'letter', 'Inkassokrav', 'sent',
+    (gen_random_uuid(), v_tenant_id, v_invoice_2, v_customer_3, 'outbound', 'email', 'Inkassokrav', 'sent',
      'Formellt inkassokrav skickat per post.', CURRENT_DATE - INTERVAL '20 days'),
 
-    -- F-2025-003 (aktiv inkasso - stort belopp)
-    (gen_random_uuid(), v_tenant_id, v_invoice_3, 'email', 'Betalningspåminnelse - Faktura F-2025-003', 'delivered',
+    -- F-2025-003 (aktiv inkasso - stort belopp) - Byggmästarna i Stockholm HB
+    (gen_random_uuid(), v_tenant_id, v_invoice_3, v_customer_5, 'outbound', 'email', 'Betalningspåminnelse - Faktura F-2025-003', 'delivered',
      'Påminnelse skickad. Stort belopp: 125 000 kr.', CURRENT_DATE - INTERVAL '47 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_3, 'phone', 'Förhandling om betalningsplan', 'completed',
+    (gen_random_uuid(), v_tenant_id, v_invoice_3, v_customer_5, 'outbound', 'phone', 'Förhandling om betalningsplan', 'completed',
      'Diskuterade betalningsplan med ekonomiansvarig. De vill dela upp på 3 månader.', CURRENT_DATE - INTERVAL '40 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_3, 'email', 'Betalningsplan - väntar på bekräftelse', 'delivered',
+    (gen_random_uuid(), v_tenant_id, v_invoice_3, v_customer_5, 'outbound', 'email', 'Betalningsplan - väntar på bekräftelse', 'delivered',
      'Skickat förslag på betalningsplan. Inväntar signerat avtal.', CURRENT_DATE - INTERVAL '35 days'),
 
-    -- F-2024-089 (överlämnad till Kronofogden)
-    (gen_random_uuid(), v_tenant_id, v_invoice_4, 'email', 'Betalningspåminnelse', 'delivered',
+    -- F-2024-089 (överlämnad till Kronofogden) - Maria Andersson
+    (gen_random_uuid(), v_tenant_id, v_invoice_4, v_customer_2, 'outbound', 'email', 'Betalningspåminnelse', 'delivered',
      'Första påminnelse skickad.', CURRENT_DATE - INTERVAL '87 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_4, 'sms', 'Brådskande påminnelse', 'delivered',
+    (gen_random_uuid(), v_tenant_id, v_invoice_4, v_customer_2, 'outbound', 'sms', 'Brådskande påminnelse', 'delivered',
      'SMS skickat.', CURRENT_DATE - INTERVAL '80 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_4, 'phone', 'Kontaktförsök', 'failed',
+    (gen_random_uuid(), v_tenant_id, v_invoice_4, v_customer_2, 'outbound', 'phone', 'Kontaktförsök', 'failed',
      'Nummer ej i bruk.', CURRENT_DATE - INTERVAL '75 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_4, 'letter', 'Inkassokrav', 'sent',
+    (gen_random_uuid(), v_tenant_id, v_invoice_4, v_customer_2, 'outbound', 'email', 'Inkassokrav', 'sent',
      'Inkassokrav skickat.', CURRENT_DATE - INTERVAL '70 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_4, 'letter', 'Slutkrav före Kronofogden', 'sent',
+    (gen_random_uuid(), v_tenant_id, v_invoice_4, v_customer_2, 'outbound', 'email', 'Slutkrav före Kronofogden', 'sent',
      'Sista varning innan överlämning till Kronofogden.', CURRENT_DATE - INTERVAL '50 days'),
 
-    -- F-2025-005 (betald efter påminnelse)
-    (gen_random_uuid(), v_tenant_id, v_invoice_6, 'email', 'Betalningspåminnelse', 'delivered',
+    -- F-2025-005 (betald efter påminnelse) - Anna Bergström
+    (gen_random_uuid(), v_tenant_id, v_invoice_6, v_customer_6, 'outbound', 'email', 'Betalningspåminnelse', 'delivered',
      'Påminnelse skickad.', CURRENT_DATE - INTERVAL '7 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_6, 'email', 'Bekräftelse på mottagen betalning', 'delivered',
+    (gen_random_uuid(), v_tenant_id, v_invoice_6, v_customer_6, 'outbound', 'email', 'Bekräftelse på mottagen betalning', 'delivered',
      'Tack för betalningen! Faktura F-2025-005 är nu betald.', CURRENT_DATE - INTERVAL '5 days'),
 
-    -- F-2025-006 (delbetalning)
-    (gen_random_uuid(), v_tenant_id, v_invoice_8, 'email', 'Betalningspåminnelse', 'delivered',
+    -- F-2025-006 (delbetalning) - Nordisk Teknik AB
+    (gen_random_uuid(), v_tenant_id, v_invoice_8, v_customer_3, 'outbound', 'email', 'Betalningspåminnelse', 'delivered',
      'Påminnelse skickad för 45 000 kr.', CURRENT_DATE - INTERVAL '17 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_8, 'phone', 'Betalningsplan överenskommen', 'completed',
+    (gen_random_uuid(), v_tenant_id, v_invoice_8, v_customer_3, 'outbound', 'phone', 'Betalningsplan överenskommen', 'completed',
      'Kunden betalar i omgångar. Första delbetalning 15 000 kr mottagen.', CURRENT_DATE - INTERVAL '12 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_8, 'email', 'Bekräftelse delbetalning', 'delivered',
+    (gen_random_uuid(), v_tenant_id, v_invoice_8, v_customer_3, 'outbound', 'email', 'Bekräftelse delbetalning', 'delivered',
      'Bekräftelse på delbetalning 10 000 kr. Återstår 20 000 kr.', CURRENT_DATE - INTERVAL '5 days'),
 
-    -- F-2025-007 (ny)
-    (gen_random_uuid(), v_tenant_id, v_invoice_9, 'email', 'Betalningspåminnelse - Faktura F-2025-007', 'delivered',
+    -- F-2025-007 (ny) - Stefan Lindqvist
+    (gen_random_uuid(), v_tenant_id, v_invoice_9, v_customer_4, 'outbound', 'email', 'Betalningspåminnelse - Faktura F-2025-007', 'delivered',
      'Första påminnelse skickad. Faktura nyligen förfallen.', CURRENT_DATE - INTERVAL '1 days'),
 
-    -- F-2025-008 (pausad)
-    (gen_random_uuid(), v_tenant_id, v_invoice_10, 'email', 'Betalningspåminnelse', 'delivered',
+    -- F-2025-008 (pausad) - Anna Bergström
+    (gen_random_uuid(), v_tenant_id, v_invoice_10, v_customer_6, 'outbound', 'email', 'Betalningspåminnelse', 'delivered',
      'Påminnelse skickad.', CURRENT_DATE - INTERVAL '7 days'),
-    (gen_random_uuid(), v_tenant_id, v_invoice_10, 'phone', 'Ärende pausat - personliga skäl', 'completed',
+    (gen_random_uuid(), v_tenant_id, v_invoice_10, v_customer_6, 'outbound', 'phone', 'Ärende pausat - personliga skäl', 'completed',
      'Kunden meddelade sjukdom i familjen. Ärendet pausat i 2 veckor enligt överenskommelse.', CURRENT_DATE - INTERVAL '3 days');
 
     RAISE NOTICE '24 kommunikationsposter skapade';
@@ -186,7 +186,7 @@ BEGIN
     RAISE NOTICE '  - Aktiv inkasso: 4 st (totalt 230 500 kr)';
     RAISE NOTICE '  - Överlämnad Kronofogden: 1 st (34 500 kr)';
     RAISE NOTICE '  - Betalda: 3 st (35 100 kr)';
-    RAISE NOTICE '  - Nya: 1 st (6 800 kr)';
+    RAISE NOTICE '  - Pending: 1 st (6 800 kr)';
     RAISE NOTICE '  - Pausade: 1 st (15 200 kr)';
 
 END $$;

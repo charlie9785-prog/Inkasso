@@ -51,14 +51,26 @@ const BackgroundEffects: React.FC = () => (
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
+  const [showSpinner, setShowSpinner] = useState(true);
+
+  // Force stop spinner after 2 seconds max
+  useEffect(() => {
+    const timeout = setTimeout(() => setShowSpinner(false), 2000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  // Stop spinner when loading is done
+  useEffect(() => {
+    if (!isLoading) setShowSpinner(false);
+  }, [isLoading]);
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (!showSpinner && !isAuthenticated) {
       navigate('/login');
     }
-  }, [isAuthenticated, isLoading]);
+  }, [isAuthenticated, showSpinner]);
 
-  if (isLoading) {
+  if (showSpinner && isLoading) {
     return (
       <main className="min-h-screen bg-dark-950 text-white antialiased relative">
         <BackgroundEffects />
@@ -79,14 +91,26 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 // Login Route Component - redirects to dashboard if already authenticated
 const LoginRoute: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
+  const [showSpinner, setShowSpinner] = useState(true);
+
+  // Force stop spinner after 2 seconds max
+  useEffect(() => {
+    const timeout = setTimeout(() => setShowSpinner(false), 2000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  // Stop spinner when loading is done
+  useEffect(() => {
+    if (!isLoading) setShowSpinner(false);
+  }, [isLoading]);
 
   useEffect(() => {
-    if (!isLoading && isAuthenticated) {
+    if (!showSpinner && isAuthenticated) {
       navigate('/dashboard');
     }
-  }, [isAuthenticated, isLoading]);
+  }, [isAuthenticated, showSpinner]);
 
-  if (isLoading) {
+  if (showSpinner && isLoading) {
     return (
       <main className="min-h-screen bg-dark-950 text-white antialiased relative">
         <BackgroundEffects />
