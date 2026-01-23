@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zylora | Vi tar hand om era sena betalningar</title>
+    <meta name="description" content="Vi tar hand om era sena betalningar — hela vägen till bankkontot. Anslut ert ekonomisystem på 60 sekunder och vi sköter resten." />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph / LinkedIn -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://zylora.se/" />
+    <meta property="og:title" content="Zylora | Vi tar hand om era sena betalningar" />
+    <meta property="og:description" content="Anslut ert ekonomisystem på 60 sekunder — Fortnox, Visma eller Björn Lundén. Sen behöver ni aldrig göra något mer." />
+    <meta property="og:image" content="https://zylora.se/og-image.png" />
+    <meta property="og:locale" content="sv_SE" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Zylora | Vi tar hand om era sena betalningar" />
+    <meta name="twitter:description" content="Anslut ert ekonomisystem på 60 sekunder — Fortnox, Visma eller Björn Lundén. Sen behöver ni aldrig göra något mer." />
+    <meta name="twitter:image" content="https://zylora.se/og-image.png" />
+
+    <!-- Google Analytics - Lägg till ert GA4 Measurement ID -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    -->
+
+    <!-- Microsoft Clarity - Lägg till ert Clarity Project ID -->
+    <!--
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "XXXXXXXXXX");
+    </script>
+    -->
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://zylora.se/" />
+
+    <!-- Additional SEO meta tags -->
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Zylora AB" />
+    <meta name="geo.region" content="SE" />
+    <meta name="geo.placename" content="Göteborg" />
+    <meta name="language" content="Swedish" />
+
+    <!-- Schema.org Structured Data - Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Zylora",
+      "url": "https://zylora.se",
+      "logo": "https://zylora.se/logo.png",
+      "description": "Vi hjälper svenska företag få betalt för sina fakturor — innan det går till inkasso.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Göteborg",
+        "addressCountry": "SE"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+46729626822",
+        "contactType": "customer service",
+        "availableLanguage": "Swedish"
+      },
+      "sameAs": []
+    }
+    </script>
+
+    <!-- Schema.org Structured Data - Service -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Fakturabevakning",
+      "provider": {
+        "@type": "Organization",
+        "name": "Zylora"
+      },
+      "description": "Personlig uppföljning av förfallna fakturor. Vi kontaktar era kunder och ser till att ni får betalt — utan att förstöra kundrelationen.",
+      "areaServed": {
+        "@type": "Country",
+        "name": "Sweden"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "1900",
+        "priceCurrency": "SEK",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "1900",
+          "priceCurrency": "SEK",
+          "unitText": "månad"
+        }
+      }
+    }
+    </script>
+
+    <!-- Schema.org Structured Data - FAQ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Vad är skillnaden mellan Zylora och inkasso?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Zylora arbetar med personlig uppföljning innan fakturan går till inkasso. Vi kontaktar kunden via telefon och mejl för att lösa betalningen på ett respektfullt sätt som bevarar er kundrelation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Vilka ekonomisystem integrerar ni med?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Vi integrerar med Fortnox, Visma och Björn Lundén. Anslutningen tar cirka 60 sekunder."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Vad kostar tjänsten?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Management fee är 1 900 kr/månad. Utöver det tar vi 10% på belopp som drivs in efter att vi påbörjat uppföljningen. Ingen bindningstid."
+          }
+        }
+      ]
+    }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Space Grotesk', 'sans-serif'],
+            },
+            colors: {
+              dark: {
+                950: '#030014',
+                900: '#0a0a1a',
+                800: '#12121f',
+                700: '#1a1a2e',
+                600: '#252542',
+              },
+              accent: {
+                violet: '#8b5cf6',
+                purple: '#a855f7',
+                blue: '#3b82f6',
+                cyan: '#06b6d4',
+                pink: '#ec4899',
+              }
+            },
+            animation: {
+              'float': 'float 6s ease-in-out infinite',
+              'float-slow': 'float 8s ease-in-out infinite',
+              'float-slower': 'float 10s ease-in-out infinite',
+              'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+              'gradient-x': 'gradient-x 15s ease infinite',
+              'gradient-y': 'gradient-y 15s ease infinite',
+              'shimmer': 'shimmer 2s linear infinite',
+              'spin-slow': 'spin 8s linear infinite',
+              'bounce-slow': 'bounce 3s ease-in-out infinite',
+              'fade-in': 'fade-in 0.8s ease-out forwards',
+              'slide-up': 'slide-up 0.8s ease-out forwards',
+              'scale-in': 'scale-in 0.6s ease-out forwards',
+              'slide-left': 'slide-left 0.8s ease-out forwards',
+              'slide-right': 'slide-right 0.8s ease-out forwards',
+              'blob-1': 'blob-1 25s ease-in-out infinite',
+              'blob-2': 'blob-2 30s ease-in-out infinite',
+              'blob-3': 'blob-3 20s ease-in-out infinite',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-20px)' },
+              },
+              'pulse-glow': {
+                '0%, 100%': { opacity: '1' },
+                '50%': { opacity: '0.5' },
+              },
+              'gradient-x': {
+                '0%, 100%': { 'background-position': '0% 50%' },
+                '50%': { 'background-position': '100% 50%' },
+              },
+              'gradient-y': {
+                '0%, 100%': { 'background-position': '50% 0%' },
+                '50%': { 'background-position': '50% 100%' },
+              },
+              shimmer: {
+                '0%': { 'background-position': '-200% 0' },
+                '100%': { 'background-position': '200% 0' },
+              },
+              'fade-in': {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              'slide-up': {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              'scale-in': {
+                '0%': { opacity: '0', transform: 'scale(0.9)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              },
+              'slide-left': {
+                '0%': { opacity: '0', transform: 'translateX(-50px)' },
+                '100%': { opacity: '1', transform: 'translateX(0)' },
+              },
+              'slide-right': {
+                '0%': { opacity: '0', transform: 'translateX(50px)' },
+                '100%': { opacity: '1', transform: 'translateX(0)' },
+              },
+              'blob-1': {
+                '0%, 100%': { transform: 'translate(0, 0) scale(1) rotate(0deg)' },
+                '33%': { transform: 'translate(50px, -50px) scale(1.1) rotate(120deg)' },
+                '66%': { transform: 'translate(-30px, 30px) scale(0.9) rotate(240deg)' },
+              },
+              'blob-2': {
+                '0%, 100%': { transform: 'translate(0, 0) scale(1) rotate(0deg)' },
+                '33%': { transform: 'translate(-40px, 40px) scale(1.15) rotate(-120deg)' },
+                '66%': { transform: 'translate(60px, -20px) scale(0.85) rotate(-240deg)' },
+              },
+              'blob-3': {
+                '0%, 100%': { transform: 'translate(0, 0) scale(1) rotate(0deg)' },
+                '33%': { transform: 'translate(30px, 60px) scale(0.95) rotate(90deg)' },
+                '66%': { transform: 'translate(-50px, -30px) scale(1.05) rotate(180deg)' },
+              },
+            },
+            backgroundImage: {
+              'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+              'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+              'noise': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
+            },
+          },
+        },
+      }
+    </script>
+    <style>
+      * {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+        background-color: #030014;
+        color: #ffffff;
+        overflow-x: hidden;
+      }
+
+      /* Premium Scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0a0a1a;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #8b5cf6, #3b82f6);
+        border-radius: 5px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, #a855f7, #60a5fa);
+      }
+
+      /* Glass Card */
+      .glass {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .glass-strong {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Premium Gradients */
+      .gradient-text {
+        background: linear-gradient(135deg, #fff 0%, #8b5cf6 50%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .gradient-text-vibrant {
+        background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f97316 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .gradient-border {
+        position: relative;
+        background: linear-gradient(#0a0a1a, #0a0a1a) padding-box,
+                    linear-gradient(135deg, #8b5cf6, #3b82f6) border-box;
+        border: 1px solid transparent;
+      }
+
+      /* Glow Effects */
+      .glow-violet {
+        box-shadow: 0 0 40px rgba(139, 92, 246, 0.3),
+                    0 0 80px rgba(139, 92, 246, 0.1);
+      }
+
+      .glow-blue {
+        box-shadow: 0 0 40px rgba(59, 130, 246, 0.3),
+                    0 0 80px rgba(59, 130, 246, 0.1);
+      }
+
+      .glow-text {
+        text-shadow: 0 0 40px rgba(139, 92, 246, 0.5),
+                     0 0 80px rgba(139, 92, 246, 0.3);
+      }
+
+      /* Noise Overlay */
+      .noise-overlay::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        opacity: 0.03;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      /* Premium Button */
+      .btn-premium {
+        position: relative;
+        background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .btn-premium::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .btn-premium:hover::before {
+        opacity: 1;
+      }
+
+      .btn-premium:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 40px rgba(139, 92, 246, 0.4);
+      }
+
+      /* Animated gradient border */
+      .animated-border {
+        position: relative;
+        background: #0a0a1a;
+        border-radius: 1rem;
+      }
+
+      .animated-border::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        background: conic-gradient(from 0deg, #8b5cf6, #3b82f6, #06b6d4, #8b5cf6);
+        border-radius: inherit;
+        z-index: -1;
+        animation: spin 8s linear infinite;
+      }
+
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      /* Line decoration */
+      .line-decoration {
+        position: relative;
+      }
+
+      .line-decoration::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #8b5cf6, transparent);
+        border-radius: 2px;
+      }
+
+      /* Hover card effect */
+      .hover-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .hover-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.25);
+      }
+
+      /* Selection */
+      ::selection {
+        background: rgba(139, 92, 246, 0.3);
+        color: #fff;
+      }
+
+      /* ============================================
+         SCROLL REVEAL ANIMATIONS
+         ============================================ */
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .reveal-left {
+        opacity: 0;
+        transform: translateX(-60px);
+        transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .reveal-left.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .reveal-right {
+        opacity: 0;
+        transform: translateX(60px);
+        transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .reveal-right.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .reveal-scale {
+        opacity: 0;
+        transform: scale(0.85);
+        transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .reveal-scale.visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* Stagger delay utilities */
+      .delay-100 { transition-delay: 100ms; }
+      .delay-200 { transition-delay: 200ms; }
+      .delay-300 { transition-delay: 300ms; }
+      .delay-400 { transition-delay: 400ms; }
+      .delay-500 { transition-delay: 500ms; }
+      .delay-600 { transition-delay: 600ms; }
+      .delay-700 { transition-delay: 700ms; }
+      .delay-800 { transition-delay: 800ms; }
+
+      /* ============================================
+         HOVER EFFECTS - VERY VISIBLE
+         ============================================ */
+
+      /* Premium hover lift effect - STRONG */
+      .hover-lift {
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    box-shadow 0.4s ease,
+                    border-color 0.4s ease;
+      }
+
+      .hover-lift:hover {
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 0 25px 50px rgba(139, 92, 246, 0.25),
+                    0 10px 20px rgba(139, 92, 246, 0.15);
+        border-color: rgba(139, 92, 246, 0.5) !important;
+      }
+
+      /* Glow on hover - STRONG */
+      .hover-glow {
+        transition: box-shadow 0.4s ease,
+                    border-color 0.4s ease,
+                    background 0.4s ease;
+      }
+
+      .hover-glow:hover {
+        box-shadow: 0 0 40px rgba(139, 92, 246, 0.3),
+                    0 0 80px rgba(139, 92, 246, 0.15),
+                    inset 0 0 30px rgba(139, 92, 246, 0.05);
+        border-color: rgba(139, 92, 246, 0.5) !important;
+      }
+
+      /* Card hover with background shift */
+      .hover-card-bg {
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .hover-card-bg:hover {
+        background: rgba(139, 92, 246, 0.08) !important;
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+      }
+
+      /* Accent underline animation */
+      .accent-underline {
+        position: relative;
+        display: inline-block;
+      }
+
+      .accent-underline::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+        border-radius: 2px;
+        transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .accent-underline:hover::after {
+        width: 100%;
+      }
+
+      /* Icon hover rotate - MORE VISIBLE */
+      .icon-hover-rotate {
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    color 0.3s ease,
+                    filter 0.3s ease;
+      }
+
+      .group:hover .icon-hover-rotate {
+        transform: rotate(15deg) scale(1.2);
+        filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5));
+      }
+
+      /* Icon container hover */
+      .icon-container {
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    background 0.3s ease,
+                    border-color 0.3s ease,
+                    box-shadow 0.3s ease;
+      }
+
+      .group:hover .icon-container {
+        transform: scale(1.15);
+        box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);
+      }
+
+      /* Pulse ring effect */
+      .pulse-ring {
+        position: relative;
+      }
+
+      .pulse-ring::before {
+        content: '';
+        position: absolute;
+        inset: -6px;
+        border-radius: inherit;
+        border: 2px solid rgba(139, 92, 246, 0.5);
+        animation: pulse-ring 2s ease-out infinite;
+      }
+
+      @keyframes pulse-ring {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1.3);
+          opacity: 0;
+        }
+      }
+
+      /* ============================================
+         BUTTON EFFECTS
+         ============================================ */
+
+      /* Secondary button hover */
+      .btn-secondary {
+        transition: all 0.3s ease;
+      }
+
+      .btn-secondary:hover {
+        background: rgba(139, 92, 246, 0.15) !important;
+        border-color: rgba(139, 92, 246, 0.5) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
+      }
+
+      /* Text link hover */
+      .link-hover {
+        transition: color 0.3s ease;
+      }
+
+      .link-hover:hover {
+        color: #8b5cf6 !important;
+      }
+
+      /* Stats number animation */
+      .stat-number {
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    color 0.3s ease;
+      }
+
+      .group:hover .stat-number {
+        transform: scale(1.05);
+      }
+
+      /* Badge hover */
+      .badge-hover {
+        transition: all 0.3s ease;
+      }
+
+      .badge-hover:hover {
+        background: rgba(139, 92, 246, 0.2) !important;
+        border-color: rgba(139, 92, 246, 0.4) !important;
+        transform: scale(1.05);
+      }
+
+      /* Shine effect on hover */
+      .shine-hover {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .shine-hover::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          to right,
+          transparent 0%,
+          rgba(255, 255, 255, 0.1) 50%,
+          transparent 100%
+        );
+        transform: rotate(45deg) translateX(-100%);
+        transition: transform 0.6s ease;
+      }
+
+      .shine-hover:hover::after {
+        transform: rotate(45deg) translateX(100%);
+      }
+
+      /* Magnetic hover effect for buttons */
+      .magnetic-hover {
+        transition: transform 0.3s ease;
+      }
+
+      .magnetic-hover:hover {
+        transform: scale(1.05);
+      }
+
+      .magnetic-hover:active {
+        transform: scale(0.98);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/client": "https://esm.sh/react-dom@^19.2.3/client",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

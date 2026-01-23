@@ -1,0 +1,12 @@
+# Zylora - robots.txt
+# https://zylora.se
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://zylora.se/sitemap.xml
+
+# Disallow admin/login areas
+Disallow: /login
+Disallow: /dashboard
