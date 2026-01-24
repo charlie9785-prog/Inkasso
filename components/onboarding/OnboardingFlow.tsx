@@ -4,14 +4,12 @@ import { useOnboarding, OnboardingStep } from '../../hooks/useOnboarding';
 import WelcomeStep from './steps/WelcomeStep';
 import PlanStep from './steps/PlanStep';
 import FortnoxStep from './steps/FortnoxStep';
-import IntegrationsStep from './steps/IntegrationsStep';
 import CompleteStep from './steps/CompleteStep';
 
 const STEP_LABELS: Record<OnboardingStep, string> = {
   welcome: 'Skapa konto',
-  plan: 'Välj plan',
-  fortnox: 'Fortnox',
-  integrations: 'Integrationer',
+  plan: 'Betalning',
+  fortnox: 'Integrationer',
   complete: 'Klart',
 };
 
@@ -27,8 +25,6 @@ const OnboardingFlow: React.FC = () => {
         return <PlanStep onboarding={onboarding} />;
       case 'fortnox':
         return <FortnoxStep onboarding={onboarding} />;
-      case 'integrations':
-        return <IntegrationsStep onboarding={onboarding} />;
       case 'complete':
         return <CompleteStep onboarding={onboarding} />;
       default:

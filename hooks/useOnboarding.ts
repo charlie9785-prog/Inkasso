@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect } from 'react';
 import { supabase, supabaseUrl, supabaseAnonKey } from '../lib/supabase';
 
-export type OnboardingStep = 'welcome' | 'plan' | 'fortnox' | 'integrations' | 'complete';
+export type OnboardingStep = 'welcome' | 'plan' | 'fortnox' | 'complete';
 
-const ONBOARDING_STEPS: OnboardingStep[] = ['welcome', 'plan', 'fortnox', 'integrations', 'complete'];
+const ONBOARDING_STEPS: OnboardingStep[] = ['welcome', 'plan', 'fortnox', 'complete'];
 
 interface SignupData {
   companyName: string;
