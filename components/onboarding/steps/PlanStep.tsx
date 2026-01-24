@@ -57,7 +57,7 @@ const PLANS: Plan[] = [
       'Obegränsade ärenden',
       'Automatiska påminnelser (E-post, SMS, Telefon)',
       'Fortnox-integration',
-      '10% success fee (max 10 000 kr/mån)',
+      '10% success fee (max 10 000 kr/faktura)',
       'Avancerade rapporter',
       'Prioriterad support',
     ],

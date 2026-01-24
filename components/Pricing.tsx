@@ -90,7 +90,8 @@ const Pricing = () => {
                       <span className="text-5xl md:text-6xl font-display font-bold text-white">1 900</span>
                       <span className="text-xl text-gray-400">kr/mån</span>
                     </div>
-                    <p className="text-violet-400/80 text-sm mt-1">+ 10% performance fee på återvunna belopp (max 10 000 kr/mån)</p>
+                    <p className="text-violet-400/80 text-sm mt-1">+ 10% performance fee på återvunna belopp</p>
+                    <p className="text-violet-400/60 text-xs mt-0.5">Max 10 000 kr/faktura</p>
                   </div>
                 </div>
               </div>
@@ -137,7 +138,7 @@ const Pricing = () => {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               { icon: Receipt, title: 'Management fee', desc: '1 900 kr/månad för att ha tjänsten aktiv. Ingen startavgift, ingen bindningstid.', color: 'violet' },
-              { icon: CreditCard, title: 'Performance fee', desc: '10% på belopp som återvinns efter att vi påbörjat uppföljningen, max 10 000 kr/mån. Ni får betalt direkt till ert konto.', color: 'blue' },
+              { icon: CreditCard, title: 'Performance fee', desc: '10% på belopp som återvinns efter att vi påbörjat uppföljningen. Max 10 000 kr/faktura.', color: 'blue' },
               { icon: Shield, title: 'Ingen risk', desc: 'Vi tjänar bara pengar när ni gör det. Ingen ersättning om inget återvinns (utöver månadsavgiften).', color: 'emerald' },
             ].map((item, index) => {
               const colorMap: Record<string, { bg: string; border: string; text: string; hover: string }> = {

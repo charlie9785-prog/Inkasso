@@ -145,7 +145,8 @@ const Terms = () => {
                 <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                   <p className="text-sm text-gray-500 mb-1">Success fee</p>
                   <p className="text-2xl font-bold text-white">10%</p>
-                  <p className="text-sm text-gray-400">på återvunna belopp (max 10 000 kr/mån)</p>
+                  <p className="text-sm text-gray-400">på återvunna belopp</p>
+                  <p className="text-xs text-gray-500 mt-1">Max 10 000 kr/faktura</p>
                 </div>
               </div>
 
@@ -160,7 +161,7 @@ const Terms = () => {
               <p className="text-gray-400">
                 Success fee beräknas på belopp som betalas in efter att Zylora påbörjat uppföljningen av ärendet.
                 Belopp som betalas in före första påminnelse är kostnadsfria. Success fee är maximerad till
-                <strong className="text-white"> 10 000 kr per månad</strong> oavsett totalt återvunnet belopp.
+                <strong className="text-white"> 10 000 kr per faktura</strong> oavsett fakturabelopp.
               </p>
 
               <h3 className="text-lg font-semibold text-white mt-6 mb-3">Prisändringar:</h3>
