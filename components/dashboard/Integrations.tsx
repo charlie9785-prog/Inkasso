@@ -15,6 +15,7 @@ import {
 import { Integration, IntegrationProvider, IntegrationStatus } from '../../types/dashboard';
 import { useAuth } from '../../hooks/useAuth';
 import { useFortnoxIntegration } from '../../hooks/useFortnoxIntegration';
+import { useVismaIntegration } from '../../hooks/useVismaIntegration';
 
 interface IntegrationConfig {
   id: IntegrationProvider;
@@ -54,16 +55,18 @@ const mockIntegrations: Integration[] = [];
 const Integrations: React.FC = () => {
   const { tenant } = useAuth();
   const fortnox = useFortnoxIntegration(tenant?.id);
+  const visma = useVismaIntegration(tenant?.id);
 
   const [integrations, setIntegrations] = useState<Integration[]>(mockIntegrations);
   const [connectingProvider, setConnectingProvider] = useState<IntegrationProvider | null>(null);
   const [syncingProvider, setSyncingProvider] = useState<IntegrationProvider | null>(null);
   const [fetchingProvider, setFetchingProvider] = useState<IntegrationProvider | null>(null);
 
-  // Check Fortnox status on mount
+  // Check integration status on mount
   useEffect(() => {
     if (tenant?.id) {
       fortnox.checkStatus();
+      visma.checkStatus();
     }
   }, [tenant?.id]);
 
@@ -76,6 +79,16 @@ const Integrations: React.FC = () => {
         status: fortnox.isConnected ? 'connected' : 'disconnected',
         lastSyncAt: fortnox.status.last_sync_at || undefined,
         invoicesImported: fortnox.syncResult?.stats.invoices.imported,
+      };
+    }
+    // For Visma, use real status from hook
+    if (provider === 'visma' && visma.status) {
+      return {
+        id: 'visma-integration',
+        provider: 'visma',
+        status: visma.isConnected ? 'connected' : 'disconnected',
+        lastSyncAt: visma.status.last_sync_at || undefined,
+        invoicesImported: visma.syncResult?.stats.invoices.imported,
       };
     }
     return integrations.find((i) => i.provider === provider);
@@ -117,6 +130,15 @@ const Integrations: React.FC = () => {
       return;
     }
 
+    // Visma uses real OAuth
+    if (provider === 'visma') {
+      const authUrl = await visma.startOAuth();
+      if (authUrl) {
+        window.location.href = authUrl;
+      }
+      return;
+    }
+
     // Other providers still use mock
     setConnectingProvider(provider);
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -140,6 +162,12 @@ const Integrations: React.FC = () => {
       return;
     }
 
+    // Visma uses real API
+    if (provider === 'visma') {
+      await visma.disconnect();
+      return;
+    }
+
     // Other providers still use mock
     setConnectingProvider(provider);
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -151,6 +179,12 @@ const Integrations: React.FC = () => {
     // Fortnox uses real sync
     if (provider === 'fortnox') {
       await fortnox.syncData();
+      return;
+    }
+
+    // Visma uses real sync
+    if (provider === 'visma') {
+      await visma.syncData();
       return;
     }
 
@@ -172,6 +206,12 @@ const Integrations: React.FC = () => {
     // Fortnox uses real sync (same as handleSync for Fortnox)
     if (provider === 'fortnox') {
       await fortnox.syncData();
+      return;
+    }
+
+    // Visma uses real sync
+    if (provider === 'visma') {
+      await visma.syncData();
       return;
     }
 
@@ -228,19 +268,37 @@ const Integrations: React.FC = () => {
           const integration = getIntegration(config.id);
           const isConnected = integration?.status === 'connected';
 
-          // Use Fortnox hook states for Fortnox provider
+          // Use hook states for Fortnox and Visma providers
           const isConnecting = config.id === 'fortnox'
             ? fortnox.isConnecting
+            : config.id === 'visma'
+            ? visma.isConnecting
             : connectingProvider === config.id;
           const isSyncing = config.id === 'fortnox'
             ? fortnox.isSyncing
+            : config.id === 'visma'
+            ? visma.isSyncing
             : syncingProvider === config.id;
           const isFetching = config.id === 'fortnox'
             ? fortnox.isSyncing
+            : config.id === 'visma'
+            ? visma.isSyncing
             : fetchingProvider === config.id;
           const isDisconnecting = config.id === 'fortnox'
             ? fortnox.isDisconnecting
+            : config.id === 'visma'
+            ? visma.isDisconnecting
             : false;
+          const integrationError = config.id === 'fortnox'
+            ? fortnox.error
+            : config.id === 'visma'
+            ? visma.error
+            : null;
+          const clearIntegrationError = config.id === 'fortnox'
+            ? fortnox.clearError
+            : config.id === 'visma'
+            ? visma.clearError
+            : () => {};
 
           return (
             <div
@@ -298,24 +356,30 @@ const Integrations: React.FC = () => {
                           <span className="text-white">{integration.invoicesImported} st</span>
                         </div>
                       )}
-                      {/* Show customers for Fortnox */}
+                      {/* Show customers for Fortnox/Visma */}
                       {config.id === 'fortnox' && fortnox.syncResult?.stats.customers && (
                         <div className="flex justify-between text-gray-400">
                           <span>Kunder importerade</span>
                           <span className="text-white">{fortnox.syncResult.stats.customers.imported} st</span>
                         </div>
                       )}
+                      {config.id === 'visma' && visma.syncResult?.stats.customers && (
+                        <div className="flex justify-between text-gray-400">
+                          <span>Kunder importerade</span>
+                          <span className="text-white">{visma.syncResult.stats.customers.imported} st</span>
+                        </div>
+                      )}
                     </div>
 
-                    {/* Fortnox error */}
-                    {config.id === 'fortnox' && fortnox.error && (
+                    {/* Integration error */}
+                    {integrationError && (
                       <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30">
                         <div className="flex items-start gap-2">
                           <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
                           <div>
-                            <p className="text-sm text-red-400">{fortnox.error}</p>
+                            <p className="text-sm text-red-400">{integrationError}</p>
                             <button
-                              onClick={() => fortnox.clearError()}
+                              onClick={clearIntegrationError}
                               className="text-xs text-gray-500 hover:text-gray-400 mt-1"
                             >
                               Stäng
@@ -383,15 +447,15 @@ const Integrations: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Fortnox error (not connected state) */}
-                    {config.id === 'fortnox' && fortnox.error && (
+                    {/* Integration error (not connected state) */}
+                    {integrationError && (
                       <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30">
                         <div className="flex items-start gap-2">
                           <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
                           <div>
-                            <p className="text-sm text-red-400">{fortnox.error}</p>
+                            <p className="text-sm text-red-400">{integrationError}</p>
                             <button
-                              onClick={() => fortnox.clearError()}
+                              onClick={clearIntegrationError}
                               className="text-xs text-gray-500 hover:text-gray-400 mt-1"
                             >
                               Stäng
