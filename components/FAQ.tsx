@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     question: "Vad kostar tjänsten?",
-    answer: "1 900 kr/månad (ex moms) i management fee, plus 10% performance fee på allt vi driver in åt dig. Inga dolda avgifter, ingen bindningstid. Vi tjänar bara pengar när ni gör det."
+    answer: "1 900 kr/månad (ex moms) i management fee, plus 10% performance fee på allt vi driver in åt dig (max 10 000 kr/mån). Inga dolda avgifter, ingen bindningstid. Vi tjänar bara pengar när ni gör det."
   },
   {
     question: "Hur lång tid tar det?",

@@ -22,13 +22,15 @@ import Dashboard from './components/dashboard/Dashboard';
 import OnboardingFlow from './components/onboarding/OnboardingFlow';
 import FortnoxSuccess from './components/onboarding/FortnoxSuccess';
 import FortnoxError from './components/onboarding/FortnoxError';
+import VismaSuccess from './components/onboarding/VismaSuccess';
+import VismaError from './components/onboarding/VismaError';
 import { useAuth } from './hooks/useAuth';
 import { navigate } from './lib/navigation';
 
 // Re-export navigate for backwards compatibility
 export { navigate };
 
-type Page = 'home' | 'terms' | 'privacy' | 'about' | 'thankyou' | 'login' | 'dashboard' | 'onboarding' | 'fortnox-success' | 'fortnox-error';
+type Page = 'home' | 'terms' | 'privacy' | 'about' | 'thankyou' | 'login' | 'dashboard' | 'onboarding' | 'fortnox-success' | 'fortnox-error' | 'visma-success' | 'visma-error';
 
 // Background Effects Component
 const BackgroundEffects: React.FC = () => (
@@ -159,6 +161,10 @@ const AppRouter: React.FC = () => {
         return 'fortnox-success';
       case '/onboarding/fortnox/error':
         return 'fortnox-error';
+      case '/onboarding/visma/success':
+        return 'visma-success';
+      case '/onboarding/visma/error':
+        return 'visma-error';
       default:
         return 'home';
     }
@@ -232,6 +238,34 @@ const AppRouter: React.FC = () => {
           <BackgroundEffects />
           <div className="relative z-10">
             <FortnoxError />
+          </div>
+        </main>
+      </ProtectedRoute>
+    );
+  }
+
+  // Visma OAuth success page (protected)
+  if (currentPage === 'visma-success') {
+    return (
+      <ProtectedRoute>
+        <main className="min-h-screen bg-dark-950 text-white antialiased relative">
+          <BackgroundEffects />
+          <div className="relative z-10">
+            <VismaSuccess />
+          </div>
+        </main>
+      </ProtectedRoute>
+    );
+  }
+
+  // Visma OAuth error page (protected)
+  if (currentPage === 'visma-error') {
+    return (
+      <ProtectedRoute>
+        <main className="min-h-screen bg-dark-950 text-white antialiased relative">
+          <BackgroundEffects />
+          <div className="relative z-10">
+            <VismaError />
           </div>
         </main>
       </ProtectedRoute>
