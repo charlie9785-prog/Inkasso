@@ -110,7 +110,7 @@ const Notifications: React.FC<NotificationsProps> = ({ onViewCase }) => {
       }
 
       // Fetch overdue cases (> 30 days overdue)
-      const { data: invoices } = await supabase
+      const { data: invoices, error: invoicesError } = await supabase
         .from('invoices')
         .select('id, fortnox_invoice_number, due_date, remaining_amount_sek, status')
         .eq('tenant_id', tenant.id)
@@ -118,7 +118,11 @@ const Notifications: React.FC<NotificationsProps> = ({ onViewCase }) => {
         .order('due_date', { ascending: true })
         .limit(10);
 
-      if (invoices) {
+      if (invoicesError) {
+        console.warn('Could not fetch invoices for notifications:', invoicesError.message);
+      }
+
+      if (invoices && !invoicesError) {
         const now = new Date();
         invoices.forEach((invoice) => {
           const dueDate = new Date(invoice.due_date);

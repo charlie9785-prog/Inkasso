@@ -1,11 +1,16 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4'
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-}
+const ALLOWED_ORIGINS = ['https://www.zylora.se', 'https://zylora.se', 'http://localhost:5173'];
+
+const getCorsHeaders = (origin: string | null) => {
+  const allowedOrigin = origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  };
+};
 
 // Generate 6-digit code
 function generateCode(): string {
@@ -13,6 +18,9 @@ function generateCode(): string {
 }
 
 serve(async (req) => {
+  const origin = req.headers.get('origin');
+  const corsHeaders = getCorsHeaders(origin);
+
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response(null, { status: 200, headers: corsHeaders })
@@ -72,11 +80,10 @@ serve(async (req) => {
       throw new Error('Kunde inte spara verifieringskod')
     }
 
-    // Send email using Supabase's built-in email (or Resend if configured)
+    // Send email using Resend if configured
     const resendApiKey = Deno.env.get('RESEND_API_KEY')
 
     if (resendApiKey) {
-      // Use Resend
       const emailResponse = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
@@ -106,13 +113,8 @@ serve(async (req) => {
         throw new Error('Kunde inte skicka verifieringsmejl')
       }
     } else {
-      // Fallback: Use Supabase Auth magic link (sends OTP)
-      // This is a workaround - ideally configure Resend
+      // Fallback: Log the code (for development)
       console.log(`Verification code for ${email}: ${code}`)
-
-      // For now, we'll just log the code. In production, configure Resend.
-      // You could also use Supabase's built-in email by triggering a password reset
-      // or similar, but that's hacky.
     }
 
     return new Response(

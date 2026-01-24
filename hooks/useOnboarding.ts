@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase, supabaseUrl, supabaseAnonKey } from '../lib/supabase';
 
 export type OnboardingStep = 'welcome' | 'plan' | 'fortnox' | 'integrations' | 'complete';
 
@@ -123,12 +123,12 @@ export const useOnboarding = () => {
 
     try {
       const response = await fetch(
-        `https://bosofhcunxbvfusvllsm.supabase.co/functions/v1/send-verification-code`,
+        `${supabaseUrl}/functions/v1/send-verification-code`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvc29maGN1bnhidmZ1c3ZsbHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMzAwODksImV4cCI6MjA4NDYwNjA4OX0.JktnLgmno5up9aTKBhexRf0DPPZsFq1LnKrL5PHAINc',
+            'apikey': supabaseAnonKey,
           },
           body: JSON.stringify({ email }),
         }
@@ -157,12 +157,12 @@ export const useOnboarding = () => {
 
     try {
       const response = await fetch(
-        `https://bosofhcunxbvfusvllsm.supabase.co/functions/v1/verify-email-code`,
+        `${supabaseUrl}/functions/v1/verify-email-code`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvc29maGN1bnhidmZ1c3ZsbHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMzAwODksImV4cCI6MjA4NDYwNjA4OX0.JktnLgmno5up9aTKBhexRf0DPPZsFq1LnKrL5PHAINc',
+            'apikey': supabaseAnonKey,
           },
           body: JSON.stringify({ email, code }),
         }
@@ -200,12 +200,12 @@ export const useOnboarding = () => {
 
     try {
       const response = await fetch(
-        `https://bosofhcunxbvfusvllsm.supabase.co/functions/v1/validate-signup`,
+        `${supabaseUrl}/functions/v1/validate-signup`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvc29maGN1bnhidmZ1c3ZsbHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMzAwODksImV4cCI6MjA4NDYwNjA4OX0.JktnLgmno5up9aTKBhexRf0DPPZsFq1LnKrL5PHAINc',
+            'apikey': supabaseAnonKey,
           },
           body: JSON.stringify({
             org_number: data.orgNumber,
@@ -246,12 +246,12 @@ export const useOnboarding = () => {
 
     try {
       const response = await fetch(
-        `https://bosofhcunxbvfusvllsm.supabase.co/functions/v1/create-checkout-with-signup`,
+        `${supabaseUrl}/functions/v1/create-checkout-with-signup`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvc29maGN1bnhidmZ1c3ZsbHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMzAwODksImV4cCI6MjA4NDYwNjA4OX0.JktnLgmno5up9aTKBhexRf0DPPZsFq1LnKrL5PHAINc',
+            'apikey': supabaseAnonKey,
           },
           body: JSON.stringify({
             company_name: progress.signupData.companyName,

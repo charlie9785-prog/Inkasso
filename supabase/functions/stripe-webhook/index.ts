@@ -18,9 +18,7 @@ serve(async (req) => {
     // Use async version for Deno compatibility
     event = await stripe.webhooks.constructEventAsync(body, signature!, webhookSecret)
   } catch (err) {
-    console.error('Webhook signature verification failed:', err.message)
-    console.error('Signature:', signature)
-    console.error('Secret starts with:', webhookSecret?.substring(0, 10))
+    console.error('Webhook signature verification failed')
     return new Response(JSON.stringify({ error: 'Invalid signature' }), { status: 400 })
   }
 
@@ -38,26 +36,35 @@ serve(async (req) => {
 
         // Check if this is a signup flow
         if (metadata?.signup_flow === 'true') {
-          const { company_name, org_number, email, password } = metadata
+          const { user_id, company_name, org_number, email } = metadata
 
-          // Create auth user
-          const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
-            email,
-            password,
-            email_confirm: true, // Auto-confirm since they paid
-          })
-
-          if (authError) {
-            console.error('Error creating auth user:', authError)
-            // Don't throw - log and continue, payment was successful
+          if (!user_id) {
+            console.error('No user_id in metadata')
             break
+          }
+
+          // Confirm the user's email (they paid, so we trust them)
+          const { error: confirmError } = await supabaseAdmin.auth.admin.updateUserById(
+            user_id,
+            {
+              email_confirm: true,
+              user_metadata: {
+                company_name,
+                org_number,
+                pending_payment: false,
+              }
+            }
+          )
+
+          if (confirmError) {
+            console.error('Error confirming user:', confirmError)
           }
 
           // Create tenant
           const { error: tenantError } = await supabaseAdmin
             .from('tenants')
             .insert({
-              id: authData.user.id,
+              id: user_id,
               name: company_name,
               org_number,
               email,
@@ -72,6 +79,26 @@ serve(async (req) => {
           }
 
           console.log('Signup completed for:', email)
+        }
+        break
+      }
+
+      case 'checkout.session.expired': {
+        // Payment was not completed - clean up the pending user
+        const session = event.data.object as Stripe.Checkout.Session
+        const metadata = session.metadata
+
+        if (metadata?.signup_flow === 'true' && metadata?.user_id) {
+          // Delete the unconfirmed user
+          const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(
+            metadata.user_id
+          )
+
+          if (deleteError) {
+            console.error('Error deleting pending user:', deleteError)
+          } else {
+            console.log('Cleaned up pending user:', metadata.email)
+          }
         }
         break
       }
