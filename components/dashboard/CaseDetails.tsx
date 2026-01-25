@@ -33,12 +33,15 @@ interface CaseDetailsProps {
 
 const statusConfig: Record<string, { label: string; color: string; icon: typeof Clock }> = {
   new: { label: 'Ny', color: 'blue', icon: Clock },
-  pending: { label: 'Ny', color: 'blue', icon: Clock },
-  in_collection: { label: 'Aktiv inkasso', color: 'amber', icon: AlertCircle },
+  pending: { label: 'Väntande', color: 'blue', icon: Clock },
+  active: { label: 'Aktiv', color: 'amber', icon: AlertCircle },
+  in_collection: { label: 'Under bevakning', color: 'violet', icon: AlertCircle },
   paused: { label: 'Pausad', color: 'gray', icon: Pause },
   paid: { label: 'Betald', color: 'emerald', icon: CheckCircle },
+  closed: { label: 'Avslutad', color: 'gray', icon: CheckCircle },
+  legal: { label: 'Rättslig', color: 'rose', icon: Gavel },
   handed_off: { label: 'Överlämnad', color: 'rose', icon: Gavel },
-  cancelled: { label: 'Avbruten', color: 'gray', icon: CheckCircle },
+  cancelled: { label: 'Avbruten', color: 'gray', icon: XCircle },
 };
 
 const channelConfig: Record<string, { icon: typeof Mail; label: string; color: string }> = {

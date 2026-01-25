@@ -8,20 +8,30 @@ interface ChartsProps {
   isLoading?: boolean;
 }
 
-const statusColors: Record<CaseStatus, string> = {
+const statusColors: Record<string, string> = {
+  new: '#06b6d4',
   active: '#3b82f6',
   pending: '#f59e0b',
+  in_collection: '#8b5cf6',
+  paused: '#f59e0b',
   paid: '#10b981',
   closed: '#6b7280',
   legal: '#f43f5e',
+  handed_off: '#f43f5e',
+  cancelled: '#6b7280',
 };
 
-const statusLabels: Record<CaseStatus, string> = {
+const statusLabels: Record<string, string> = {
+  new: 'Nya',
   active: 'Aktiva',
   pending: 'Väntande',
+  in_collection: 'Under bevakning',
+  paused: 'Pausade',
   paid: 'Betalda',
   closed: 'Avslutade',
   legal: 'Rättsliga',
+  handed_off: 'Överlämnade',
+  cancelled: 'Avbrutna',
 };
 
 const formatCurrency = (amount: number): string => {
@@ -192,7 +202,7 @@ const DonutChart: React.FC<{ data: StatusDistribution[] }> = ({ data }) => {
       ctx.arc(centerX, centerY, radius, startAngle, endAngle);
       ctx.arc(centerX, centerY, innerRadius, endAngle, startAngle, true);
       ctx.closePath();
-      ctx.fillStyle = statusColors[item.status];
+      ctx.fillStyle = statusColors[item.status] || '#6b7280';
       ctx.fill();
 
       startAngle = endAngle;
@@ -282,9 +292,9 @@ const Charts: React.FC<ChartsProps> = ({ collectedOverTime, statusDistribution, 
                 <div className="flex items-center gap-2">
                   <div
                     className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: statusColors[item.status] }}
+                    style={{ backgroundColor: statusColors[item.status] || '#6b7280' }}
                   />
-                  <span className="text-sm text-gray-300">{statusLabels[item.status]}</span>
+                  <span className="text-sm text-gray-300">{statusLabels[item.status] || item.status}</span>
                 </div>
                 <div className="text-right">
                   <span className="text-sm font-medium text-white">{item.count}</span>

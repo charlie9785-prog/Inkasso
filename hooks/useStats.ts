@@ -210,8 +210,8 @@ export const useStats = (): UseStatsReturn => {
             lastMonthNew++;
           }
 
-          // Resolved (paid) cases this/last month
-          if (inv.status === 'paid') {
+          // Resolved (paid/closed) cases this/last month
+          if (inv.status === 'paid' || inv.status === 'closed') {
             if (updatedAt >= thisMonthStart) {
               thisMonthResolved++;
               const daysToCollect = Math.max(0, Math.floor((updatedAt.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24)));

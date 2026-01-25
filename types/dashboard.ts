@@ -25,7 +25,7 @@ export interface AuthResponse {
 }
 
 // Case/Ärende Types
-export type CaseStatus = 'active' | 'pending' | 'paid' | 'closed' | 'legal';
+export type CaseStatus = 'new' | 'active' | 'pending' | 'in_collection' | 'paused' | 'paid' | 'closed' | 'legal' | 'handed_off' | 'cancelled';
 
 export interface Case {
   id: string;

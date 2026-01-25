@@ -48,9 +48,9 @@ const AgeAnalysis: React.FC<AgeAnalysisProps> = ({ cases, isLoading, onSelectBuc
       { label: '180+ dagar', minDays: 181, maxDays: null, color: 'rose' },
     ];
 
-    // Only count active cases (not paid or cancelled)
+    // Only count active cases (not paid, closed or cancelled)
     const activeCases = cases.filter((c) =>
-      !['paid', 'cancelled'].includes(c.status)
+      !['paid', 'closed', 'cancelled'].includes(c.status)
     );
 
     let total = 0;
