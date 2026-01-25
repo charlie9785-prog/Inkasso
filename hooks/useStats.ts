@@ -98,23 +98,53 @@ export const useStats = (): UseStatsReturn => {
 
       if (dashData) {
         setDashboardData(dashData);
+      }
 
-        // Calculate stats from dashboard data
-        const totalCases = (dashData.active_collections || 0) + (dashData.paid_last_30_days || 0);
-        const successRate = totalCases > 0
-          ? ((dashData.paid_last_30_days || 0) / totalCases) * 100
-          : 0;
+      // Fetch all invoices for accurate stats calculation
+      const { data: allInvoicesForStats, error: statsInvoicesError } = await supabase
+        .from('invoices')
+        .select('id, status, original_amount_sek, remaining_amount_sek')
+        .eq('tenant_id', tenant.id);
 
-        setStats({
-          totalCases,
-          activeCases: dashData.active_collections || 0,
-          closedCases: dashData.paid_last_30_days || 0,
-          totalAmount: dashData.total_outstanding_sek || 0,
-          collectedAmount: dashData.collected_last_30_days || 0,
-          pendingAmount: dashData.total_outstanding_sek || 0,
-          successRate,
+      if (statsInvoicesError) {
+        console.warn('Stats invoices error:', statsInvoicesError.message);
+      }
+
+      // Calculate accurate stats from invoices
+      let totalCases = 0;
+      let activeCases = 0;
+      let closedCases = 0;
+      let totalAmount = 0;
+      let collectedAmount = 0;
+      let pendingAmount = 0;
+
+      if (allInvoicesForStats) {
+        allInvoicesForStats.forEach((inv) => {
+          totalCases++;
+          totalAmount += inv.original_amount_sek || 0;
+
+          if (inv.status === 'paid' || inv.status === 'closed') {
+            closedCases++;
+            collectedAmount += inv.original_amount_sek || 0;
+          } else if (inv.status === 'active' || inv.status === 'pending') {
+            activeCases++;
+            pendingAmount += inv.remaining_amount_sek || 0;
+          }
         });
       }
+
+      // Success rate = closed cases / total cases
+      const successRate = totalCases > 0 ? (closedCases / totalCases) * 100 : 0;
+
+      setStats({
+        totalCases,
+        activeCases,
+        closedCases,
+        totalAmount,
+        collectedAmount,
+        pendingAmount,
+        successRate,
+      });
 
       // Fetch payments for timeline data and period comparison
       const now = new Date();
