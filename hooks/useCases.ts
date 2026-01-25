@@ -20,10 +20,16 @@ interface UseCasesReturn {
   selectedCase: CaseWithCustomer | null;
   recentCommunications: CommunicationLog[];
   isLoading: boolean;
+  isLoadingMore: boolean;
   error: string | null;
+  hasMore: boolean;
+  totalCount: number;
   selectCase: (caseId: string | null) => void;
+  loadMore: () => void;
   refetch: () => void;
 }
+
+const PAGE_SIZE = 50;
 
 export const useCases = (): UseCasesReturn => {
   const { tenant } = useAuth();
@@ -31,20 +37,61 @@ export const useCases = (): UseCasesReturn => {
   const [selectedCase, setSelectedCase] = useState<CaseWithCustomer | null>(null);
   const [recentCommunications, setRecentCommunications] = useState<CommunicationLog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [totalCount, setTotalCount] = useState(0);
+  const [page, setPage] = useState(0);
 
-  const fetchCases = useCallback(async () => {
+  // Transform invoice data to CaseWithCustomer format
+  const transformInvoice = (invoice: any): CaseWithCustomer => {
+    const today = new Date();
+    const dueDate = new Date(invoice.due_date);
+    const daysOverdue = Math.max(0, Math.floor((today.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24)));
+
+    return {
+      ...invoice,
+      customer_name: invoice.customer?.name || 'Okänd kund',
+      customer_email: invoice.customer?.email,
+      customer_phone: invoice.customer?.phone,
+      customer_org_number: invoice.customer?.org_number,
+      days_overdue: daysOverdue,
+    };
+  };
+
+  const fetchCases = useCallback(async (reset = true) => {
     if (!tenant?.id) {
       setCases([]);
       setIsLoading(false);
       return;
     }
 
-    setIsLoading(true);
+    if (reset) {
+      setIsLoading(true);
+      setPage(0);
+    } else {
+      setIsLoadingMore(true);
+    }
     setError(null);
 
+    const currentPage = reset ? 0 : page;
+    const from = currentPage * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+
     try {
-      // Fetch ALL invoices with customer info
+      // Get total count first (only on reset)
+      if (reset) {
+        const { count, error: countError } = await supabase
+          .from('invoices')
+          .select('*', { count: 'exact', head: true })
+          .eq('tenant_id', tenant.id);
+
+        if (!countError && count !== null) {
+          setTotalCount(count);
+        }
+      }
+
+      // Fetch paginated invoices with customer info
       const { data, error: fetchError } = await supabase
         .from('invoices')
         .select(`
@@ -52,40 +99,40 @@ export const useCases = (): UseCasesReturn => {
           customer:customers(id, name, email, phone, org_number)
         `)
         .eq('tenant_id', tenant.id)
-        .order('due_date', { ascending: false });
+        .order('due_date', { ascending: false })
+        .range(from, to);
 
       if (fetchError) {
         throw new Error(fetchError.message);
       }
 
-      // Transform data to include customer info at top level
-      const transformedCases: CaseWithCustomer[] = (data || []).map((invoice) => {
-        const today = new Date();
-        const dueDate = new Date(invoice.due_date);
-        const daysOverdue = Math.max(0, Math.floor((today.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24)));
+      const transformedCases = (data || []).map(transformInvoice);
 
-        return {
-          ...invoice,
-          customer_name: invoice.customer?.name || 'Okänd kund',
-          customer_email: invoice.customer?.email,
-          customer_phone: invoice.customer?.phone,
-          customer_org_number: invoice.customer?.org_number,
-          days_overdue: daysOverdue,
-        };
-      });
+      if (reset) {
+        setCases(transformedCases);
+      } else {
+        setCases(prev => [...prev, ...transformedCases]);
+      }
 
-      setCases(transformedCases);
+      setHasMore(transformedCases.length === PAGE_SIZE);
+      if (!reset) {
+        setPage(currentPage + 1);
+      } else {
+        setPage(1);
+      }
 
-      // Also fetch recent communications
-      const { data: commsData, error: commsError } = await supabase
-        .from('communication_log')
-        .select('*')
-        .eq('tenant_id', tenant.id)
-        .order('created_at', { ascending: false })
-        .limit(20);
+      // Also fetch recent communications (only on reset)
+      if (reset) {
+        const { data: commsData, error: commsError } = await supabase
+          .from('communication_log')
+          .select('*')
+          .eq('tenant_id', tenant.id)
+          .order('created_at', { ascending: false })
+          .limit(20);
 
-      if (!commsError && commsData) {
-        setRecentCommunications(commsData);
+        if (!commsError && commsData) {
+          setRecentCommunications(commsData);
+        }
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Kunde inte hämta ärenden';
@@ -93,8 +140,15 @@ export const useCases = (): UseCasesReturn => {
       console.error('Error fetching cases:', err);
     } finally {
       setIsLoading(false);
+      setIsLoadingMore(false);
     }
-  }, [tenant?.id]);
+  }, [tenant?.id, page]);
+
+  const loadMore = useCallback(() => {
+    if (!isLoadingMore && hasMore) {
+      fetchCases(false);
+    }
+  }, [fetchCases, isLoadingMore, hasMore]);
 
   const selectCase = useCallback(async (caseId: string | null) => {
     if (!caseId || !tenant?.id) {
@@ -116,8 +170,8 @@ export const useCases = (): UseCasesReturn => {
         .eq('tenant_id', tenant.id)
         .single();
 
-      if (caseError) {
-        throw new Error(caseError.message);
+      if (caseError || !caseData) {
+        throw new Error(caseError?.message || 'Ärendet hittades inte');
       }
 
       // Fetch communication log (activities) for this case
@@ -170,17 +224,22 @@ export const useCases = (): UseCasesReturn => {
   }, [tenant?.id]);
 
   useEffect(() => {
-    fetchCases();
-  }, [fetchCases]);
+    fetchCases(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tenant?.id]);
 
   return {
     cases,
     selectedCase,
     recentCommunications,
     isLoading,
+    isLoadingMore,
     error,
+    hasMore,
+    totalCount,
     selectCase,
-    refetch: fetchCases,
+    loadMore,
+    refetch: () => fetchCases(true),
   };
 };
 

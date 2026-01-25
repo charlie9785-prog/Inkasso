@@ -15,19 +15,26 @@ import { DashboardView } from '../../types/dashboard';
 
 const Dashboard: React.FC = () => {
   const [currentView, setCurrentView] = useState<DashboardView>('overview');
-  const [selectedCaseId, setSelectedCaseId] = useState<string | null>(null);
 
-  const { cases, selectedCase, recentCommunications, isLoading: casesLoading, selectCase } = useCases();
+  const {
+    cases,
+    selectedCase,
+    recentCommunications,
+    isLoading: casesLoading,
+    isLoadingMore,
+    hasMore,
+    totalCount,
+    selectCase,
+    loadMore
+  } = useCases();
   const { stats, timeline, periodComparison, isLoading: statsLoading } = useStats();
 
   // Handle case selection
   const handleSelectCase = (caseId: string) => {
-    setSelectedCaseId(caseId);
     selectCase(caseId);
   };
 
   const handleBackFromDetails = () => {
-    setSelectedCaseId(null);
     selectCase(null);
   };
 
@@ -71,13 +78,13 @@ const Dashboard: React.FC = () => {
         );
 
       case 'cases':
-        if (selectedCaseId) {
+        if (selectedCase) {
           return (
             <div className="space-y-6">
               <div className="flex justify-end">
                 <ExportMenu
-                  caseData={selectedCase || undefined}
-                  showCaseDetails={!!selectedCase}
+                  caseData={selectedCase}
+                  showCaseDetails
                 />
               </div>
               <CaseDetails
@@ -99,8 +106,12 @@ const Dashboard: React.FC = () => {
             <CaseList
               cases={cases}
               isLoading={casesLoading}
+              isLoadingMore={isLoadingMore}
+              hasMore={hasMore}
+              totalCount={totalCount}
               onSelectCase={handleSelectCase}
-              selectedCaseId={selectedCaseId || undefined}
+              onLoadMore={loadMore}
+              selectedCaseId={selectedCase?.id}
             />
           </div>
         );

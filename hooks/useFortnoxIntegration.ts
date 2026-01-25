@@ -39,9 +39,12 @@ export const useFortnoxIntegration = (tenantId: string | undefined) => {
   // Get auth headers for Edge Function calls
   const getAuthHeaders = async () => {
     const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.access_token) {
+      throw new Error('Ingen aktiv session - vänligen logga in igen');
+    }
     return {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${session?.access_token}`,
+      'Authorization': `Bearer ${session.access_token}`,
     };
   };
 

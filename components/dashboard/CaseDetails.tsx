@@ -282,9 +282,9 @@ const CaseDetails: React.FC<CaseDetailsProps> = ({ caseData, isLoading, onBack }
                 <div>
                   <p className="text-xs text-gray-500">Adress</p>
                   <p className="text-sm text-white">
-                    {caseData.customer.address_line1}
-                    {caseData.customer.postal_code && `, ${caseData.customer.postal_code}`}
-                    {caseData.customer.city && ` ${caseData.customer.city}`}
+                    {caseData.customer?.address_line1}
+                    {caseData.customer?.postal_code && `, ${caseData.customer.postal_code}`}
+                    {caseData.customer?.city && ` ${caseData.customer.city}`}
                   </p>
                 </div>
               </div>

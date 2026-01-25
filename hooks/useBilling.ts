@@ -23,9 +23,12 @@ export const useBilling = (tenantId: string | undefined | null) => {
   // Get auth headers for API calls
   const getAuthHeaders = async () => {
     const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.access_token) {
+      throw new Error('Ingen aktiv session - vänligen logga in igen');
+    }
     return {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${session?.access_token}`,
+      'Authorization': `Bearer ${session.access_token}`,
     };
   };
 

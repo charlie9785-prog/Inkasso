@@ -19,7 +19,11 @@ import { CaseWithCustomer } from '../../hooks/useCases';
 interface CaseListProps {
   cases: CaseWithCustomer[];
   isLoading?: boolean;
+  isLoadingMore?: boolean;
+  hasMore?: boolean;
+  totalCount?: number;
   onSelectCase: (caseId: string) => void;
+  onLoadMore?: () => void;
   selectedCaseId?: string;
 }
 
@@ -79,7 +83,11 @@ interface CaseFilters {
 const CaseList: React.FC<CaseListProps> = ({
   cases,
   isLoading,
+  isLoadingMore,
+  hasMore,
+  totalCount,
   onSelectCase,
+  onLoadMore,
   selectedCaseId,
 }) => {
   const [filters, setFilters] = useState<CaseFilters>({});
@@ -404,59 +412,88 @@ const CaseList: React.FC<CaseListProps> = ({
             )}
           </div>
         ) : (
-          filteredCases.map((caseItem) => {
-            const status = statusConfig[caseItem.status] || statusConfig.new;
-            const colors = colorClasses[status.color];
-            const StatusIcon = status.icon;
-            const isSelected = selectedCaseId === caseItem.id;
-            const paidAmount = (caseItem.original_amount_sek || 0) - (caseItem.remaining_amount_sek || 0);
+          <>
+            {filteredCases.map((caseItem) => {
+              const status = statusConfig[caseItem.status] || statusConfig.new;
+              const colors = colorClasses[status.color];
+              const StatusIcon = status.icon;
+              const isSelected = selectedCaseId === caseItem.id;
+              const paidAmount = (caseItem.original_amount_sek || 0) - (caseItem.remaining_amount_sek || 0);
 
-            return (
-              <button
-                key={caseItem.id}
-                onClick={() => onSelectCase(caseItem.id)}
-                className={`w-full p-4 text-left hover:bg-white/5 transition-colors ${
-                  isSelected ? 'bg-violet-500/10' : ''
-                }`}
-              >
-                <div className="flex items-center gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-1">
-                      <span className="text-sm font-medium text-white">
-                        {caseItem.fortnox_invoice_number || caseItem.id.slice(0, 8)}
-                      </span>
-                      <span
-                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs ${colors.bg} ${colors.text}`}
-                      >
-                        <StatusIcon className="w-3 h-3" />
-                        {status.label}
-                      </span>
+              return (
+                <button
+                  key={caseItem.id}
+                  onClick={() => onSelectCase(caseItem.id)}
+                  className={`w-full p-4 text-left hover:bg-white/5 transition-colors ${
+                    isSelected ? 'bg-violet-500/10' : ''
+                  }`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-3 mb-1">
+                        <span className="text-sm font-medium text-white">
+                          {caseItem.fortnox_invoice_number || caseItem.id.slice(0, 8)}
+                        </span>
+                        <span
+                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs ${colors.bg} ${colors.text}`}
+                        >
+                          <StatusIcon className="w-3 h-3" />
+                          {status.label}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-400 truncate">{caseItem.customer_name}</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Förfallen: {formatDate(caseItem.due_date)}
+                        {caseItem.days_overdue > 0 && (
+                          <span className="text-rose-400 ml-2">
+                            ({caseItem.days_overdue} dagar)
+                          </span>
+                        )}
+                      </p>
                     </div>
-                    <p className="text-sm text-gray-400 truncate">{caseItem.customer_name}</p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      Förfallen: {formatDate(caseItem.due_date)}
-                      {caseItem.days_overdue > 0 && (
-                        <span className="text-rose-400 ml-2">
-                          ({caseItem.days_overdue} dagar)
+                    <div className="text-right">
+                      <p className="text-sm font-semibold text-white">
+                        {formatCurrency(caseItem.remaining_amount_sek || 0)}
+                      </p>
+                      {paidAmount > 0 && (
+                        <p className="text-xs text-emerald-400">
+                          Betalt: {formatCurrency(paidAmount)}
+                        </p>
+                      )}
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-gray-600" />
+                  </div>
+                </button>
+              );
+            })}
+
+            {/* Load More Button */}
+            {hasMore && onLoadMore && !filters.status && !filters.search && (
+              <div className="p-4 border-t border-white/5">
+                <button
+                  onClick={onLoadMore}
+                  disabled={isLoadingMore}
+                  className="w-full py-2 px-4 rounded-lg bg-violet-500/20 border border-violet-500/30 text-violet-400 hover:bg-violet-500/30 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  {isLoadingMore ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Laddar...
+                    </>
+                  ) : (
+                    <>
+                      Ladda fler
+                      {totalCount && totalCount > cases.length && (
+                        <span className="text-xs text-gray-500">
+                          ({cases.length} av {totalCount})
                         </span>
                       )}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm font-semibold text-white">
-                      {formatCurrency(caseItem.remaining_amount_sek || 0)}
-                    </p>
-                    {paidAmount > 0 && (
-                      <p className="text-xs text-emerald-400">
-                        Betalt: {formatCurrency(paidAmount)}
-                      </p>
-                    )}
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-gray-600" />
-                </div>
-              </button>
-            );
-          })
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
