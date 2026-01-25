@@ -3,8 +3,6 @@ import DashboardLayout from './DashboardLayout';
 import StatsOverview from './StatsOverview';
 import CaseList from './CaseList';
 import CaseDetails from './CaseDetails';
-import RecentActivity from './RecentActivity';
-import AttentionNeeded from './AttentionNeeded';
 import Charts from './Charts';
 import MiniCharts from './MiniCharts';
 import ExportMenu from './ExportMenu';
@@ -33,12 +31,6 @@ const Dashboard: React.FC = () => {
     selectCase(null);
   };
 
-  // Handle viewing a case from activity feed
-  const handleViewCaseFromActivity = (invoiceId: string) => {
-    handleSelectCase(invoiceId);
-    setCurrentView('cases');
-  };
-
   // Render content based on current view
   const renderContent = () => {
     switch (currentView) {
@@ -54,48 +46,26 @@ const Dashboard: React.FC = () => {
               isLoading={statsLoading}
             />
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Left column - Cases list */}
-              <div className="lg:col-span-2 space-y-6">
-                <div className="glass border border-white/10 rounded-xl p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-display font-semibold text-white">
-                      Senaste ärenden
-                    </h3>
-                    <button
-                      onClick={() => setCurrentView('cases')}
-                      className="text-sm text-violet-400 hover:text-violet-300 transition-colors"
-                    >
-                      Visa alla →
-                    </button>
-                  </div>
-                  <CaseList
-                    cases={cases.slice(0, 5)}
-                    isLoading={casesLoading}
-                    onSelectCase={(id) => {
-                      handleSelectCase(id);
-                      setCurrentView('cases');
-                    }}
-                  />
-                </div>
+            <div className="glass border border-white/10 rounded-xl p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-display font-semibold text-white">
+                  Senaste ärenden
+                </h3>
+                <button
+                  onClick={() => setCurrentView('cases')}
+                  className="text-sm text-violet-400 hover:text-violet-300 transition-colors"
+                >
+                  Visa alla →
+                </button>
               </div>
-
-              {/* Right column - Activity & Attention */}
-              <div className="space-y-6">
-                <AttentionNeeded
-                  cases={cases}
-                  isLoading={casesLoading}
-                  onSelectCase={(id) => {
-                    handleSelectCase(id);
-                    setCurrentView('cases');
-                  }}
-                />
-                <RecentActivity
-                  communications={recentCommunications}
-                  isLoading={casesLoading}
-                  onViewCase={handleViewCaseFromActivity}
-                />
-              </div>
+              <CaseList
+                cases={cases.slice(0, 5)}
+                isLoading={casesLoading}
+                onSelectCase={(id) => {
+                  handleSelectCase(id);
+                  setCurrentView('cases');
+                }}
+              />
             </div>
           </div>
         );
