@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Receipt } from 'lucide-react';
 import DashboardLayout from './DashboardLayout';
 import StatsOverview from './StatsOverview';
 import CaseList from './CaseList';
@@ -12,6 +13,16 @@ import Integrations from './Integrations';
 import { useCases } from '../../hooks/useCases';
 import { useStats } from '../../hooks/useStats';
 import { DashboardView } from '../../types/dashboard';
+
+// Format currency helper
+const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat('sv-SE', {
+    style: 'currency',
+    currency: 'SEK',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
+};
 
 const Dashboard: React.FC = () => {
   const [currentView, setCurrentView] = useState<DashboardView>('overview');
@@ -42,9 +53,35 @@ const Dashboard: React.FC = () => {
   const renderContent = () => {
     switch (currentView) {
       case 'overview':
+        // Calculate Zylora fee (5% of collected amount this month, max 5000 kr per case)
+        const collectedThisMonth = periodComparison?.collectedAmount || 0;
+        const estimatedFee = Math.round(collectedThisMonth * 0.05);
+
         return (
           <div className="space-y-6">
             <StatsOverview stats={stats} periodComparison={periodComparison} isLoading={statsLoading} />
+
+            {/* Zylora Fee Card */}
+            {!statsLoading && (
+              <div className="glass border border-amber-500/20 rounded-xl p-6 bg-amber-500/5">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
+                    <Receipt className="w-6 h-6 text-amber-400" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-display font-semibold text-white mb-1">
+                      Zylora-avgift
+                    </h3>
+                    <p className="text-2xl font-bold text-white mb-1">
+                      {formatCurrency(estimatedFee)}
+                    </p>
+                    <p className="text-sm text-gray-400">
+                      Denna månad (faktureras 1:a nästa månad)
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Mini Charts */}
             <MiniCharts
