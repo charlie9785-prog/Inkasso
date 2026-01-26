@@ -47,13 +47,35 @@ const getInitialProgress = (): OnboardingProgress => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
+
+      // Validate that currentStep is valid, otherwise reset
+      const validStep = ONBOARDING_STEPS.includes(parsed.currentStep);
+      if (!validStep) {
+        // Old format or invalid step, clear and start fresh
+        localStorage.removeItem(STORAGE_KEY);
+        return {
+          currentStep: 'plan',
+          completedSteps: [],
+          tenantId: null,
+          selectedPlan: null,
+          signupData: null,
+          notificationPreferences: defaultNotificationPreferences,
+          emailVerified: false,
+          planSelected: false,
+          fortnoxConnected: false,
+          integrationsConfigured: [],
+        };
+      }
+
       return {
         ...parsed,
+        selectedPlan: parsed.selectedPlan || null,
         notificationPreferences: parsed.notificationPreferences || defaultNotificationPreferences,
       };
     }
   } catch (e) {
     console.error('Failed to load onboarding progress:', e);
+    localStorage.removeItem(STORAGE_KEY);
   }
   return {
     currentStep: 'plan',
