@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Receipt } from 'lucide-react';
+import { Receipt, AlertTriangle, ArrowRight, Loader2 } from 'lucide-react';
 import DashboardLayout from './DashboardLayout';
 import StatsOverview from './StatsOverview';
 import CaseList from './CaseList';
@@ -30,6 +30,8 @@ const Dashboard: React.FC = () => {
   const [currentView, setCurrentView] = useState<DashboardView>('overview');
   const [billingFees, setBillingFees] = useState<number>(0);
   const [billingLoading, setBillingLoading] = useState(true);
+  const [collectionActive, setCollectionActive] = useState<boolean | null>(null);
+  const [activating, setActivating] = useState(false);
 
   const { tenant } = useAuth();
   const {
@@ -73,6 +75,54 @@ const Dashboard: React.FC = () => {
     fetchBillingSummary();
   }, [tenant?.id]);
 
+  // Fetch activation status
+  useEffect(() => {
+    const fetchActivationStatus = async () => {
+      if (!tenant?.id) return;
+
+      try {
+        const { data, error } = await supabase.rpc('get_tenant_activation_status', {
+          p_tenant_id: tenant.id
+        });
+
+        if (error) {
+          console.error('Error fetching activation status:', error);
+          return;
+        }
+
+        if (data && typeof data.collection_active === 'boolean') {
+          setCollectionActive(data.collection_active);
+        }
+      } catch (err) {
+        console.error('Error fetching activation status:', err);
+      }
+    };
+
+    fetchActivationStatus();
+  }, [tenant?.id]);
+
+  // Activate collections from banner
+  const handleActivateFromBanner = async () => {
+    if (!tenant?.id) return;
+
+    setActivating(true);
+    try {
+      const { error } = await supabase.functions.invoke('activate-tenant', {
+        body: { tenant_id: tenant.id }
+      });
+
+      if (error) {
+        console.error('Error activating tenant:', error);
+      } else {
+        setCollectionActive(true);
+      }
+    } catch (err) {
+      console.error('Error activating tenant:', err);
+    } finally {
+      setActivating(false);
+    }
+  };
+
   // Handle case selection
   const handleSelectCase = (caseId: string) => {
     selectCase(caseId);
@@ -88,6 +138,39 @@ const Dashboard: React.FC = () => {
       case 'overview':
         return (
           <div className="space-y-6">
+            {/* Activation Banner */}
+            {collectionActive === false && (
+              <div className="glass border border-amber-500/30 rounded-xl p-6 bg-amber-500/10">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center flex-shrink-0">
+                    <AlertTriangle className="w-6 h-6 text-amber-400" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-display font-semibold text-white mb-1">
+                      Uppföljning ej aktiverad
+                    </h3>
+                    <p className="text-gray-300 mb-4">
+                      Vi följer inte upp förfallna fakturor ännu. Aktivera för att börja automatisk uppföljning.
+                    </p>
+                    <button
+                      onClick={handleActivateFromBanner}
+                      disabled={activating}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 disabled:opacity-50 transition-all text-white font-medium"
+                    >
+                      {activating ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <>
+                          Starta uppföljning
+                          <ArrowRight className="w-4 h-4" />
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Export Menu */}
             <div className="flex justify-end">
               <ExportMenu
