@@ -32,7 +32,7 @@ const Terms = () => {
             Allmänna villkor
           </h1>
           <p className="text-gray-400">
-            Senast uppdaterad: Januari 2025
+            Senast uppdaterad: Januari 2026
           </p>
         </div>
 
@@ -47,7 +47,7 @@ const Terms = () => {
               <p className="text-gray-300">
                 Zylora är <strong className="text-white">inte ett inkassobolag</strong>. Vi bedriver ingen lagreglerad inkassoverksamhet
                 enligt inkassolagen (1974:182). Vi hjälper företag att följa upp förfallna fakturor genom vänliga påminnelser
-                via e-post, SMS och telefon – innan det blir ett inkassoärende.
+                via e-post och SMS – innan det blir ett inkassoärende.
               </p>
             </div>
           </div>
@@ -67,18 +67,18 @@ const Terms = () => {
               </div>
 
               <p className="mb-4">
-                Zylora erbjuder en tjänst för proaktiv betalningsuppföljning av förfallna fakturor.
-                Vårt uppdrag är att hjälpa företag att få betalt snabbare genom professionell och respektfull kommunikation.
+                Zylora tillhandahåller en automatiserad tjänst för betalningsuppföljning före inkasso.
               </p>
 
-              <h3 className="text-lg font-semibold text-white mt-6 mb-3">Vad vi gör:</h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-400">
-                <li>Synkroniserar förfallna fakturor från ert ekonomisystem (Fortnox m.fl.)</li>
-                <li>Skickar automatiska påminnelser via e-post och SMS i ert namn</li>
-                <li>Genomför personliga telefonsamtal till era kunder vid behov</li>
-                <li>Upprättar betalningsplaner och hanterar kommunikation</li>
-                <li>Ger er full insyn via dashboard med realtidsuppdateringar</li>
-              </ul>
+              <p className="mb-4">
+                Tjänsten synkroniserar förfallna fakturor från kundens ekonomisystem och skickar automatiserade,
+                vänliga påminnelser via e-post och SMS enligt fördefinierade sekvenser.
+              </p>
+
+              <p className="mb-4">
+                Zylora agerar uteslutande på kundens uppdrag och i kundens namn. Zylora fattar inga beslut
+                om fordringars giltighet och hanterar inte tvister.
+              </p>
 
               <h3 className="text-lg font-semibold text-white mt-6 mb-3">Vad vi INTE gör:</h3>
               <ul className="list-disc list-inside space-y-2 text-gray-400">
@@ -87,11 +87,6 @@ const Terms = () => {
                 <li>Vi registrerar inga betalningsanmärkningar</li>
                 <li>Vi kräver inga inkassoavgifter från gäldenärer</li>
               </ul>
-
-              <p className="mt-4 text-gray-400 italic">
-                Zylora agerar som en förlängning av ert eget företag och skickar påminnelser på uppdrag av er som kund.
-                Era kunder ser era företagsuppgifter i all kommunikation.
-              </p>
             </section>
 
             {/* 2. Ansvarsbegränsning */}
@@ -127,42 +122,44 @@ const Terms = () => {
               </ul>
             </section>
 
-            {/* 3. Priser och betalning */}
+            {/* 3. Avgifter */}
             <section className="glass border border-white/10 rounded-2xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">
                   <CreditCard className="w-4 h-4 text-emerald-400" />
                 </div>
-                <h2 className="text-xl font-display font-semibold text-white">3. Priser och betalning</h2>
+                <h2 className="text-xl font-display font-semibold text-white">3. Avgifter</h2>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4 mb-6">
-                <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                  <p className="text-sm text-gray-500 mb-1">Månadsavgift</p>
-                  <p className="text-2xl font-bold text-white">1 900 kr</p>
-                  <p className="text-sm text-gray-400">exkl. moms / månad</p>
-                </div>
-                <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                  <p className="text-sm text-gray-500 mb-1">Success fee</p>
-                  <p className="text-2xl font-bold text-white">10%</p>
-                  <p className="text-sm text-gray-400">på återvunna belopp</p>
-                  <p className="text-xs text-gray-500 mt-1">Max 10 000 kr/faktura</p>
-                </div>
-              </div>
+              <p className="mb-4">
+                Zylora tillämpar en provisionsbaserad prissättning ("success fee") baserad på faktisk betalning
+                som sker efter att uppföljning påbörjats.
+              </p>
+
+              <p className="mb-4">
+                Avgiftens storlek, procentsats och eventuellt tak per faktura beror på vald tjänstenivå och
+                framgår i samband med registrering eller i kundens konto.
+              </p>
+
+              <p className="mb-6">
+                <strong className="text-white">Ingen avgift tas ut för betalningar som sker innan Zylora påbörjat uppföljning.</strong>
+              </p>
+
+              <h3 className="text-lg font-semibold text-white mt-6 mb-3">Attribution av betalningar:</h3>
+              <p className="text-gray-400 mb-4">
+                Success fee tas endast ut för betalningar som sker medan en uppföljning är aktiv eller inom
+                fjorton (14) dagar efter att uppföljningen avslutats.
+              </p>
+              <p className="text-gray-400 mb-6">
+                Vid bestridande pausas uppföljningen automatiskt och ingen ytterligare kommunikation sker från Zylora.
+                Eventuella betalningar efter bestridande omfattas inte av success fee.
+              </p>
 
               <h3 className="text-lg font-semibold text-white mt-6 mb-3">Fakturering:</h3>
               <ul className="list-disc list-inside space-y-2 text-gray-400">
-                <li><strong className="text-white">Månadsavgift:</strong> Debiteras månadsvis i förskott via kort (Stripe)</li>
                 <li><strong className="text-white">Success fee:</strong> Faktureras månadsvis i efterskott baserat på inkomna betalningar under föregående månad</li>
-                <li><strong className="text-white">Betalningsvillkor:</strong> Success fee faktureras med 10 dagars betalningsvillkor</li>
+                <li><strong className="text-white">Betalningsvillkor:</strong> 10 dagars betalningsvillkor</li>
               </ul>
-
-              <h3 className="text-lg font-semibold text-white mt-6 mb-3">Success fee beräkning:</h3>
-              <p className="text-gray-400">
-                Success fee beräknas på belopp som betalas in efter att Zylora påbörjat uppföljningen av ärendet.
-                Belopp som betalas in före första påminnelse är kostnadsfria. Success fee är maximerad till
-                <strong className="text-white"> 10 000 kr per faktura</strong> oavsett fakturabelopp.
-              </p>
 
               <h3 className="text-lg font-semibold text-white mt-6 mb-3">Prisändringar:</h3>
               <p className="text-gray-400">
@@ -228,8 +225,8 @@ const Terms = () => {
 
               <h3 className="text-lg font-semibold text-white mt-6 mb-3">Avtalstid:</h3>
               <ul className="list-disc list-inside space-y-2 text-gray-400">
-                <li>Avtalet gäller tillsvidare från det datum betalning genomförts</li>
-                <li>Månadsavgiften debiteras automatiskt varje månad</li>
+                <li>Avtalet gäller tillsvidare från det datum registrering genomförts</li>
+                <li>Avgifter faktureras månadsvis i efterskott</li>
               </ul>
 
               <h3 className="text-lg font-semibold text-white mt-6 mb-3">Uppsägning:</h3>
@@ -237,13 +234,20 @@ const Terms = () => {
                 <li>Båda parter kan säga upp avtalet med <strong className="text-white">30 dagars</strong> skriftlig uppsägningstid</li>
                 <li>Uppsägning sker via e-post till <a href="mailto:kundservice@zylora.se" className="text-violet-400 hover:text-violet-300">kundservice@zylora.se</a></li>
                 <li>Vid uppsägning slutförs pågående ärenden under uppsägningstiden</li>
-                <li>Redan betald månadsavgift återbetalas ej</li>
+                <li>Success fee för betalningar som inkommer under uppsägningstiden faktureras enligt vanliga villkor</li>
               </ul>
 
               <h3 className="text-lg font-semibold text-white mt-6 mb-3">Vid avtalsbrott:</h3>
-              <p className="text-gray-400">
+              <p className="text-gray-400 mb-4">
                 Zylora förbehåller sig rätten att omedelbart säga upp avtalet vid väsentligt avtalsbrott,
                 exempelvis utebliven betalning eller missbruk av tjänsten.
+              </p>
+
+              <h3 className="text-lg font-semibold text-white mt-6 mb-3">Missbruk:</h3>
+              <p className="text-gray-400">
+                Zylora har rätt att begränsa, pausa eller avsluta tillgång till tjänsten vid missbruk,
+                onormalt användningsmönster, försök till kringgående av avgiftsmodell eller handlingar
+                som kan skada Zyloras eller tredje parts varumärke eller leveransförmåga.
               </p>
             </section>
 
