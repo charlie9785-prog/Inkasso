@@ -2,7 +2,6 @@ import React, { ReactNode, useState } from 'react';
 import {
   LayoutDashboard,
   FileText,
-  BarChart3,
   LogOut,
   Menu,
   X,
@@ -37,7 +36,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   const navigation = [
     { id: 'overview' as DashboardView, label: 'Översikt', icon: LayoutDashboard },
     { id: 'cases' as DashboardView, label: 'Ärenden', icon: FileText },
-    { id: 'stats' as DashboardView, label: 'Statistik', icon: BarChart3 },
     { id: 'analysis' as DashboardView, label: 'Analys', icon: History },
     { id: 'integrations' as DashboardView, label: 'Integrationer', icon: Link2 },
   ];

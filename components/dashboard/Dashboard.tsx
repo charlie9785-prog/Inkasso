@@ -59,6 +59,16 @@ const Dashboard: React.FC = () => {
 
         return (
           <div className="space-y-6">
+            {/* Export Menu */}
+            <div className="flex justify-end">
+              <ExportMenu
+                stats={stats}
+                periodComparison={periodComparison}
+                timeline={timeline.collectedOverTime}
+                showStats
+              />
+            </div>
+
             <StatsOverview stats={stats} periodComparison={periodComparison} isLoading={statsLoading} />
 
             {/* Zylora Fee Card */}
@@ -83,8 +93,8 @@ const Dashboard: React.FC = () => {
               </div>
             )}
 
-            {/* Mini Charts */}
-            <MiniCharts
+            {/* Charts */}
+            <Charts
               collectedOverTime={timeline.collectedOverTime}
               statusDistribution={timeline.statusDistribution}
               isLoading={statsLoading}
