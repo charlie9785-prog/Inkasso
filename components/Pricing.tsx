@@ -1,10 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Check, CreditCard, Receipt, Shield, ArrowRight, Sparkles, HelpCircle, Building2, Users, Crown } from 'lucide-react';
 
-const sharedFeatures = [
-  'Personlig uppföljning av förfallna fakturor',
-  'Vårt team ringer och mejlar era kunder',
-  'Veckorapporter via mejl varje fredag',
+const b2cFeatures = [
+  'Vårt team driver in era förfallna fakturor',
+  'Veckorapport via mejl',
+  'Ingen startavgift',
+  'Ingen bindningstid',
+  'Bevarade kundrelationer'
+];
+
+const b2bFeatures = [
+  'Vårt team driver in era förfallna fakturor',
+  'Dashboard med realtidsöversikt',
   'Ingen startavgift',
   'Ingen bindningstid',
   'Bevarade kundrelationer'
@@ -40,7 +47,7 @@ const plans: PricingPlan[] = [
     priceLabel: 'kr/mån',
     successFee: '10% success fee',
     maxFee: 'Max 10 000 kr/faktura',
-    features: sharedFeatures,
+    features: b2cFeatures,
     icon: Users,
   },
   {
@@ -51,7 +58,7 @@ const plans: PricingPlan[] = [
     priceLabel: 'kr/mån',
     successFee: '10% success fee',
     maxFee: 'Max 30 000 kr/faktura',
-    features: sharedFeatures,
+    features: b2bFeatures,
     popular: true,
     icon: Building2,
   },
