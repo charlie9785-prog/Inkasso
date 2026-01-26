@@ -130,7 +130,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
-        <header className="h-16 glass-strong border-b border-white/10 flex items-center justify-between px-6">
+        <header className="h-16 glass-strong border-b border-white/10 flex items-center justify-between px-6 relative z-40">
           {/* Mobile Menu Button */}
           <button
             className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
