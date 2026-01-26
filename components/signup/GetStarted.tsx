@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, ArrowLeft, Check, ExternalLink, Phone, Building2, Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
 import { navigate } from '../../lib/navigation';
+import { supabase } from '../../lib/supabase';
 
 // Fortnox logo as SVG
 const FortnoxLogo = () => (
@@ -197,8 +198,36 @@ const GetStarted: React.FC = () => {
         throw new Error(errorData.error || 'Kunde inte skapa konto');
       }
 
-      // Clear sessionStorage after successful signup (keep connectedSystem for display)
-      setCurrentStep('complete');
+      const data = await response.json();
+
+      // If signup returns session tokens, set the session
+      if (data.session?.access_token && data.session?.refresh_token) {
+        await supabase.auth.setSession({
+          access_token: data.session.access_token,
+          refresh_token: data.session.refresh_token,
+        });
+        // Clear signup sessionStorage
+        sessionStorage.removeItem('zylora_connected_system');
+        // Go directly to dashboard
+        navigate('/dashboard');
+      } else {
+        // Fallback: try to log in with the credentials
+        const { error: loginError } = await supabase.auth.signInWithPassword({
+          email: companyData.email,
+          password: companyData.password,
+        });
+
+        if (loginError) {
+          console.error('Auto-login failed:', loginError);
+          // Show complete step if auto-login fails
+          setCurrentStep('complete');
+        } else {
+          // Clear signup sessionStorage
+          sessionStorage.removeItem('zylora_connected_system');
+          // Go directly to dashboard
+          navigate('/dashboard');
+        }
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Något gick fel');
     } finally {
