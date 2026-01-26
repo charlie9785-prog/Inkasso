@@ -28,15 +28,19 @@ const GetStarted: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<Step>('connect');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [companyData, setCompanyData] = useState<CompanyData>({
-    company_name: '',
-    org_number: '',
-    email: '',
-    phone: '',
-    password: '',
-    fortnox_state: '',
-    visma_state: '',
-    connectedSystem: null,
+  const [companyData, setCompanyData] = useState<CompanyData>(() => {
+    // Try to restore connectedSystem from sessionStorage
+    const savedSystem = sessionStorage.getItem('zylora_connected_system') as 'fortnox' | 'visma' | null;
+    return {
+      company_name: '',
+      org_number: '',
+      email: '',
+      phone: '',
+      password: '',
+      fortnox_state: '',
+      visma_state: '',
+      connectedSystem: savedSystem,
+    };
   });
   const [showPassword, setShowPassword] = useState(false);
 
@@ -55,6 +59,9 @@ const GetStarted: React.FC = () => {
     // Works for both /kom-igang and /kom-igang/bekrafta
     if (state && provider) {
       const isVisma = provider === 'visma';
+      const connectedSystem = isVisma ? 'visma' : 'fortnox';
+      // Save to sessionStorage for persistence
+      sessionStorage.setItem('zylora_connected_system', connectedSystem);
       setCompanyData(prev => ({
         ...prev,
         company_name: companyName ? decodeURIComponent(companyName) : prev.company_name,
@@ -63,7 +70,7 @@ const GetStarted: React.FC = () => {
         phone: phone ? decodeURIComponent(phone) : prev.phone,
         fortnox_state: isVisma ? '' : state,
         visma_state: isVisma ? state : '',
-        connectedSystem: isVisma ? 'visma' : 'fortnox',
+        connectedSystem,
       }));
       setCurrentStep('confirm');
       // Clean URL but stay on current path
@@ -190,6 +197,7 @@ const GetStarted: React.FC = () => {
         throw new Error(errorData.error || 'Kunde inte skapa konto');
       }
 
+      // Clear sessionStorage after successful signup (keep connectedSystem for display)
       setCurrentStep('complete');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Något gick fel');
@@ -470,7 +478,7 @@ const GetStarted: React.FC = () => {
                     <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
                     <div>
                       <div className="text-white">Vi hämtar förfallna fakturor</div>
-                      <div className="text-sm text-gray-400">från {companyData.connectedSystem === 'visma' ? 'Visma' : 'Fortnox'} varje dag</div>
+                      <div className="text-sm text-gray-400">från {companyData.connectedSystem === 'visma' ? 'Visma' : companyData.connectedSystem === 'fortnox' ? 'Fortnox' : 'ditt bokföringssystem'} varje dag</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
