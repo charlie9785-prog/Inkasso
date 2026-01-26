@@ -1,13 +1,72 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Check, CreditCard, Receipt, Shield, ArrowRight, Sparkles, HelpCircle } from 'lucide-react';
+import { Check, CreditCard, Receipt, Shield, ArrowRight, Sparkles, HelpCircle, Building2, Users, Crown } from 'lucide-react';
 
-const includedFeatures = [
+const sharedFeatures = [
   'Personlig uppföljning av förfallna fakturor',
   'Vårt team ringer och mejlar era kunder',
   'Veckorapporter via mejl varje fredag',
   'Ingen startavgift',
   'Ingen bindningstid',
   'Bevarade kundrelationer'
+];
+
+const enterpriseFeatures = [
+  'Anpassade integrationer',
+  'White-label (påminnelser i ert namn)',
+  'Volymrabatt på success fee',
+  'Dedicated account manager'
+];
+
+interface PricingPlan {
+  id: string;
+  name: string;
+  subtitle: string;
+  price: string;
+  priceLabel: string;
+  successFee: string;
+  maxFee: string;
+  features: string[];
+  popular?: boolean;
+  isEnterprise?: boolean;
+  icon: React.ElementType;
+}
+
+const plans: PricingPlan[] = [
+  {
+    id: 'b2c',
+    name: 'B2C',
+    subtitle: 'För dig som fakturerar privatpersoner',
+    price: '1 900',
+    priceLabel: 'kr/mån',
+    successFee: '10% success fee',
+    maxFee: 'Max 10 000 kr/faktura',
+    features: sharedFeatures,
+    icon: Users,
+  },
+  {
+    id: 'b2b',
+    name: 'B2B',
+    subtitle: 'För dig som fakturerar andra företag',
+    price: '3 900',
+    priceLabel: 'kr/mån',
+    successFee: '10% success fee',
+    maxFee: 'Max 30 000 kr/faktura',
+    features: sharedFeatures,
+    popular: true,
+    icon: Building2,
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    subtitle: 'För större bolag med specifika behov',
+    price: 'Custom',
+    priceLabel: '',
+    successFee: 'Anpassad success fee',
+    maxFee: 'Baserat på volym',
+    features: enterpriseFeatures,
+    isEnterprise: true,
+    icon: Crown,
+  },
 ];
 
 const Pricing = () => {
@@ -53,81 +112,130 @@ const Pricing = () => {
           </h2>
 
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            Zylora är en fullservice-tjänst för B2B-företag. Vi tjänar bara pengar när ni gör det.
+            Välj den plan som passar ditt företag. Vi tjänar bara pengar när ni gör det.
           </p>
         </div>
 
-        {/* Pricing card */}
-        <div className={`max-w-4xl mx-auto reveal-scale ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '200ms' }}>
-          <div className="relative group">
-            {/* Animated gradient border */}
-            <div className="absolute -inset-[1px] bg-gradient-to-r from-violet-500/40 via-blue-500/40 to-violet-500/40 rounded-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-700 blur-sm" />
-            <div className="absolute -inset-[1px] bg-gradient-to-r from-violet-500/50 via-blue-500/50 to-violet-500/50 rounded-3xl" style={{
-              maskImage: 'linear-gradient(black, black) content-box, linear-gradient(black, black)',
-              maskComposite: 'exclude',
-              padding: '1px'
-            }} />
-
-            <div className="relative glass-strong rounded-3xl overflow-hidden">
-              {/* Header */}
-              <div className="p-8 md:p-12 border-b border-white/5">
-                <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
-                  <div>
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-sm font-medium mb-4">
-                      <Sparkles className="w-4 h-4 text-violet-400" />
-                      Mest populära
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-2">
-                      Zylora Fullservice
-                    </h3>
-                    <p className="text-gray-400">
-                      Allt du behöver för att få betalt i tid
-                    </p>
-                  </div>
-
-                  <div className="text-left lg:text-right">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-5xl md:text-6xl font-display font-bold text-white">1 900</span>
-                      <span className="text-xl text-gray-400">kr/mån</span>
-                    </div>
-                    <p className="text-violet-400/80 text-sm mt-1">+ 10% performance fee på återvunna belopp</p>
-                    <p className="text-violet-400/60 text-xs mt-0.5">Max 10 000 kr/faktura</p>
+        {/* Pricing cards */}
+        <div className={`grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto reveal-scale ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '200ms' }}>
+          {plans.map((plan, index) => (
+            <div
+              key={plan.id}
+              className={`relative group ${plan.popular ? 'lg:-mt-4 lg:mb-4' : ''}`}
+              style={{ transitionDelay: `${200 + index * 100}ms` }}
+            >
+              {/* Popular badge */}
+              {plan.popular && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
+                  <div className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-violet-600 to-blue-600 text-white text-sm font-medium shadow-lg shadow-violet-500/25">
+                    <Sparkles className="w-4 h-4" />
+                    <span>Rekommenderad</span>
                   </div>
                 </div>
-              </div>
+              )}
 
-              {/* Features grid */}
-              <div className="p-8 md:p-12">
-                <div className="grid md:grid-cols-2 gap-4 mb-10">
-                  {includedFeatures.map((feature, index) => (
-                    <div key={index} className="flex items-center gap-3 group/item">
-                      <div className="w-6 h-6 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 transition-transform">
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      </div>
-                      <span className="text-gray-300 group-hover/item:text-white transition-colors">{feature}</span>
+              {/* Card border glow for popular */}
+              {plan.popular && (
+                <>
+                  <div className="absolute -inset-[1px] bg-gradient-to-r from-violet-500/40 via-blue-500/40 to-violet-500/40 rounded-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-700 blur-sm" />
+                  <div className="absolute -inset-[1px] bg-gradient-to-r from-violet-500/50 via-blue-500/50 to-violet-500/50 rounded-3xl" style={{
+                    maskImage: 'linear-gradient(black, black) content-box, linear-gradient(black, black)',
+                    maskComposite: 'exclude',
+                    padding: '1px'
+                  }} />
+                </>
+              )}
+
+              <div className={`relative h-full flex flex-col rounded-3xl overflow-hidden transition-all duration-300 ${
+                plan.popular
+                  ? 'glass-strong'
+                  : 'glass border border-white/10 hover:border-white/20'
+              }`}>
+                {/* Header */}
+                <div className="p-6 md:p-8 border-b border-white/5">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                      plan.popular
+                        ? 'bg-violet-500/20 border border-violet-500/30'
+                        : 'bg-white/5 border border-white/10'
+                    }`}>
+                      <plan.icon className={`w-5 h-5 ${plan.popular ? 'text-violet-400' : 'text-gray-400'}`} />
                     </div>
-                  ))}
+                    <div>
+                      <h3 className="text-xl font-display font-bold text-white">
+                        {plan.name}
+                      </h3>
+                    </div>
+                  </div>
+                  <p className="text-gray-400 text-sm">
+                    {plan.subtitle}
+                  </p>
                 </div>
 
-                <a
-                  href="https://calendly.com/carl-zylora/30min"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group w-full h-14 rounded-xl btn-premium inline-flex items-center justify-center"
-                >
-                  <span className="relative z-10 inline-flex items-center justify-center text-base font-semibold text-white">
-                    Kom igång nu
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </a>
+                {/* Price */}
+                <div className="p-6 md:p-8 border-b border-white/5">
+                  <div className="flex items-baseline gap-2">
+                    <span className={`font-display font-bold text-white ${plan.isEnterprise ? 'text-3xl md:text-4xl' : 'text-4xl md:text-5xl'}`}>
+                      {plan.price}
+                    </span>
+                    {plan.priceLabel && (
+                      <span className="text-lg text-gray-400">{plan.priceLabel}</span>
+                    )}
+                  </div>
+                  <p className={`text-sm mt-2 ${plan.popular ? 'text-violet-400/80' : 'text-gray-500'}`}>
+                    + {plan.successFee}
+                  </p>
+                  <p className={`text-xs mt-0.5 ${plan.popular ? 'text-violet-400/60' : 'text-gray-600'}`}>
+                    {plan.maxFee}
+                  </p>
+                </div>
 
-                <p className="text-center text-gray-500 text-sm mt-4">
-                  Alla priser anges exkl. moms
-                </p>
+                {/* Features */}
+                <div className="p-6 md:p-8 flex-1">
+                  <ul className="space-y-3">
+                    {plan.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-start gap-3 group/item">
+                        <div className={`w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 ${
+                          plan.popular
+                            ? 'bg-emerald-500/10 border border-emerald-500/20'
+                            : 'bg-white/5 border border-white/10'
+                        }`}>
+                          <Check className={`w-3 h-3 ${plan.popular ? 'text-emerald-400' : 'text-gray-400'}`} />
+                        </div>
+                        <span className="text-gray-300 text-sm group-hover/item:text-white transition-colors">
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* CTA */}
+                <div className="p-6 md:p-8 pt-0">
+                  <a
+                    href="https://calendly.com/carl-zylora/30min"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`group/btn w-full h-12 rounded-xl inline-flex items-center justify-center transition-all ${
+                      plan.popular
+                        ? 'btn-premium'
+                        : 'bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20'
+                    }`}
+                  >
+                    <span className="relative z-10 inline-flex items-center justify-center text-sm font-semibold text-white">
+                      {plan.isEnterprise ? 'Boka möte' : 'Kom igång'}
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                    </span>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
+
+        <p className="text-center text-gray-500 text-sm mt-8">
+          Alla priser anges exkl. moms
+        </p>
 
         {/* How payment works */}
         <div className="mt-24 max-w-5xl mx-auto">
@@ -137,8 +245,8 @@ const Pricing = () => {
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { icon: Receipt, title: 'Management fee', desc: '1 900 kr/månad för att ha tjänsten aktiv. Ingen startavgift, ingen bindningstid.', color: 'violet' },
-              { icon: CreditCard, title: 'Performance fee', desc: '10% på belopp som återvinns efter att vi påbörjat uppföljningen. Max 10 000 kr/faktura.', color: 'blue' },
+              { icon: Receipt, title: 'Management fee', desc: 'Fast månadsavgift beroende på plan. Ingen startavgift, ingen bindningstid.', color: 'violet' },
+              { icon: CreditCard, title: 'Performance fee', desc: '10% på belopp som återvinns efter att vi påbörjat uppföljningen. Max-tak varierar per plan.', color: 'blue' },
               { icon: Shield, title: 'Ingen risk', desc: 'Vi tjänar bara pengar när ni gör det. Ingen ersättning om inget återvinns (utöver månadsavgiften).', color: 'emerald' },
             ].map((item, index) => {
               const colorMap: Record<string, { bg: string; border: string; text: string; hover: string }> = {
