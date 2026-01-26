@@ -14,7 +14,7 @@ interface CompanyData {
   org_number: string;
   email: string;
   phone: string;
-  fortnox_tenant_id: string;
+  fortnox_state: string;
 }
 
 type Step = 'connect' | 'confirm' | 'complete';
@@ -30,32 +30,39 @@ const GetStarted: React.FC = () => {
     org_number: '',
     email: '',
     phone: '',
-    fortnox_tenant_id: '',
+    fortnox_state: '',
   });
 
   // Check for OAuth callback on mount
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const fortnoxSuccess = params.get('fortnox_success');
-    const tenantId = params.get('tenant_id');
+    const pathname = window.location.pathname;
+    const state = params.get('state');
     const companyName = params.get('company_name');
     const orgNumber = params.get('org_number');
     const email = params.get('email');
+    const phone = params.get('phone');
 
-    if (fortnoxSuccess === 'true' && tenantId) {
+    // Coming back from Fortnox OAuth with state token (either path)
+    if (state && (companyName || orgNumber)) {
       setCompanyData({
-        company_name: companyName || '',
-        org_number: orgNumber || '',
-        email: email || '',
-        phone: '',
-        fortnox_tenant_id: tenantId,
+        company_name: decodeURIComponent(companyName || ''),
+        org_number: decodeURIComponent(orgNumber || ''),
+        email: decodeURIComponent(email || ''),
+        phone: decodeURIComponent(phone || ''),
+        fortnox_state: state,
       });
       setCurrentStep('confirm');
       // Clean URL
       window.history.replaceState({}, '', '/kom-igang');
     }
 
-    const fortnoxError = params.get('fortnox_error');
+    // Handle /kom-igang/klart path
+    if (pathname === '/kom-igang/klart') {
+      setCurrentStep('complete');
+    }
+
+    const fortnoxError = params.get('error');
     if (fortnoxError) {
       setError('Kunde inte ansluta till Fortnox. Försök igen.');
       window.history.replaceState({}, '', '/kom-igang');
@@ -68,10 +75,9 @@ const GetStarted: React.FC = () => {
 
     try {
       const response = await fetch(
-        `${SUPABASE_URL}/functions/v1/fortnox-oauth?action=authorize&signup=true`,
+        `${SUPABASE_URL}/functions/v1/fortnox-oauth?action=authorize&mode=signup`,
         {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: 'GET',
         }
       );
 
@@ -102,7 +108,7 @@ const GetStarted: React.FC = () => {
           org_number: companyData.org_number,
           email: companyData.email,
           phone: companyData.phone || undefined,
-          fortnox_tenant_id: companyData.fortnox_tenant_id,
+          fortnox_state: companyData.fortnox_state,
         }),
       });
 

@@ -167,6 +167,8 @@ const AppRouter: React.FC = () => {
       case '/onboarding/visma/error':
         return 'visma-error';
       case '/kom-igang':
+      case '/kom-igang/bekrafta':
+      case '/kom-igang/klart':
         return 'kom-igang';
       default:
         return 'home';
