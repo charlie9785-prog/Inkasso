@@ -90,9 +90,7 @@ const Pricing = () => {
 
                 {/* CTA */}
                 <a
-                  href="https://calendly.com/carl-zylora/30min"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/kom-igang"
                   className="group/btn inline-flex items-center justify-center h-14 px-8 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 transition-all duration-300"
                 >
                   <span className="inline-flex items-center justify-center text-base font-semibold text-white">

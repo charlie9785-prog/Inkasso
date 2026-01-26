@@ -54,19 +54,25 @@ const CTA = () => {
 
               <div className="flex flex-col items-center justify-center gap-4">
                 <a
-                  href="https://calendly.com/carl-zylora/30min"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/kom-igang"
                   className="group h-14 px-10 rounded-full btn-premium inline-flex items-center"
                 >
                   <span className="relative z-10 inline-flex items-center text-base font-semibold text-white">
-                    Kom igång
+                    Kom igång gratis
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </a>
 
                 <span className="text-gray-500 text-sm">
-                  eller ring <a href="tel:0729626822" className="text-violet-400 hover:text-violet-300 transition-colors font-medium">072-962 68 22</a>
+                  eller{' '}
+                  <a
+                    href="https://calendly.com/carl-zylora/30min"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-violet-400 hover:text-violet-300 transition-colors font-medium"
+                  >
+                    boka ett samtal
+                  </a>
                 </span>
               </div>
 

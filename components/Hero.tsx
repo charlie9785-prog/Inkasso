@@ -56,13 +56,11 @@ const Hero = () => {
           style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}
         >
           <a
-            href="https://calendly.com/carl-zylora/30min"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/kom-igang"
             className="group h-14 px-10 rounded-full btn-premium magnetic-hover shine-hover inline-flex items-center"
           >
             <span className="relative z-10 inline-flex items-center text-base font-semibold text-white">
-              Kom igång
+              Kom igång gratis
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform duration-300" />
             </span>
           </a>

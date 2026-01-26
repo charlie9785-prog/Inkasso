@@ -24,13 +24,14 @@ import FortnoxSuccess from './components/onboarding/FortnoxSuccess';
 import FortnoxError from './components/onboarding/FortnoxError';
 import VismaSuccess from './components/onboarding/VismaSuccess';
 import VismaError from './components/onboarding/VismaError';
+import GetStarted from './components/signup/GetStarted';
 import { useAuth } from './hooks/useAuth';
 import { navigate } from './lib/navigation';
 
 // Re-export navigate for backwards compatibility
 export { navigate };
 
-type Page = 'home' | 'terms' | 'privacy' | 'about' | 'thankyou' | 'login' | 'dashboard' | 'onboarding' | 'fortnox-success' | 'fortnox-error' | 'visma-success' | 'visma-error';
+type Page = 'home' | 'terms' | 'privacy' | 'about' | 'thankyou' | 'login' | 'dashboard' | 'onboarding' | 'fortnox-success' | 'fortnox-error' | 'visma-success' | 'visma-error' | 'kom-igang';
 
 // Background Effects Component
 const BackgroundEffects: React.FC = () => (
@@ -165,6 +166,8 @@ const AppRouter: React.FC = () => {
         return 'visma-success';
       case '/onboarding/visma/error':
         return 'visma-error';
+      case '/kom-igang':
+        return 'kom-igang';
       default:
         return 'home';
     }
@@ -197,6 +200,18 @@ const AppRouter: React.FC = () => {
         <BackgroundEffects />
         <div className="relative z-10">
           <OnboardingFlow />
+        </div>
+      </main>
+    );
+  }
+
+  // New self-service signup flow
+  if (currentPage === 'kom-igang') {
+    return (
+      <main className="min-h-screen bg-dark-950 text-white antialiased relative">
+        <BackgroundEffects />
+        <div className="relative z-10">
+          <GetStarted />
         </div>
       </main>
     );

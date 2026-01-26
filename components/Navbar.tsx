@@ -83,13 +83,11 @@ const Navbar = () => {
             Logga in
           </button>
           <a
-            href="https://calendly.com/carl-zylora/30min"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/kom-igang"
             className="btn-premium group relative h-10 px-6 rounded-full overflow-hidden text-sm font-semibold text-white inline-flex items-center"
           >
             <span className="relative z-10 inline-flex items-center">
-              Kom igång
+              Kom igång gratis
               <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-0.5 transition-transform" />
             </span>
           </a>
@@ -160,12 +158,10 @@ const Navbar = () => {
             Logga in
           </button>
           <a
-            href="https://calendly.com/carl-zylora/30min"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/kom-igang"
             className="btn-premium mt-2 w-full h-12 rounded-xl text-white font-semibold inline-flex items-center justify-center"
           >
-            <span className="relative z-10">Kom igång</span>
+            <span className="relative z-10">Kom igång gratis</span>
           </a>
         </div>
       </div>
