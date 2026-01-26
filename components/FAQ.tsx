@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     question: "Vad kostar tjänsten?",
-    answer: "Ingen månadsavgift. Du betalar 5% av det vi får in åt dig, max 5 000 kr per faktura. Inga dolda avgifter, ingen bindningstid."
+    answer: "Ingen månadsavgift. Du betalar 5% på återvunnet belopp, max 5 000 kr per faktura. Inga dolda avgifter, ingen bindningstid."
   },
   {
     question: "Hur lång tid tar det?",
