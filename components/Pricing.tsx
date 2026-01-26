@@ -9,18 +9,6 @@ const mainFeatures = [
   'Bevarade kundrelationer'
 ];
 
-interface VolumeTier {
-  name: string;
-  fee: string;
-  cap: string;
-  threshold?: string;
-}
-
-const volumeTiers: VolumeTier[] = [
-  { name: 'Starter', fee: '5%', cap: 'max 5 000 kr' },
-  { name: 'Growth', fee: '4%', cap: 'max 15 000 kr', threshold: '50+ ärenden' },
-  { name: 'Enterprise', fee: '3%', cap: 'förhandlas', threshold: 'Kontakta oss' },
-];
 
 const Pricing = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -130,40 +118,66 @@ const Pricing = () => {
         </div>
 
         {/* Volume discount section */}
-        <div className={`max-w-3xl mx-auto mb-16 reveal ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '300ms' }}>
-          <h3 className="text-center text-xl font-display font-semibold text-white mb-6">
+        <div className={`max-w-4xl mx-auto mb-16 reveal ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '300ms' }}>
+          <h3 className="text-center text-xl font-display font-semibold text-white mb-8">
             Volymrabatt — du uppgraderas automatiskt
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {volumeTiers.map((tier, index) => (
-              <div
-                key={tier.name}
-                className={`relative p-6 rounded-2xl text-center ${
-                  index === 0
-                    ? 'bg-violet-500/15 border-2 border-violet-500/40'
-                    : 'bg-white/5 border border-white/10'
-                }`}
-              >
-                {index === 0 && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="px-3 py-1 rounded-full bg-violet-500 text-white text-xs font-semibold">
-                      Din start
-                    </span>
-                  </div>
-                )}
-                <h4 className="text-lg font-display font-semibold text-white mb-1">{tier.name}</h4>
-                {tier.threshold && (
-                  <p className="text-sm text-gray-400 mb-3">{tier.threshold}</p>
-                )}
-                {!tier.threshold && <div className="mb-3" />}
-                <p className="text-4xl font-display font-bold text-white mb-1">{tier.fee}</p>
-                <p className="text-gray-300">{tier.cap}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {/* Starter */}
+            <div className="relative p-6 rounded-2xl bg-violet-500/15 border-2 border-violet-500/40">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span className="px-3 py-1 rounded-full bg-violet-500 text-white text-xs font-semibold">
+                  Din start
+                </span>
               </div>
-            ))}
+              <h4 className="text-xl font-display font-bold text-white text-center mb-4">Starter</h4>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between py-2 border-b border-white/10">
+                  <span className="text-gray-300">Success fee</span>
+                  <span className="text-2xl font-display font-bold text-white">5%</span>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-gray-300">Max per faktura</span>
+                  <span className="text-lg font-semibold text-white">5 000 kr</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Growth */}
+            <div className="relative p-6 rounded-2xl bg-white/5 border border-white/10">
+              <h4 className="text-xl font-display font-bold text-white text-center mb-1">Growth</h4>
+              <p className="text-sm text-gray-400 text-center mb-4">50+ ärenden</p>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between py-2 border-b border-white/10">
+                  <span className="text-gray-300">Success fee</span>
+                  <span className="text-2xl font-display font-bold text-white">4%</span>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-gray-300">Max per faktura</span>
+                  <span className="text-lg font-semibold text-white">15 000 kr</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Enterprise */}
+            <div className="relative p-6 rounded-2xl bg-white/5 border border-white/10">
+              <h4 className="text-xl font-display font-bold text-white text-center mb-1">Enterprise</h4>
+              <p className="text-sm text-gray-400 text-center mb-4">Kontakta oss</p>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between py-2 border-b border-white/10">
+                  <span className="text-gray-300">Success fee</span>
+                  <span className="text-2xl font-display font-bold text-white">3%</span>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-gray-300">Cap</span>
+                  <span className="text-lg font-semibold text-white">Förhandlas</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <p className="text-center text-gray-400 mt-6">
+          <p className="text-center text-gray-400 mt-8">
             Du startar på Starter. Vi uppgraderar dig automatiskt när du växer.
           </p>
         </div>
