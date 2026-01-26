@@ -37,7 +37,7 @@ const PLANS: Plan[] = [
     price: 1900,
     icon: Users,
     features: [
-      'Vårt team driver in era förfallna fakturor',
+      'Vårt team tar hand om era förfallna fakturor',
       'Veckorapport via mejl',
       'Ingen startavgift',
       'Ingen bindningstid',
@@ -52,7 +52,7 @@ const PLANS: Plan[] = [
     popular: true,
     icon: Building2,
     features: [
-      'Vårt team driver in era förfallna fakturor',
+      'Vårt team tar hand om era förfallna fakturor',
       'Dashboard med realtidsöversikt',
       'Ingen startavgift',
       'Ingen bindningstid',

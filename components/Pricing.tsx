@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Check, CreditCard, Receipt, Shield, ArrowRight, Sparkles, HelpCircle, Building2, Users, Crown } from 'lucide-react';
 
 const b2cFeatures = [
-  'Vårt team driver in era förfallna fakturor',
+  'Vårt team tar hand om era förfallna fakturor',
   'Veckorapport via mejl',
   'Ingen startavgift',
   'Ingen bindningstid',
@@ -10,7 +10,7 @@ const b2cFeatures = [
 ];
 
 const b2bFeatures = [
-  'Vårt team driver in era förfallna fakturor',
+  'Vårt team tar hand om era förfallna fakturor',
   'Dashboard med realtidsöversikt',
   'Ingen startavgift',
   'Ingen bindningstid',
