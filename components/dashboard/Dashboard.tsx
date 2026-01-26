@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Receipt } from 'lucide-react';
 import DashboardLayout from './DashboardLayout';
 import StatsOverview from './StatsOverview';
@@ -12,6 +12,8 @@ import AgeAnalysis from './AgeAnalysis';
 import Integrations from './Integrations';
 import { useCases } from '../../hooks/useCases';
 import { useStats } from '../../hooks/useStats';
+import { useAuth } from '../../hooks/useAuth';
+import { supabase } from '../../lib/supabase';
 import { DashboardView } from '../../types/dashboard';
 
 // Format currency helper
@@ -26,7 +28,10 @@ const formatCurrency = (amount: number): string => {
 
 const Dashboard: React.FC = () => {
   const [currentView, setCurrentView] = useState<DashboardView>('overview');
+  const [billingFees, setBillingFees] = useState<number>(0);
+  const [billingLoading, setBillingLoading] = useState(true);
 
+  const { tenant } = useAuth();
   const {
     cases,
     selectedCase,
@@ -39,6 +44,34 @@ const Dashboard: React.FC = () => {
     loadMore
   } = useCases();
   const { stats, timeline, periodComparison, isLoading: statsLoading } = useStats();
+
+  // Fetch billing summary from RPC
+  useEffect(() => {
+    const fetchBillingSummary = async () => {
+      if (!tenant?.id) return;
+
+      try {
+        const { data, error } = await supabase.rpc('get_billing_summary', {
+          p_tenant_id: tenant.id
+        });
+
+        if (error) {
+          console.error('Error fetching billing summary:', error);
+          return;
+        }
+
+        if (data && typeof data.current_month_fees === 'number') {
+          setBillingFees(data.current_month_fees);
+        }
+      } catch (err) {
+        console.error('Error fetching billing summary:', err);
+      } finally {
+        setBillingLoading(false);
+      }
+    };
+
+    fetchBillingSummary();
+  }, [tenant?.id]);
 
   // Handle case selection
   const handleSelectCase = (caseId: string) => {
@@ -53,10 +86,6 @@ const Dashboard: React.FC = () => {
   const renderContent = () => {
     switch (currentView) {
       case 'overview':
-        // Calculate Zylora fee (5% of collected amount this month, max 5000 kr per case)
-        const collectedThisMonth = periodComparison?.collectedAmount || 0;
-        const estimatedFee = Math.round(collectedThisMonth * 0.05);
-
         return (
           <div className="space-y-6">
             {/* Export Menu */}
@@ -72,7 +101,7 @@ const Dashboard: React.FC = () => {
             <StatsOverview stats={stats} periodComparison={periodComparison} isLoading={statsLoading} />
 
             {/* Zylora Fee Card */}
-            {!statsLoading && (
+            {!billingLoading && (
               <div className="glass border border-amber-500/20 rounded-xl p-6 bg-amber-500/5">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
@@ -83,7 +112,7 @@ const Dashboard: React.FC = () => {
                       Zylora-avgift
                     </h3>
                     <p className="text-2xl font-bold text-white mb-1">
-                      {formatCurrency(estimatedFee)}
+                      {formatCurrency(billingFees)}
                     </p>
                     <p className="text-sm text-gray-400">
                       Denna månad (faktureras 1:a nästa månad)
