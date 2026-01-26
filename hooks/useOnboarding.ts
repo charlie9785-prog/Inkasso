@@ -1,22 +1,32 @@
 import { useState, useCallback, useEffect } from 'react';
 import { supabase, supabaseUrl, supabaseAnonKey } from '../lib/supabase';
 
-export type OnboardingStep = 'welcome' | 'plan' | 'fortnox' | 'complete';
+export type OnboardingStep = 'plan' | 'fortnox' | 'details' | 'payment' | 'complete';
+export type PlanType = 'b2c' | 'b2b' | null;
 
-const ONBOARDING_STEPS: OnboardingStep[] = ['welcome', 'plan', 'fortnox', 'complete'];
+const ONBOARDING_STEPS: OnboardingStep[] = ['plan', 'fortnox', 'details', 'payment', 'complete'];
 
 interface SignupData {
   companyName: string;
   orgNumber: string;
   email: string;
-  password: string;
+  password?: string; // Only required for B2B
+}
+
+interface NotificationPreferences {
+  weeklyReport: boolean;
+  monthlyReport: boolean;
+  newCaseTakeover: boolean;
+  invoicePaid: boolean;
 }
 
 interface OnboardingProgress {
   currentStep: OnboardingStep;
   completedSteps: OnboardingStep[];
   tenantId: string | null;
+  selectedPlan: PlanType;
   signupData: SignupData | null;
+  notificationPreferences: NotificationPreferences;
   emailVerified: boolean;
   planSelected: boolean;
   fortnoxConnected: boolean;
@@ -25,20 +35,33 @@ interface OnboardingProgress {
 
 const STORAGE_KEY = 'zylora_onboarding_progress';
 
+const defaultNotificationPreferences: NotificationPreferences = {
+  weeklyReport: true,
+  monthlyReport: false,
+  newCaseTakeover: false,
+  invoicePaid: false,
+};
+
 const getInitialProgress = (): OnboardingProgress => {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
-      return JSON.parse(saved);
+      const parsed = JSON.parse(saved);
+      return {
+        ...parsed,
+        notificationPreferences: parsed.notificationPreferences || defaultNotificationPreferences,
+      };
     }
   } catch (e) {
     console.error('Failed to load onboarding progress:', e);
   }
   return {
-    currentStep: 'welcome',
+    currentStep: 'plan',
     completedSteps: [],
     tenantId: null,
+    selectedPlan: null,
     signupData: null,
+    notificationPreferences: defaultNotificationPreferences,
     emailVerified: false,
     planSelected: false,
     fortnoxConnected: false,
@@ -102,17 +125,28 @@ export const useOnboarding = () => {
     }
   }, [progress.currentStep]);
 
-  // Save signup data (Step 1) - NO database writes yet
-  const saveSignupData = useCallback((data: {
-    companyName: string;
-    orgNumber: string;
-    email: string;
-    password: string;
-  }) => {
+  // Select plan (Step 1)
+  const selectPlan = useCallback((plan: PlanType) => {
+    setProgress((prev) => ({
+      ...prev,
+      selectedPlan: plan,
+    }));
+  }, []);
+
+  // Save signup data
+  const saveSignupData = useCallback((data: SignupData) => {
     setProgress((prev) => ({
       ...prev,
       signupData: data,
       emailVerified: false,
+    }));
+  }, []);
+
+  // Save notification preferences
+  const saveNotificationPreferences = useCallback((preferences: NotificationPreferences) => {
+    setProgress((prev) => ({
+      ...prev,
+      notificationPreferences: preferences,
     }));
   }, []);
 
@@ -230,7 +264,7 @@ export const useOnboarding = () => {
     }
   }, []);
 
-  // Create checkout session with signup data (Step 2)
+  // Create checkout session with signup data
   const createCheckoutWithSignup = useCallback(async (
     planId: string,
     successUrl: string,
@@ -257,8 +291,10 @@ export const useOnboarding = () => {
             company_name: progress.signupData.companyName,
             org_number: progress.signupData.orgNumber,
             email: progress.signupData.email,
-            password: progress.signupData.password,
+            password: progress.signupData.password || '',
             plan_id: planId,
+            plan_type: progress.selectedPlan,
+            notification_preferences: progress.notificationPreferences,
             success_url: successUrl,
             cancel_url: cancelUrl,
           }),
@@ -279,7 +315,7 @@ export const useOnboarding = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [progress.signupData]);
+  }, [progress.signupData, progress.selectedPlan, progress.notificationPreferences]);
 
   // Update tenant settings (for integrations)
   const updateTenantSettings = useCallback(async (settings: Record<string, unknown>) => {
@@ -343,14 +379,23 @@ export const useOnboarding = () => {
       return false;
     }
 
+    // B2C users don't have passwords, so we skip login
+    if (progress.selectedPlan === 'b2c') {
+      setProgress((prev) => ({
+        ...prev,
+        planSelected: true,
+      }));
+      return true;
+    }
+
     setIsLoading(true);
     setError(null);
 
     try {
-      // Login with the credentials from signup
+      // Login with the credentials from signup (only B2B)
       const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
         email: progress.signupData.email,
-        password: progress.signupData.password,
+        password: progress.signupData.password || '',
       });
 
       if (authError) {
@@ -387,15 +432,17 @@ export const useOnboarding = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [progress.signupData]);
+  }, [progress.signupData, progress.selectedPlan]);
 
   const resetOnboarding = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
     setProgress({
-      currentStep: 'welcome',
+      currentStep: 'plan',
       completedSteps: [],
       tenantId: null,
+      selectedPlan: null,
       signupData: null,
+      notificationPreferences: defaultNotificationPreferences,
       emailVerified: false,
       planSelected: false,
       fortnoxConnected: false,
@@ -424,7 +471,9 @@ export const useOnboarding = () => {
     goBack,
 
     // Actions
+    selectPlan,
     saveSignupData,
+    saveNotificationPreferences,
     sendVerificationCode,
     verifyEmailCode,
     validateSignupData,

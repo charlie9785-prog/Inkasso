@@ -4,6 +4,7 @@ import { useAuth } from '../../../hooks/useAuth';
 import { useFortnoxIntegration } from '../../../hooks/useFortnoxIntegration';
 import FortnoxOnboarding from '../FortnoxOnboarding';
 import VismaOnboarding from '../VismaOnboarding';
+import { PlanType } from '../../../hooks/useOnboarding';
 
 type AccountingSystem = 'none' | 'fortnox' | 'visma';
 
@@ -11,6 +12,7 @@ interface FortnoxStepProps {
   onboarding: {
     progress: {
       tenantId: string | null;
+      selectedPlan: PlanType;
     };
     completeStep: (step: 'fortnox') => void;
     skipStep: (step: 'fortnox') => void;

@@ -1,15 +1,17 @@
 import React from 'react';
 import { Check } from 'lucide-react';
 import { useOnboarding, OnboardingStep } from '../../hooks/useOnboarding';
-import WelcomeStep from './steps/WelcomeStep';
 import PlanStep from './steps/PlanStep';
 import FortnoxStep from './steps/FortnoxStep';
+import DetailsStep from './steps/DetailsStep';
+import PaymentStep from './steps/PaymentStep';
 import CompleteStep from './steps/CompleteStep';
 
 const STEP_LABELS: Record<OnboardingStep, string> = {
-  welcome: 'Skapa konto',
-  plan: 'Betalning',
-  fortnox: 'Integrationer',
+  plan: 'Välj plan',
+  fortnox: 'Bokföring',
+  details: 'Uppgifter',
+  payment: 'Betalning',
   complete: 'Klart',
 };
 
@@ -19,12 +21,14 @@ const OnboardingFlow: React.FC = () => {
 
   const renderStep = () => {
     switch (currentStep) {
-      case 'welcome':
-        return <WelcomeStep onboarding={onboarding} />;
       case 'plan':
         return <PlanStep onboarding={onboarding} />;
       case 'fortnox':
         return <FortnoxStep onboarding={onboarding} />;
+      case 'details':
+        return <DetailsStep onboarding={onboarding} />;
+      case 'payment':
+        return <PaymentStep onboarding={onboarding} />;
       case 'complete':
         return <CompleteStep onboarding={onboarding} />;
       default:
@@ -82,7 +86,7 @@ const OnboardingFlow: React.FC = () => {
                   {/* Connector line */}
                   {index < steps.length - 1 && (
                     <div
-                      className={`w-16 h-0.5 mx-2 ${
+                      className={`w-12 h-0.5 mx-2 ${
                         isCompleted || isPast
                           ? 'bg-gradient-to-r from-violet-600 to-blue-600'
                           : 'bg-white/10'
