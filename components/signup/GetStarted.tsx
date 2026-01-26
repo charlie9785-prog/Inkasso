@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, ArrowLeft, Check, ExternalLink, Phone, Building2, Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, ExternalLink, Phone, Building2, Mail, Lock, Loader2, Eye, EyeOff, FileText, Clock, CheckCircle, PartyPopper } from 'lucide-react';
 import { navigate } from '../../lib/navigation';
 import { supabase } from '../../lib/supabase';
-
-// Fortnox logo as SVG
-const FortnoxLogo = () => (
-  <svg viewBox="0 0 24 24" className="w-6 h-6" fill="currentColor">
-    <text x="0" y="18" fontSize="16" fontWeight="bold" fill="#2B9B5B">FN</text>
-  </svg>
-);
 
 interface CompanyData {
   company_name: string;
@@ -21,7 +14,22 @@ interface CompanyData {
   connectedSystem: 'fortnox' | 'visma' | null;
 }
 
-type Step = 'connect' | 'confirm' | 'complete';
+interface OverdueInvoice {
+  invoice_number: string;
+  customer_name: string;
+  amount: number;
+  days_overdue: number;
+  has_email: boolean;
+  has_phone: boolean;
+}
+
+interface ActivationData {
+  overdue_invoices: OverdueInvoice[];
+  total_count: number;
+  example_invoice: OverdueInvoice | null;
+}
+
+type Step = 'connect' | 'confirm' | 'activation' | 'complete';
 
 const SUPABASE_URL = 'https://bosofhcunxbvfusvllsm.supabase.co';
 
@@ -44,6 +52,9 @@ const GetStarted: React.FC = () => {
     };
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [tenantId, setTenantId] = useState<string | null>(null);
+  const [activationData, setActivationData] = useState<ActivationData | null>(null);
+  const [activationLoading, setActivationLoading] = useState(false);
 
   // Check for OAuth callback on mount
   useEffect(() => {
@@ -200,16 +211,21 @@ const GetStarted: React.FC = () => {
 
       const data = await response.json();
 
+      // Save tenant ID for activation
+      if (data.tenant?.id) {
+        setTenantId(data.tenant.id);
+      }
+
       // If signup returns session tokens, set the session
       if (data.session?.access_token && data.session?.refresh_token) {
         await supabase.auth.setSession({
           access_token: data.session.access_token,
           refresh_token: data.session.refresh_token,
         });
-        // Clear signup sessionStorage
-        sessionStorage.removeItem('zylora_connected_system');
-        // Go directly to dashboard
-        navigate('/dashboard');
+        // Go to activation step
+        setCurrentStep('activation');
+        // Fetch overdue invoices
+        fetchOverdueInvoices(data.tenant?.id);
       } else {
         // Fallback: try to log in with the credentials
         const { error: loginError } = await supabase.auth.signInWithPassword({
@@ -222,10 +238,10 @@ const GetStarted: React.FC = () => {
           // Show complete step if auto-login fails
           setCurrentStep('complete');
         } else {
-          // Clear signup sessionStorage
-          sessionStorage.removeItem('zylora_connected_system');
-          // Go directly to dashboard
-          navigate('/dashboard');
+          // Go to activation step
+          setCurrentStep('activation');
+          // Fetch overdue invoices
+          fetchOverdueInvoices(data.tenant?.id);
         }
       }
     } catch (err) {
@@ -235,7 +251,75 @@ const GetStarted: React.FC = () => {
     }
   };
 
-  const stepNumber = currentStep === 'connect' ? 1 : currentStep === 'confirm' ? 2 : 3;
+  const fetchOverdueInvoices = async (tId?: string) => {
+    const targetTenantId = tId || tenantId;
+    if (!targetTenantId) return;
+
+    setActivationLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('get-overdue-invoices', {
+        body: { tenant_id: targetTenantId }
+      });
+
+      if (error) {
+        console.error('Error fetching overdue invoices:', error);
+        // Still allow proceeding even if fetch fails
+        setActivationData({ overdue_invoices: [], total_count: 0, example_invoice: null });
+        return;
+      }
+
+      setActivationData(data);
+    } catch (err) {
+      console.error('Error fetching overdue invoices:', err);
+      setActivationData({ overdue_invoices: [], total_count: 0, example_invoice: null });
+    } finally {
+      setActivationLoading(false);
+    }
+  };
+
+  const handleActivate = async () => {
+    setIsLoading(true);
+    try {
+      // Activate the tenant
+      const { error } = await supabase.functions.invoke('activate-tenant', {
+        body: { tenant_id: tenantId }
+      });
+
+      if (error) {
+        console.error('Error activating tenant:', error);
+      }
+
+      // Clear signup sessionStorage
+      sessionStorage.removeItem('zylora_connected_system');
+      // Go to dashboard
+      navigate('/dashboard');
+    } catch (err) {
+      console.error('Error activating tenant:', err);
+      // Still go to dashboard
+      navigate('/dashboard');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSkipActivation = () => {
+    // Clear signup sessionStorage
+    sessionStorage.removeItem('zylora_connected_system');
+    // Go to dashboard without activating
+    navigate('/dashboard');
+  };
+
+  const stepNumber = currentStep === 'connect' ? 1 : currentStep === 'confirm' ? 2 : currentStep === 'activation' ? 3 : 4;
+  const totalSteps = 4;
+
+  const formatCurrency = (amount: number): string => {
+    return new Intl.NumberFormat('sv-SE', {
+      style: 'currency',
+      currency: 'SEK',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
 
   return (
     <div className="min-h-screen py-8 px-4">
@@ -252,17 +336,18 @@ const GetStarted: React.FC = () => {
         {/* Progress indicator */}
         <div className="mb-10">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm text-gray-400">Steg {stepNumber} av 3</span>
+            <span className="text-sm text-gray-400">Steg {stepNumber} av {totalSteps}</span>
             <span className="text-sm text-white font-medium">
               {currentStep === 'connect' && 'Koppla bokföring'}
-              {currentStep === 'confirm' && 'Bekräfta uppgifter'}
+              {currentStep === 'confirm' && 'Skapa konto'}
+              {currentStep === 'activation' && 'Starta uppföljning'}
               {currentStep === 'complete' && 'Klart!'}
             </span>
           </div>
           <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-violet-600 to-blue-600 transition-all duration-500"
-              style={{ width: `${(stepNumber / 3) * 100}%` }}
+              style={{ width: `${(stepNumber / totalSteps) * 100}%` }}
             />
           </div>
         </div>
@@ -487,7 +572,133 @@ const GetStarted: React.FC = () => {
             </div>
           )}
 
-          {/* Step 3: Complete */}
+          {/* Step 3: Activation */}
+          {currentStep === 'activation' && (
+            <div>
+              <div className="flex items-center gap-2 text-emerald-400 mb-6">
+                <Check className="w-5 h-5" />
+                <span className="font-medium">
+                  {companyData.connectedSystem === 'visma' ? 'Visma' : 'Fortnox'} kopplat!
+                </span>
+              </div>
+
+              {activationLoading ? (
+                <div className="text-center py-12">
+                  <Loader2 className="w-8 h-8 text-violet-400 animate-spin mx-auto mb-4" />
+                  <p className="text-gray-400">Hämtar förfallna fakturor...</p>
+                </div>
+              ) : activationData && activationData.total_count > 0 ? (
+                <>
+                  <h2 className="text-2xl font-display font-bold text-white mb-2">
+                    Vi hittade {activationData.total_count} förfallna fakturor
+                  </h2>
+                  <p className="text-gray-400 mb-6">
+                    med kontaktuppgifter som vi kan följa upp
+                  </p>
+
+                  {/* Example Invoice */}
+                  {activationData.example_invoice && (
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-5 mb-6">
+                      <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Exempel</div>
+                      <div className="flex items-start gap-4">
+                        <div className="w-10 h-10 rounded-lg bg-violet-500/20 flex items-center justify-center flex-shrink-0">
+                          <FileText className="w-5 h-5 text-violet-400" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="font-medium text-white">
+                              Faktura #{activationData.example_invoice.invoice_number}
+                            </span>
+                            <span className="text-lg font-bold text-white">
+                              {formatCurrency(activationData.example_invoice.amount)}
+                            </span>
+                          </div>
+                          <div className="text-sm text-gray-400 mb-2">
+                            {activationData.example_invoice.customer_name}
+                          </div>
+                          <div className="flex items-center gap-4 text-sm">
+                            <div className="flex items-center gap-1.5 text-amber-400">
+                              <Clock className="w-4 h-4" />
+                              <span>Förfallen: {activationData.example_invoice.days_overdue} dagar</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-3 mt-2">
+                            {activationData.example_invoice.has_email && (
+                              <div className="flex items-center gap-1 text-xs text-emerald-400">
+                                <CheckCircle className="w-3.5 h-3.5" />
+                                <span>Email finns</span>
+                              </div>
+                            )}
+                            {activationData.example_invoice.has_phone && (
+                              <div className="flex items-center gap-1 text-xs text-emerald-400">
+                                <CheckCircle className="w-3.5 h-3.5" />
+                                <span>Telefon finns</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <p className="text-gray-300 mb-6">
+                    Vill du att vi börjar följa upp era förfallna fakturor?
+                  </p>
+
+                  <button
+                    onClick={handleActivate}
+                    disabled={isLoading}
+                    className="w-full h-14 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 mb-4"
+                  >
+                    {isLoading ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <>
+                        <span className="font-semibold text-white">Starta uppföljning</span>
+                        <ArrowRight className="w-5 h-5 text-white" />
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    onClick={handleSkipActivation}
+                    className="w-full text-center text-sm text-gray-500 hover:text-gray-300 transition-colors"
+                  >
+                    Vänta, jag vill kolla först
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div className="text-center py-6">
+                    <div className="text-5xl mb-4">🎉</div>
+                    <h2 className="text-2xl font-display font-bold text-white mb-2">
+                      Inga förfallna fakturor just nu
+                    </h2>
+                    <p className="text-gray-400 mb-6">
+                      Vi håller koll. Så fort en faktura blir 7 dagar förfallen börjar vi följa upp automatiskt.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={handleActivate}
+                    disabled={isLoading}
+                    className="w-full h-14 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+                  >
+                    {isLoading ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <>
+                        <span className="font-semibold text-white">Gå till dashboard</span>
+                        <ArrowRight className="w-5 h-5 text-white" />
+                      </>
+                    )}
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Step 4: Complete */}
           {currentStep === 'complete' && (
             <div className="text-center">
               <div className="text-6xl mb-6">🎉</div>
