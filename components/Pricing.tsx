@@ -1,15 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Check, CreditCard, Receipt, Shield, ArrowRight, Sparkles, HelpCircle, Building2, Users, Crown } from 'lucide-react';
+import { Check, CreditCard, Receipt, Shield, ArrowRight, HelpCircle, Zap } from 'lucide-react';
 
-const b2cFeatures = [
-  'Vårt team tar hand om era förfallna fakturor',
-  'Veckorapport via mejl',
-  'Ingen startavgift',
-  'Ingen bindningstid',
-  'Bevarade kundrelationer'
-];
-
-const b2bFeatures = [
+const mainFeatures = [
   'Vårt team tar hand om era förfallna fakturor',
   'Dashboard med realtidsöversikt',
   'Ingen startavgift',
@@ -17,63 +9,17 @@ const b2bFeatures = [
   'Bevarade kundrelationer'
 ];
 
-const enterpriseFeatures = [
-  'Anpassade integrationer',
-  'White-label (påminnelser i ert namn)',
-  'Volymrabatt på success fee',
-  'Dedicated account manager'
-];
-
-interface PricingPlan {
-  id: string;
+interface VolumeTier {
   name: string;
-  subtitle: string;
-  price: string;
-  priceLabel: string;
-  successFee: string;
-  maxFee: string;
-  features: string[];
-  popular?: boolean;
-  isEnterprise?: boolean;
-  icon: React.ElementType;
+  fee: string;
+  cap: string;
+  threshold?: string;
 }
 
-const plans: PricingPlan[] = [
-  {
-    id: 'b2c',
-    name: 'B2C',
-    subtitle: 'För dig som fakturerar privatpersoner',
-    price: '1 900',
-    priceLabel: 'kr/mån',
-    successFee: '10% success fee',
-    maxFee: 'Max 10 000 kr/faktura',
-    features: b2cFeatures,
-    icon: Users,
-  },
-  {
-    id: 'b2b',
-    name: 'B2B',
-    subtitle: 'För dig som fakturerar andra företag',
-    price: '3 900',
-    priceLabel: 'kr/mån',
-    successFee: '10% success fee',
-    maxFee: 'Max 30 000 kr/faktura',
-    features: b2bFeatures,
-    popular: true,
-    icon: Building2,
-  },
-  {
-    id: 'enterprise',
-    name: 'Enterprise',
-    subtitle: 'För större bolag med specifika behov',
-    price: 'Custom',
-    priceLabel: '',
-    successFee: 'Anpassad success fee',
-    maxFee: 'Baserat på volym',
-    features: enterpriseFeatures,
-    isEnterprise: true,
-    icon: Crown,
-  },
+const volumeTiers: VolumeTier[] = [
+  { name: 'Starter', fee: '5%', cap: 'max 5 000 kr' },
+  { name: 'Growth', fee: '4%', cap: 'max 15 000 kr', threshold: '50+ ärenden' },
+  { name: 'Enterprise', fee: '3%', cap: 'förhandlas', threshold: 'Kontakta oss' },
 ];
 
 const Pricing = () => {
@@ -119,125 +65,108 @@ const Pricing = () => {
           </h2>
 
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            Välj den plan som passar ditt företag. Vi tjänar bara pengar när ni gör det.
+            Ingen månadsavgift. Vi tjänar bara pengar när ni gör det.
           </p>
         </div>
 
-        {/* Pricing cards */}
-        <div className={`grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto reveal-scale ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '200ms' }}>
-          {plans.map((plan, index) => (
-            <div
-              key={plan.id}
-              className={`relative group ${plan.popular ? 'lg:-mt-4 lg:mb-4' : ''}`}
-              style={{ transitionDelay: `${200 + index * 100}ms` }}
-            >
-              {/* Popular badge */}
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
-                  <div className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-violet-600 to-blue-600 text-white text-sm font-medium shadow-lg shadow-violet-500/25">
-                    <Sparkles className="w-4 h-4" />
-                    <span>Rekommenderad</span>
+        {/* Main pricing card */}
+        <div className={`max-w-3xl mx-auto reveal-scale ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '200ms' }}>
+          <div className="relative group">
+            {/* Card border glow */}
+            <div className="absolute -inset-[1px] bg-gradient-to-r from-violet-500/40 via-blue-500/40 to-violet-500/40 rounded-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-700 blur-sm" />
+            <div className="absolute -inset-[1px] bg-gradient-to-r from-violet-500/50 via-blue-500/50 to-violet-500/50 rounded-3xl" style={{
+              maskImage: 'linear-gradient(black, black) content-box, linear-gradient(black, black)',
+              maskComposite: 'exclude',
+              padding: '1px'
+            }} />
+
+            <div className="relative glass-strong rounded-3xl overflow-hidden">
+              {/* Main pricing */}
+              <div className="p-8 md:p-12 text-center">
+                <div className="flex items-center justify-center gap-2 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center">
+                    <Zap className="w-5 h-5 text-violet-400" />
                   </div>
                 </div>
-              )}
 
-              {/* Card border glow for popular */}
-              {plan.popular && (
-                <>
-                  <div className="absolute -inset-[1px] bg-gradient-to-r from-violet-500/40 via-blue-500/40 to-violet-500/40 rounded-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-700 blur-sm" />
-                  <div className="absolute -inset-[1px] bg-gradient-to-r from-violet-500/50 via-blue-500/50 to-violet-500/50 rounded-3xl" style={{
-                    maskImage: 'linear-gradient(black, black) content-box, linear-gradient(black, black)',
-                    maskComposite: 'exclude',
-                    padding: '1px'
-                  }} />
-                </>
-              )}
-
-              <div className={`relative h-full flex flex-col rounded-3xl overflow-hidden transition-all duration-300 ${
-                plan.popular
-                  ? 'glass-strong'
-                  : 'glass border border-white/10 hover:border-white/20'
-              }`}>
-                {/* Header */}
-                <div className="p-6 md:p-8 border-b border-white/5">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                      plan.popular
-                        ? 'bg-violet-500/20 border border-violet-500/30'
-                        : 'bg-white/5 border border-white/10'
-                    }`}>
-                      <plan.icon className={`w-5 h-5 ${plan.popular ? 'text-violet-400' : 'text-gray-400'}`} />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-display font-bold text-white">
-                        {plan.name}
-                      </h3>
-                    </div>
+                <div className="space-y-2 mb-8">
+                  <div className="flex items-center justify-center gap-3">
+                    <span className="text-5xl md:text-7xl font-display font-bold text-white">0 kr</span>
+                    <span className="text-xl text-gray-400">att börja</span>
                   </div>
-                  <p className="text-gray-400 text-sm">
-                    {plan.subtitle}
-                  </p>
-                </div>
-
-                {/* Price */}
-                <div className="p-6 md:p-8 border-b border-white/5">
-                  <div className="flex items-baseline gap-2">
-                    <span className={`font-display font-bold text-white ${plan.isEnterprise ? 'text-3xl md:text-4xl' : 'text-4xl md:text-5xl'}`}>
-                      {plan.price}
-                    </span>
-                    {plan.priceLabel && (
-                      <span className="text-lg text-gray-400">{plan.priceLabel}</span>
-                    )}
+                  <div className="flex items-center justify-center gap-3">
+                    <span className="text-5xl md:text-7xl font-display font-bold text-white">0 kr</span>
+                    <span className="text-xl text-gray-400">i månadsavgift</span>
                   </div>
-                  <p className={`text-sm mt-2 ${plan.popular ? 'text-violet-400/80' : 'text-gray-500'}`}>
-                    + {plan.successFee}
-                  </p>
-                  <p className={`text-xs mt-0.5 ${plan.popular ? 'text-violet-400/60' : 'text-gray-600'}`}>
-                    {plan.maxFee}
-                  </p>
+                  <div className="flex items-center justify-center gap-3 pt-4">
+                    <span className="text-4xl md:text-5xl font-display font-bold gradient-text">5%</span>
+                    <span className="text-xl text-gray-400">på indrivet belopp</span>
+                  </div>
                 </div>
 
                 {/* Features */}
-                <div className="p-6 md:p-8 flex-1">
-                  <ul className="space-y-3">
-                    {plan.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-start gap-3 group/item">
-                        <div className={`w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                          plan.popular
-                            ? 'bg-emerald-500/10 border border-emerald-500/20'
-                            : 'bg-white/5 border border-white/10'
-                        }`}>
-                          <Check className={`w-3 h-3 ${plan.popular ? 'text-emerald-400' : 'text-gray-400'}`} />
-                        </div>
-                        <span className="text-gray-300 text-sm group-hover/item:text-white transition-colors">
-                          {feature}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                <div className="flex flex-wrap justify-center gap-4 mb-8">
+                  {mainFeatures.map((feature, index) => (
+                    <div key={index} className="flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10">
+                      <Check className="w-4 h-4 text-emerald-400" />
+                      <span className="text-sm text-gray-300">{feature}</span>
+                    </div>
+                  ))}
                 </div>
 
                 {/* CTA */}
-                <div className="p-6 md:p-8 pt-0">
-                  <a
-                    href="https://calendly.com/carl-zylora/30min"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`group/btn w-full h-12 rounded-xl inline-flex items-center justify-center transition-all ${
-                      plan.popular
-                        ? 'btn-premium'
-                        : 'bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20'
-                    }`}
-                  >
-                    <span className="relative z-10 inline-flex items-center justify-center text-sm font-semibold text-white">
-                      {plan.isEnterprise ? 'Boka möte' : 'Kom igång'}
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                    </span>
-                  </a>
+                <a
+                  href="https://calendly.com/carl-zylora/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group/btn inline-flex items-center justify-center h-14 px-8 rounded-xl btn-premium"
+                >
+                  <span className="relative z-10 inline-flex items-center justify-center text-base font-semibold text-white">
+                    Kom igång gratis
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                  </span>
+                </a>
+              </div>
+
+              {/* Volume tiers */}
+              <div className="border-t border-white/10 p-6 md:p-8 bg-white/[0.02]">
+                <h4 className="text-center text-sm font-medium text-gray-400 mb-6">Volymrabatt — du uppgraderas automatiskt</h4>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {volumeTiers.map((tier, index) => (
+                    <div
+                      key={tier.name}
+                      className={`relative p-5 rounded-2xl border transition-all duration-300 ${
+                        index === 0
+                          ? 'bg-violet-500/10 border-violet-500/30'
+                          : 'glass border-white/10 hover:border-white/20'
+                      }`}
+                    >
+                      {index === 0 && (
+                        <div className="absolute -top-2 left-1/2 -translate-x-1/2">
+                          <span className="px-3 py-0.5 rounded-full bg-violet-500/20 border border-violet-500/30 text-xs text-violet-400 font-medium">
+                            Din start
+                          </span>
+                        </div>
+                      )}
+                      <div className="text-center">
+                        <h5 className="text-lg font-display font-semibold text-white mb-1">{tier.name}</h5>
+                        {tier.threshold && (
+                          <p className="text-xs text-gray-500 mb-2">{tier.threshold}</p>
+                        )}
+                        <p className="text-3xl font-display font-bold text-white mb-1">{tier.fee}</p>
+                        <p className="text-sm text-gray-400">{tier.cap}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
+
+                <p className="text-center text-sm text-gray-500 mt-6">
+                  Du startar på Starter. Vi uppgraderar dig automatiskt när du växer.
+                </p>
               </div>
             </div>
-          ))}
+          </div>
         </div>
 
         <p className="text-center text-gray-500 text-sm mt-8">
@@ -252,9 +181,9 @@ const Pricing = () => {
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { icon: Receipt, title: 'Management fee', desc: 'Fast månadsavgift beroende på plan. Ingen startavgift, ingen bindningstid.', color: 'violet' },
-              { icon: CreditCard, title: 'Performance fee', desc: '10% på belopp som återvinns efter att vi påbörjat uppföljningen. Max-tak varierar per plan.', color: 'blue' },
-              { icon: Shield, title: 'Ingen risk', desc: 'Vi tjänar bara pengar när ni gör det. Ingen ersättning om inget återvinns (utöver månadsavgiften).', color: 'emerald' },
+              { icon: Receipt, title: 'Management fee', desc: 'Ingen månadsavgift. Ingen startavgift, ingen bindningstid.', color: 'violet' },
+              { icon: CreditCard, title: 'Performance fee', desc: '5% på belopp som återvinns efter att vi påbörjat uppföljningen. Max 5 000 kr per faktura.', color: 'blue' },
+              { icon: Shield, title: 'Ingen risk', desc: 'Vi tjänar bara pengar när ni gör det. Ingen ersättning om inget återvinns.', color: 'emerald' },
             ].map((item, index) => {
               const colorMap: Record<string, { bg: string; border: string; text: string; hover: string }> = {
                 violet: { bg: 'bg-violet-500/10', border: 'border-violet-500/20', text: 'text-violet-400', hover: 'hover:border-violet-500/30' },
@@ -311,7 +240,7 @@ const Pricing = () => {
             <div className="hidden sm:block w-px h-6 bg-white/10" />
             <div className="flex items-center gap-3 group cursor-default">
               <Check className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform" />
-              <span className="text-gray-300 group-hover:text-white transition-colors">Låg fast avgift</span>
+              <span className="text-gray-300 group-hover:text-white transition-colors">Ingen fast avgift</span>
             </div>
             <div className="hidden sm:block w-px h-6 bg-white/10" />
             <div className="flex items-center gap-3 group cursor-default">

@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     question: "Vad kostar tjänsten?",
-    answer: "1 900 kr/månad (ex moms) i management fee, plus 10% performance fee på allt vi får in åt dig. Max 10 000 kr/faktura. Inga dolda avgifter, ingen bindningstid."
+    answer: "Ingen månadsavgift. Du betalar 5% av det vi driver in åt dig, max 5 000 kr per faktura. Inga dolda avgifter, ingen bindningstid."
   },
   {
     question: "Hur lång tid tar det?",
