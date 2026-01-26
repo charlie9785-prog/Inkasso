@@ -159,42 +159,42 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             />
 
             {/* User Menu (Desktop) */}
-            <div className="relative hidden lg:block">
+            <div className="relative hidden lg:block z-50">
               <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
                 className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-white/5 transition-colors"
               >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-blue-600 flex items-center justify-center">
-                <User className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-sm font-medium text-white">{tenant?.name || user?.email}</span>
-              <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
-            </button>
-
-            {/* Dropdown Menu */}
-            {userMenuOpen && (
-              <>
-                <div
-                  className="fixed inset-0 z-40"
-                  onClick={() => setUserMenuOpen(false)}
-                />
-                <div className="absolute right-0 mt-2 w-48 glass-strong border border-white/10 rounded-xl overflow-hidden z-50">
-                  <div className="p-2">
-                    <div className="px-3 py-2 border-b border-white/10 mb-2">
-                      <p className="text-sm text-white font-medium">{tenant?.name || 'Användare'}</p>
-                      <p className="text-xs text-gray-500">{user?.email}</p>
-                    </div>
-                    <button
-                      onClick={logout}
-                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
-                    >
-                      <LogOut className="w-4 h-4" />
-                      <span>Logga ut</span>
-                    </button>
-                  </div>
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-blue-600 flex items-center justify-center">
+                  <User className="w-4 h-4 text-white" />
                 </div>
-              </>
-            )}
+                <span className="text-sm font-medium text-white">{tenant?.name || user?.email}</span>
+                <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Dropdown Menu */}
+              {userMenuOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 z-[60]"
+                    onClick={() => setUserMenuOpen(false)}
+                  />
+                  <div className="absolute right-0 mt-2 w-48 glass-strong border border-white/10 rounded-xl overflow-hidden z-[70] shadow-xl">
+                    <div className="p-2">
+                      <div className="px-3 py-2 border-b border-white/10 mb-2">
+                        <p className="text-sm text-white font-medium">{tenant?.name || 'Användare'}</p>
+                        <p className="text-xs text-gray-500">{user?.email}</p>
+                      </div>
+                      <button
+                        onClick={logout}
+                        className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        <span>Logga ut</span>
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </header>
