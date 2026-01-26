@@ -79,13 +79,13 @@ const Pricing = () => {
                   <Zap className="w-6 h-6 text-violet-400" />
                   <div className="text-left">
                     <div className="text-2xl font-display font-bold text-white">5% success fee</div>
-                    <div className="text-gray-300">på det vi driver in åt dig</div>
+                    <div className="text-gray-300">på det vi får in åt dig</div>
                   </div>
                 </div>
 
                 {/* Simple explanation */}
                 <p className="text-gray-300 text-lg mb-8 max-w-md mx-auto">
-                  Vi tar 5% av beloppet vi lyckas driva in. Max 5 000 kr per faktura. Lyckas vi inte — kostar det dig inget.
+                  Vi tar 5% av beloppet vi får in åt dig. Max 5 000 kr per faktura. Får vi inte in något — kostar det dig inget.
                 </p>
 
                 {/* CTA */}
@@ -195,8 +195,8 @@ const Pricing = () => {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               { icon: Receipt, title: 'Ingen månadsavgift', desc: 'Ingen fast kostnad. Ingen startavgift. Ingen bindningstid.', color: 'violet' },
-              { icon: CreditCard, title: '5% success fee', desc: 'Vi tar 5% på belopp vi driver in åt dig. Max 5 000 kr per faktura.', color: 'blue' },
-              { icon: Shield, title: 'Ingen risk', desc: 'Lyckas vi inte driva in pengarna? Då kostar det dig ingenting.', color: 'emerald' },
+              { icon: CreditCard, title: '5% success fee', desc: 'Vi tar 5% på belopp vi får in åt dig. Max 5 000 kr per faktura.', color: 'blue' },
+              { icon: Shield, title: 'Ingen risk', desc: 'Får vi inte in pengarna? Då kostar det dig ingenting.', color: 'emerald' },
             ].map((item, index) => {
               const colorMap: Record<string, { bg: string; border: string; text: string }> = {
                 violet: { bg: 'bg-violet-500/15', border: 'border-violet-500/30', text: 'text-violet-400' },
