@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, ArrowLeft, Check, ExternalLink, Phone, Building2, Mail, User, Loader2 } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, ExternalLink, Phone, Building2, Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
 import { navigate } from '../../lib/navigation';
 
 // Fortnox logo as SVG
@@ -14,6 +14,7 @@ interface CompanyData {
   org_number: string;
   email: string;
   phone: string;
+  password: string;
   fortnox_state: string;
   visma_state: string;
   connectedSystem: 'fortnox' | 'visma' | null;
@@ -32,10 +33,12 @@ const GetStarted: React.FC = () => {
     org_number: '',
     email: '',
     phone: '',
+    password: '',
     fortnox_state: '',
     visma_state: '',
     connectedSystem: null,
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   // Check for OAuth callback on mount
   useEffect(() => {
@@ -49,20 +52,27 @@ const GetStarted: React.FC = () => {
     const provider = params.get('provider'); // 'fortnox' or 'visma'
 
     // Coming back from OAuth with state token (either Fortnox or Visma)
-    if (state && (companyName || orgNumber)) {
+    // Works for both /kom-igang and /kom-igang/bekrafta
+    if (state && provider) {
       const isVisma = provider === 'visma';
-      setCompanyData({
-        company_name: decodeURIComponent(companyName || ''),
-        org_number: decodeURIComponent(orgNumber || ''),
-        email: decodeURIComponent(email || ''),
-        phone: decodeURIComponent(phone || ''),
+      setCompanyData(prev => ({
+        ...prev,
+        company_name: companyName ? decodeURIComponent(companyName) : prev.company_name,
+        org_number: orgNumber ? decodeURIComponent(orgNumber) : prev.org_number,
+        email: email ? decodeURIComponent(email) : prev.email,
+        phone: phone ? decodeURIComponent(phone) : prev.phone,
         fortnox_state: isVisma ? '' : state,
         visma_state: isVisma ? state : '',
         connectedSystem: isVisma ? 'visma' : 'fortnox',
-      });
+      }));
       setCurrentStep('confirm');
-      // Clean URL
-      window.history.replaceState({}, '', '/kom-igang');
+      // Clean URL but stay on current path
+      window.history.replaceState({}, '', pathname.includes('/bekrafta') ? '/kom-igang/bekrafta' : '/kom-igang');
+    }
+
+    // Handle /kom-igang/bekrafta path without OAuth params (direct navigation)
+    if (pathname === '/kom-igang/bekrafta' || pathname.includes('/bekrafta')) {
+      setCurrentStep('confirm');
     }
 
     // Handle /kom-igang/klart path
@@ -168,6 +178,7 @@ const GetStarted: React.FC = () => {
           company_name: companyData.company_name,
           org_number: companyData.org_number,
           email: companyData.email,
+          password: companyData.password,
           phone: companyData.phone || undefined,
           fortnox_state: companyData.fortnox_state || undefined,
           visma_state: companyData.visma_state || undefined,
@@ -379,6 +390,29 @@ const GetStarted: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <Lock className="w-4 h-4 inline mr-2" />
+                    Lösenord
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={companyData.password}
+                      onChange={(e) => setCompanyData({ ...companyData, password: e.target.value })}
+                      className="w-full px-4 py-3 pr-12 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-violet-500/50 focus:outline-none transition-colors"
+                      placeholder="Minst 8 tecken"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                    >
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
                     <Phone className="w-4 h-4 inline mr-2" />
                     Telefon <span className="text-gray-500">(valfritt)</span>
                   </label>
@@ -394,7 +428,7 @@ const GetStarted: React.FC = () => {
 
               <button
                 onClick={handleSignup}
-                disabled={isLoading || !companyData.company_name || !companyData.org_number || !companyData.email}
+                disabled={isLoading || !companyData.company_name || !companyData.org_number || !companyData.email || !companyData.password || companyData.password.length < 8}
                 className="w-full mt-8 h-14 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
               >
                 {isLoading ? (
