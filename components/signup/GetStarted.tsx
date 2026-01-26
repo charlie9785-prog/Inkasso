@@ -15,6 +15,8 @@ interface CompanyData {
   email: string;
   phone: string;
   fortnox_state: string;
+  visma_state: string;
+  connectedSystem: 'fortnox' | 'visma' | null;
 }
 
 type Step = 'connect' | 'confirm' | 'complete';
@@ -31,6 +33,8 @@ const GetStarted: React.FC = () => {
     email: '',
     phone: '',
     fortnox_state: '',
+    visma_state: '',
+    connectedSystem: null,
   });
 
   // Check for OAuth callback on mount
@@ -42,15 +46,19 @@ const GetStarted: React.FC = () => {
     const orgNumber = params.get('org_number');
     const email = params.get('email');
     const phone = params.get('phone');
+    const provider = params.get('provider'); // 'fortnox' or 'visma'
 
-    // Coming back from Fortnox OAuth with state token (either path)
+    // Coming back from OAuth with state token (either Fortnox or Visma)
     if (state && (companyName || orgNumber)) {
+      const isVisma = provider === 'visma';
       setCompanyData({
         company_name: decodeURIComponent(companyName || ''),
         org_number: decodeURIComponent(orgNumber || ''),
         email: decodeURIComponent(email || ''),
         phone: decodeURIComponent(phone || ''),
-        fortnox_state: state,
+        fortnox_state: isVisma ? '' : state,
+        visma_state: isVisma ? state : '',
+        connectedSystem: isVisma ? 'visma' : 'fortnox',
       });
       setCurrentStep('confirm');
       // Clean URL
@@ -62,9 +70,10 @@ const GetStarted: React.FC = () => {
       setCurrentStep('complete');
     }
 
-    const fortnoxError = params.get('error');
-    if (fortnoxError) {
-      setError('Kunde inte ansluta till Fortnox. Försök igen.');
+    const oauthError = params.get('error');
+    if (oauthError) {
+      const errorProvider = provider === 'visma' ? 'Visma' : 'Fortnox';
+      setError(`Kunde inte ansluta till ${errorProvider}. Försök igen.`);
       window.history.replaceState({}, '', '/kom-igang');
     }
   }, []);
@@ -78,18 +87,70 @@ const GetStarted: React.FC = () => {
         `${SUPABASE_URL}/functions/v1/fortnox-oauth?action=authorize&mode=signup`,
         {
           method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          },
+          redirect: 'follow',
         }
       );
 
+      console.log('OAuth response status:', response.status);
+
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('OAuth error:', errorText);
         throw new Error('Kunde inte starta anslutning');
       }
 
       const data = await response.json();
+      console.log('OAuth data:', data);
+
       if (data.authorization_url) {
         window.location.href = data.authorization_url;
+      } else {
+        throw new Error('Ingen authorization_url i svaret');
       }
     } catch (err) {
+      console.error('OAuth fetch error:', err);
+      setError('Något gick fel. Försök igen.');
+      setIsLoading(false);
+    }
+  };
+
+  const startVismaOAuth = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `${SUPABASE_URL}/functions/v1/visma-oauth?action=authorize&mode=signup`,
+        {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          },
+          redirect: 'follow',
+        }
+      );
+
+      console.log('Visma OAuth response status:', response.status);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Visma OAuth error:', errorText);
+        throw new Error('Kunde inte starta anslutning');
+      }
+
+      const data = await response.json();
+      console.log('Visma OAuth data:', data);
+
+      if (data.authorization_url) {
+        window.location.href = data.authorization_url;
+      } else {
+        throw new Error('Ingen authorization_url i svaret');
+      }
+    } catch (err) {
+      console.error('Visma OAuth fetch error:', err);
       setError('Något gick fel. Försök igen.');
       setIsLoading(false);
     }
@@ -108,7 +169,8 @@ const GetStarted: React.FC = () => {
           org_number: companyData.org_number,
           email: companyData.email,
           phone: companyData.phone || undefined,
-          fortnox_state: companyData.fortnox_state,
+          fortnox_state: companyData.fortnox_state || undefined,
+          visma_state: companyData.visma_state || undefined,
         }),
       });
 
@@ -198,19 +260,27 @@ const GetStarted: React.FC = () => {
                   )}
                 </button>
 
-                {/* Visma - Coming soon */}
-                <div className="w-full flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/5 opacity-60 cursor-not-allowed">
+                {/* Visma - Active */}
+                <button
+                  onClick={startVismaOAuth}
+                  disabled={isLoading}
+                  className="w-full flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:border-violet-500/50 hover:bg-violet-500/5 transition-all group"
+                >
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-xl bg-[#1A1F71]/20 flex items-center justify-center">
-                      <span className="text-[#1A1F71] font-bold text-lg opacity-50">V</span>
+                      <span className="text-[#E91E63] font-bold text-lg">V</span>
                     </div>
                     <div className="text-left">
-                      <div className="font-semibold text-gray-500">Visma</div>
-                      <div className="text-sm text-gray-600">Kommer snart</div>
+                      <div className="font-semibold text-white">Visma</div>
+                      <div className="text-sm text-gray-400">Anslut med ett klick</div>
                     </div>
                   </div>
-                  <span className="text-xs text-gray-600 px-2 py-1 rounded-full bg-white/5">Kommer snart</span>
-                </div>
+                  {isLoading ? (
+                    <Loader2 className="w-5 h-5 text-violet-400 animate-spin" />
+                  ) : (
+                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-violet-400 group-hover:translate-x-1 transition-all" />
+                  )}
+                </button>
 
                 {/* Björn Lundén - Coming soon */}
                 <div className="w-full flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/5 opacity-60 cursor-not-allowed">
@@ -247,14 +317,16 @@ const GetStarted: React.FC = () => {
             <div>
               <div className="flex items-center gap-2 text-emerald-400 mb-4">
                 <Check className="w-5 h-5" />
-                <span className="font-medium">Fortnox kopplat!</span>
+                <span className="font-medium">
+                  {companyData.connectedSystem === 'visma' ? 'Visma kopplat!' : 'Fortnox kopplat!'}
+                </span>
               </div>
 
               <h2 className="text-2xl font-display font-bold text-white mb-2">
                 Bekräfta dina uppgifter
               </h2>
               <p className="text-gray-400 mb-8">
-                Vi har hämtat informationen från Fortnox
+                Vi har hämtat informationen från {companyData.connectedSystem === 'visma' ? 'Visma' : 'Fortnox'}
               </p>
 
               {error && (
@@ -364,7 +436,7 @@ const GetStarted: React.FC = () => {
                     <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
                     <div>
                       <div className="text-white">Vi hämtar förfallna fakturor</div>
-                      <div className="text-sm text-gray-400">från Fortnox varje dag</div>
+                      <div className="text-sm text-gray-400">från {companyData.connectedSystem === 'visma' ? 'Visma' : 'Fortnox'} varje dag</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
