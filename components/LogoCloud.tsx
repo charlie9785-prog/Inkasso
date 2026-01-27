@@ -28,11 +28,11 @@ const LogoCloud: React.FC = () => {
             Integrerar med
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-12">
             {integrations.map((integration) => (
               <div
                 key={integration.name}
-                className="group flex items-center gap-3 px-6 py-3 rounded-xl glass border border-white/10 hover:border-white/20 transition-all duration-300 cursor-default"
+                className="group flex items-center gap-2 sm:gap-3 px-4 py-2 sm:px-6 sm:py-3 rounded-xl glass border border-white/10 hover:border-white/20 transition-all duration-300 cursor-default"
               >
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm group-hover:scale-110 transition-transform"
@@ -48,7 +48,7 @@ const LogoCloud: React.FC = () => {
           </div>
 
           {/* Trust badges */}
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-6">
+          <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <Shield className="w-4 h-4 text-emerald-400" />
               <span>GDPR-compliant</span>

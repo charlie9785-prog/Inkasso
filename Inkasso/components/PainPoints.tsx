@@ -82,22 +82,22 @@ const PainPoints: React.FC = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-24 px-6 relative overflow-hidden">
+    <section ref={sectionRef} className="py-14 md:py-24 px-6 relative overflow-hidden">
       {/* Background effects */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section header */}
-        <div className={`text-center mb-16 reveal ${isVisible ? 'visible' : ''}`}>
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 tracking-tight">
+        <div className={`text-center mb-10 md:mb-16 reveal ${isVisible ? 'visible' : ''}`}>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold mb-4 md:mb-6 tracking-tight">
             <span className="text-white">Känner du igen dig?</span>
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-8">
+          <p className="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto mb-6 md:mb-8">
             Sena betalningar kostar mer än pengar. De kostar tid, energi och tillväxt.
           </p>
 
           {/* External statistic */}
-          <div className="inline-flex flex-col items-center gap-2 px-6 py-4 rounded-xl glass border border-white/10">
+          <div className="inline-flex flex-col items-center gap-2 px-4 py-3 sm:px-6 sm:py-4 rounded-xl glass border border-white/10">
             <p className="text-white font-medium">
               "Svenska företag lägger i snitt <span className="text-violet-400">10 timmar i veckan</span> på att jaga betalningar."
             </p>
@@ -117,13 +117,13 @@ const PainPoints: React.FC = () => {
                 className={`reveal ${isVisible ? 'visible' : ''}`}
                 style={{ transitionDelay: `${150 + index * 100}ms` }}
               >
-                <div className={`group relative p-8 rounded-2xl ${colors.bg} border ${colors.border} hover:border-white/20 transition-all duration-300 h-full`}>
+                <div className={`group relative p-5 sm:p-6 md:p-8 rounded-2xl ${colors.bg} border ${colors.border} hover:border-white/20 transition-all duration-300 h-full`}>
                   {/* Number badge */}
                   <div className={`absolute -top-3 -left-3 w-8 h-8 rounded-full ${colors.iconBg} border ${colors.border} flex items-center justify-center`}>
                     <span className={`text-sm font-bold ${colors.text}`}>{point.id}</span>
                   </div>
 
-                  <div className="flex items-start gap-5">
+                  <div className="flex items-start gap-3 sm:gap-4 md:gap-5">
                     {/* Icon */}
                     <div className={`w-12 h-12 rounded-xl ${colors.iconBg} border ${colors.border} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
                       <point.icon className={`w-6 h-6 ${colors.text}`} />

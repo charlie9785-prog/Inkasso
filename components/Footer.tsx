@@ -17,15 +17,15 @@ const footerLinks = {
 
 const Footer = () => {
   return (
-    <footer className="relative border-t border-white/5 pt-20 pb-10 px-6 overflow-hidden">
+    <footer className="relative border-t border-white/5 pt-12 pb-8 md:pt-20 md:pb-10 px-6 overflow-hidden">
       {/* Background effect */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-violet-500/5 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Main footer content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12 mb-10 md:mb-16">
           {/* Brand */}
-          <div className="lg:col-span-1">
+          <div className="col-span-2 md:col-span-1 lg:col-span-1">
             <a href="#" className="flex items-center gap-3 mb-6 group">
               <div className="relative">
                 <div className="w-8 h-8 bg-gradient-to-br from-violet-500 to-blue-600 rounded-lg rotate-45 group-hover:rotate-[405deg] transition-transform duration-700" />

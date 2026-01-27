@@ -11,12 +11,12 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative pt-32 pb-24 px-6 overflow-hidden min-h-[95vh] flex flex-col justify-center">
+    <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 px-6 overflow-hidden min-h-[85vh] md:min-h-[95vh] flex flex-col justify-center">
       <div className="relative z-10 max-w-7xl mx-auto text-center flex flex-col items-center">
 
         {/* Premium Badge */}
         <div
-          className={`group relative inline-flex items-center gap-3 px-5 py-2 rounded-full glass border border-white/10 hover:border-violet-500/50 cursor-default mb-12 overflow-hidden shine-hover badge-hover ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}
+          className={`group relative inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-2 rounded-full glass border border-white/10 hover:border-violet-500/50 cursor-default mb-8 md:mb-12 overflow-hidden shine-hover badge-hover ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}
           style={{ animationDelay: '0.1s', animationFillMode: 'forwards' }}
         >
           <span className="flex h-2.5 w-2.5 relative">
@@ -31,7 +31,7 @@ const Hero = () => {
 
         {/* Main Headline */}
         <h1
-          className={`text-5xl md:text-7xl lg:text-[5.5rem] font-display font-bold tracking-tight mb-8 max-w-5xl mx-auto leading-[1.05] ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
+          className={`text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-[5.5rem] font-display font-bold tracking-tight mb-6 md:mb-8 max-w-5xl mx-auto leading-[1.08] md:leading-[1.05] ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
           style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}
         >
           <span className="text-white">Vi sköter dialogen med era kunder</span>
@@ -43,7 +43,7 @@ const Hero = () => {
 
         {/* Subheadline */}
         <p
-          className={`text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-14 leading-relaxed ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
+          className={`text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 md:mb-14 leading-relaxed ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
           style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}
         >
           <span className="text-white font-medium">Anslut Fortnox, Visma eller Björn Lundén på 60 sekunder.</span> Vi tar kontakt, följer upp och ser till att pengarna kommer in.
@@ -56,7 +56,7 @@ const Hero = () => {
         >
           <a
             href="/kom-igang"
-            className="group h-14 px-10 rounded-full btn-premium magnetic-hover shine-hover inline-flex items-center"
+            className="group h-12 px-8 sm:h-14 sm:px-10 rounded-full btn-premium magnetic-hover shine-hover inline-flex items-center"
           >
             <span className="relative z-10 inline-flex items-center text-base font-semibold text-white">
               Kom igång gratis
@@ -71,7 +71,7 @@ const Hero = () => {
 
         {/* Trust indicators */}
         <div
-          className={`flex flex-wrap items-center justify-center gap-8 text-sm text-gray-500 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}
+          className={`flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-8 text-sm text-gray-500 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}
           style={{ animationDelay: '0.5s', animationFillMode: 'forwards' }}
         >
           {['Inga dolda avgifter', 'Ingen bindningstid', '60 sek integration'].map((text, i) => (

@@ -24,35 +24,35 @@ const Comparison = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-32 px-6 relative overflow-hidden" id="services">
+    <section ref={sectionRef} className="py-16 md:py-32 px-6 relative overflow-hidden" id="services">
       {/* Background decoration */}
       <div className="absolute top-1/2 right-0 w-1/3 h-[600px] bg-emerald-500/[0.04] blur-[150px] rounded-full pointer-events-none" />
       <div className="absolute top-1/2 left-0 w-1/3 h-[600px] bg-rose-500/[0.04] blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section header */}
-        <div className={`text-center mb-20 reveal ${isVisible ? 'visible' : ''}`}>
+        <div className={`text-center mb-12 md:mb-20 reveal ${isVisible ? 'visible' : ''}`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 hover:border-violet-500/50 hover:bg-violet-500/10 transition-all duration-300 mb-8 cursor-default badge-hover">
             <Sparkles className="w-4 h-4 text-violet-400" />
             <span className="text-sm font-medium text-gray-400">Vad gör oss unika</span>
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-4 md:mb-6 tracking-tight">
             <span className="text-white">Vi är </span>
             <span className="text-rose-400 line-through decoration-2 decoration-rose-500/70">inte</span>
             <span className="text-white"> ett inkassobolag</span>
           </h2>
 
-          <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p className="text-gray-400 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             Vi arbetar <span className="text-white font-medium">innan</span> inkasso blir aktuellt.
             Det är en helt annan approach — och det gör hela skillnaden för dina kundrelationer.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
           {/* Inkasso Column */}
           <div className={`relative group reveal-left ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '200ms' }}>
-            <div className="relative rounded-2xl glass border border-white/10 p-8 h-full hover:border-rose-500/40 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(244,63,94,0.15)]">
+            <div className="relative rounded-2xl glass border border-white/10 p-5 sm:p-6 md:p-8 h-full hover:border-rose-500/40 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(244,63,94,0.15)]">
               {/* Badge */}
               <div className="absolute -top-4 left-8">
                 <div className="px-4 py-2 rounded-full bg-rose-500/20 border border-rose-500/30 text-rose-300 text-sm font-semibold backdrop-blur-sm">
@@ -90,7 +90,7 @@ const Comparison = () => {
 
           {/* Zylora Column */}
           <div className={`relative group reveal-right ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '400ms' }}>
-            <div className="relative rounded-2xl glass border border-white/10 hover:border-emerald-500/50 transition-all duration-500 p-8 h-full hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(16,185,129,0.2)]">
+            <div className="relative rounded-2xl glass border border-white/10 hover:border-emerald-500/50 transition-all duration-500 p-5 sm:p-6 md:p-8 h-full hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(16,185,129,0.2)]">
               {/* Badge */}
               <div className="absolute -top-4 left-8">
                 <div className="px-4 py-2 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-sm font-semibold backdrop-blur-sm flex items-center gap-2">

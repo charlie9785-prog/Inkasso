@@ -33,7 +33,7 @@ const Pricing = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="pricing" className="py-32 px-6 relative overflow-hidden">
+    <section ref={sectionRef} id="pricing" className="py-16 md:py-32 px-6 relative overflow-hidden">
       {/* Background effects */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-violet-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
@@ -46,13 +46,13 @@ const Pricing = () => {
             <span className="text-sm font-medium text-gray-300">Priser & betalning</span>
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-6 tracking-tight">
             <span className="text-white">Enkel prissättning.</span>
             <br />
             <span className="gradient-text">Betala bara när du får betalt.</span>
           </h2>
 
-          <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p className="text-gray-300 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             Ingen månadsavgift. Ingen startavgift. Du betalar endast när vi lyckas.
           </p>
         </div>
@@ -63,10 +63,10 @@ const Pricing = () => {
             {/* Card */}
             <div className="relative bg-[#0d0d1a] border border-white/10 rounded-3xl overflow-hidden">
               {/* Main pricing */}
-              <div className="p-10 md:p-14 text-center">
+              <div className="p-6 sm:p-8 md:p-10 lg:p-14 text-center">
                 {/* Big zero */}
                 <div className="mb-8">
-                  <div className="text-7xl md:text-8xl font-display font-bold text-white mb-2">
+                  <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-bold text-white mb-2">
                     0 kr
                   </div>
                   <div className="text-xl text-gray-300 font-medium">
@@ -75,16 +75,16 @@ const Pricing = () => {
                 </div>
 
                 {/* Success fee highlight */}
-                <div className="inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-violet-500/10 border border-violet-500/30 mb-8">
-                  <Zap className="w-6 h-6 text-violet-400" />
+                <div className="inline-flex items-center gap-3 px-4 py-3 sm:px-6 sm:py-4 rounded-2xl bg-violet-500/10 border border-violet-500/30 mb-8">
+                  <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-violet-400" />
                   <div className="text-left">
-                    <div className="text-2xl font-display font-bold text-white">5% success fee</div>
+                    <div className="text-xl sm:text-2xl font-display font-bold text-white">5% success fee</div>
                     <div className="text-gray-300">på betalningar som kommer in</div>
                   </div>
                 </div>
 
                 {/* Simple explanation */}
-                <p className="text-gray-300 text-lg mb-8 max-w-md mx-auto">
+                <p className="text-gray-300 text-base sm:text-lg mb-8 max-w-md mx-auto">
                   Vi tar 5% på betalningar som kommer in. Max 5 000 kr per faktura. Ingen betalning — ingen kostnad.
                 </p>
 
@@ -101,7 +101,7 @@ const Pricing = () => {
               </div>
 
               {/* Features */}
-              <div className="border-t border-white/10 p-8 bg-white/[0.02]">
+              <div className="border-t border-white/10 p-4 sm:p-6 md:p-8 bg-white/[0.02]">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {mainFeatures.map((feature, index) => (
                     <div key={index} className="flex items-center gap-3">
@@ -209,7 +209,7 @@ const Pricing = () => {
                   className={`reveal ${isVisible ? 'visible' : ''}`}
                   style={{ transitionDelay: `${500 + index * 100}ms` }}
                 >
-                  <div className="bg-[#0d0d1a] border border-white/10 rounded-2xl p-8 h-full hover:border-white/20 transition-colors">
+                  <div className="bg-[#0d0d1a] border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8 h-full hover:border-white/20 transition-colors">
                     <div className={`w-12 h-12 rounded-xl ${colors.bg} ${colors.border} border flex items-center justify-center mb-6`}>
                       <item.icon className={`w-6 h-6 ${colors.text}`} />
                     </div>
@@ -224,8 +224,8 @@ const Pricing = () => {
 
         {/* What counts as collected */}
         <div className={`mt-16 max-w-3xl mx-auto reveal ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '800ms' }}>
-          <div className="bg-[#0d0d1a] border border-white/10 rounded-2xl p-8">
-            <div className="flex items-start gap-4">
+          <div className="bg-[#0d0d1a] border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8">
+            <div className="flex items-start gap-3 sm:gap-4">
               <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center flex-shrink-0">
                 <HelpCircle className="w-5 h-5 text-amber-400" />
               </div>
@@ -243,7 +243,7 @@ const Pricing = () => {
 
         {/* Bottom summary */}
         <div className={`mt-16 text-center reveal ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '900ms' }}>
-          <div className="inline-flex flex-col sm:flex-row items-center gap-6 sm:gap-8 px-8 py-6 rounded-2xl bg-[#0d0d1a] border border-white/10">
+          <div className="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 md:gap-8 px-4 py-4 sm:px-6 sm:py-5 md:px-8 md:py-6 rounded-2xl bg-[#0d0d1a] border border-white/10">
             <div className="flex items-center gap-3">
               <Check className="w-5 h-5 text-emerald-400" />
               <span className="text-gray-200">Du slipper jaga sena betalningar</span>

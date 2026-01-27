@@ -62,30 +62,30 @@ const Testimonials = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-32 px-6 relative overflow-hidden">
+    <section ref={sectionRef} className="py-16 md:py-32 px-6 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-violet-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section header */}
-        <div className={`text-center mb-20 reveal ${isVisible ? 'visible' : ''}`}>
+        <div className={`text-center mb-12 md:mb-20 reveal ${isVisible ? 'visible' : ''}`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 hover:border-violet-500/30 transition-colors mb-8 hover-glow cursor-default">
             <Users className="w-4 h-4 text-violet-400" />
             <span className="text-sm font-medium text-gray-400">Kundberättelser</span>
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-4 md:mb-6 tracking-tight">
             <span className="text-white">Företag som fått </span>
             <span className="gradient-text">betalt</span>
           </h2>
 
-          <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p className="text-gray-400 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             Över 200 svenska företag använder Zylora för att få in sina fakturor — utan att förlora kunder.
           </p>
         </div>
 
         {/* Testimonials grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
           {testimonials.map((testimonial, index) => {
             const colors = colorMap[testimonial.color];
             return (
@@ -94,7 +94,7 @@ const Testimonials = () => {
                 className={`group relative reveal ${isVisible ? 'visible' : ''}`}
                 style={{ transitionDelay: `${200 + index * 150}ms` }}
               >
-                <div className={`relative h-full glass border border-white/10 rounded-2xl p-8 hover:border-${testimonial.color}-500/30 transition-all duration-500 hover-lift`}>
+                <div className={`relative h-full glass border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8 hover:border-${testimonial.color}-500/30 transition-all duration-500 hover-lift`}>
                   {/* Quote icon */}
                   <div className={`absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity`}>
                     <Quote className={`w-16 h-16 ${colors.text}`} />
@@ -129,14 +129,14 @@ const Testimonials = () => {
         </div>
 
         {/* Stats bar */}
-        <div className={`mt-20 reveal ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '600ms' }}>
+        <div className={`mt-12 md:mt-20 reveal ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '600ms' }}>
           <div className="relative glass border border-white/10 rounded-2xl hover:border-violet-500/20 transition-colors">
             <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-white/5">
               {stats.map((stat, index) => {
                 const colors = colorMap[stat.color];
                 return (
                   <div key={index} className="text-center py-8 px-4 group cursor-default hover:bg-white/[0.02] transition-colors">
-                    <div className={`text-4xl md:text-5xl font-display font-bold text-white mb-2 group-hover:${colors.text} transition-colors`}>
+                    <div className={`text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white mb-2 group-hover:${colors.text} transition-colors`}>
                       {stat.value}
                     </div>
                     <div className={`text-sm text-gray-500 group-hover:${colors.text} transition-colors`}>{stat.label}</div>

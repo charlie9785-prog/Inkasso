@@ -8,11 +8,11 @@ const faqs = [
   },
   {
     question: "När börjar ni agera på en förfallen faktura?",
-    answer: "Vi kommer överens om en gräns som passar dig — vanligast är 7-14 dagar efter förfallodatum. Sen tar vårt team över uppföljningen utan att du behöver göra något. Ju tidigare vi kommer in, desto större chans att lösa det smidigt."
+    answer: "Vi kommer överens om en gräns som passar dig — vanligast är 7-14 dagar efter förfallodatum. Sen tar vårt team över dialogen utan att du behöver göra något. Ju tidigare vi kommer in, desto större chans att lösa det smidigt."
   },
   {
     question: "Vad kostar tjänsten?",
-    answer: "Ingen månadsavgift. Du betalar 5% av det vi driver in åt dig, max 5 000 kr per faktura. Inga dolda avgifter, ingen bindningstid."
+    answer: "Ingen månadsavgift, ingen startavgift och ingen bindningstid. Du betalar 5% på betalningar som kommer in, max 5 000 kr per faktura. Har du många ärenden sänks avgiften automatiskt — ner till 3% för större volymer."
   },
   {
     question: "Hur lång tid tar det?",
@@ -23,16 +23,16 @@ const faqs = [
     answer: "I de få fall (cirka 4%) där vi inte lyckas kan vi hjälpa dig vidare till nästa steg. Men då har vi åtminstone försökt med personlig uppföljning först, och du vet att du gjort allt för att bevara relationen."
   },
   {
-    question: "Hur fungerar Fortnox-integrationen?",
-    answer: "Superenkelt! Du ansluter ditt Fortnox-konto till Zylora på 60 sekunder. Sedan tar vårt team över — du behöver aldrig logga in igen. Vi ser alla förfallna fakturor och börjar uppföljningen."
+    question: "Hur fungerar integrationen med mitt ekonomisystem?",
+    answer: "Superenkelt! Du ansluter Fortnox, Visma eller Björn Lundén till Zylora på 60 sekunder. Sedan tar vårt team över och ser alla förfallna fakturor automatiskt."
   },
   {
-    question: "Vad händer om jag inte använder Fortnox?",
-    answer: "Just nu stödjer vi endast Fortnox, men fler integrationer är på väg. Kontakta oss så berättar vi mer om när ditt ekonomisystem får stöd."
+    question: "Vad händer om jag inte använder Fortnox, Visma eller Björn Lundén?",
+    answer: "Vi stödjer Fortnox, Visma och Björn Lundén. Använder du ett annat system — kontakta oss så hittar vi en lösning. Fler integrationer är på väg."
   },
   {
     question: "Hur vet jag vad som händer i ärendet?",
-    answer: "Varje fredag får du en veckorapport via mejl med allt som hänt — vilka fakturor vårt team arbetar med, vilka betalningar som är på väg, och vilka ärenden som är lösta. Inga inloggningar, inga extra system."
+    answer: "Du har en dashboard där du kan följa varje ärende i realtid. Dessutom får du en veckorapport via mejl varje fredag med allt som hänt — vilka fakturor vårt team arbetar med, vilka betalningar som är på väg, och vilka ärenden som är lösta."
   },
   {
     question: "Vilka typer av företag hjälper ni?",
@@ -64,20 +64,20 @@ const FAQ = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-32 px-6 relative overflow-hidden">
+    <section ref={sectionRef} className="py-16 md:py-32 px-6 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute bottom-0 right-0 w-1/2 h-[500px] bg-blue-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
       <div className="absolute top-0 left-0 w-1/3 h-[400px] bg-violet-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-3xl mx-auto relative z-10">
         {/* Section header */}
-        <div className={`text-center mb-16 reveal ${isVisible ? 'visible' : ''}`}>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 hover:border-violet-500/30 transition-colors mb-8 hover-glow cursor-default">
+        <div className={`text-center mb-10 md:mb-16 reveal ${isVisible ? 'visible' : ''}`}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 hover:border-violet-500/30 transition-colors mb-6 md:mb-8 hover-glow cursor-default">
             <HelpCircle className="w-4 h-4 text-violet-400" />
             <span className="text-sm font-medium text-gray-400">FAQ</span>
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-4 md:mb-6 text-white tracking-tight">
             Vanliga frågor
           </h2>
 
@@ -102,7 +102,7 @@ const FAQ = () => {
                 }`}>
                   <button
                     onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className="w-full px-6 py-6 flex items-center justify-between text-left"
+                    className="w-full px-4 py-4 sm:px-6 sm:py-5 md:py-6 flex items-center justify-between text-left"
                   >
                     <span className={`font-medium pr-4 transition-colors ${
                       isOpen ? 'text-white' : 'text-gray-300 group-hover:text-white'
@@ -110,7 +110,7 @@ const FAQ = () => {
                       {faq.question}
                     </span>
 
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
                       isOpen
                         ? 'bg-violet-500/20 border border-violet-500/30'
                         : 'bg-white/5 border border-white/10 group-hover:border-violet-500/30'
@@ -128,7 +128,7 @@ const FAQ = () => {
                       isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                     }`}
                   >
-                    <div className="px-6 pb-6 text-gray-400 leading-relaxed">
+                    <div className="px-4 pb-4 sm:px-6 sm:pb-6 text-gray-400 leading-relaxed">
                       {faq.answer}
                     </div>
                   </div>
@@ -140,7 +140,7 @@ const FAQ = () => {
 
         {/* Contact CTA */}
         <div className={`mt-12 text-center reveal ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '600ms' }}>
-          <div className="glass border border-white/10 rounded-2xl p-8 hover:border-violet-500/20 transition-colors hover-glow">
+          <div className="glass border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8 hover:border-violet-500/20 transition-colors hover-glow">
             <p className="text-gray-400 mb-4">Hittar du inte svaret du söker?</p>
             <a
               href="#contact"

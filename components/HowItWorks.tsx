@@ -65,13 +65,13 @@ const HowItWorks = () => {
   const activeColors = colorMap[steps[activeStep - 1].color];
 
   return (
-    <section ref={sectionRef} id="process" className="py-32 px-6 relative overflow-hidden">
+    <section ref={sectionRef} id="process" className="py-16 md:py-32 px-6 relative overflow-hidden">
       {/* Background effects */}
       <div className="absolute right-0 top-1/3 w-[500px] h-[500px] bg-violet-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
       <div className="absolute left-0 bottom-1/3 w-[400px] h-[400px] bg-blue-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex flex-col lg:flex-row gap-16 items-start">
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
 
           {/* Left Side: Sticky Navigation */}
           <div className={`lg:w-2/5 lg:sticky lg:top-32 reveal-left ${isVisible ? 'visible' : ''}`}>
@@ -80,13 +80,13 @@ const HowItWorks = () => {
               <span className="text-sm font-medium text-gray-400">Så fungerar det</span>
             </div>
 
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 text-white tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 md:mb-6 text-white tracking-tight">
               Koppla en gång.
               <br />
               <span className="gradient-text">Sen sköter vi resten.</span>
             </h2>
 
-            <p className="text-gray-400 text-lg mb-12 leading-relaxed">
+            <p className="text-gray-400 text-base sm:text-lg mb-8 md:mb-12 leading-relaxed">
               Anslut Fortnox, Visma eller Björn Lundén på 60 sekunder — sedan behöver du aldrig göra något mer.
             </p>
 
@@ -97,7 +97,7 @@ const HowItWorks = () => {
                   <button
                     key={step.id}
                     onClick={() => setActiveStep(step.id)}
-                    className={`w-full text-left p-5 rounded-xl transition-all duration-500 border flex items-center gap-5 group relative overflow-hidden ${
+                    className={`w-full text-left p-3 sm:p-4 md:p-5 rounded-xl transition-all duration-500 border flex items-center gap-3 sm:gap-4 md:gap-5 group relative overflow-hidden ${
                       activeStep === step.id
                         ? `glass border-white/20 ${colors.activeBg}`
                         : 'border-transparent hover:bg-white/[0.02] hover:border-white/5'
@@ -141,14 +141,14 @@ const HowItWorks = () => {
           {/* Right Side: Visualization */}
           <div className={`flex-1 w-full lg:pt-20 reveal-right ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '200ms' }}>
             <div className="relative group">
-              <div className="relative rounded-3xl glass border border-white/10 overflow-hidden min-h-[500px] flex items-center justify-center p-10 hover:border-violet-500/20 transition-all duration-500">
+              <div className="relative rounded-3xl glass border border-white/10 overflow-hidden min-h-[350px] sm:min-h-[400px] lg:min-h-[500px] flex items-center justify-center p-4 sm:p-6 md:p-10 hover:border-violet-500/20 transition-all duration-500">
                 {/* Grid background */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px]" />
 
                 <div className="relative z-10 w-full max-w-md">
                   {activeStep === 1 && (
-                    <div className="glass border border-white/10 rounded-2xl p-8 animate-scale-in hover:border-blue-500/30 transition-colors">
-                      <div className="flex justify-between items-center mb-6">
+                    <div className="glass border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8 animate-scale-in hover:border-blue-500/30 transition-colors">
+                      <div className="flex justify-between items-center mb-4 sm:mb-6">
                         <div className="text-sm font-semibold text-gray-300">Välj integration</div>
                         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20">
                           <span className="text-xs text-blue-400 font-medium">60 sek</span>
@@ -190,8 +190,8 @@ const HowItWorks = () => {
                   )}
 
                   {activeStep === 2 && (
-                    <div className="glass border border-white/10 rounded-2xl p-8 animate-scale-in hover:border-violet-500/30 transition-colors">
-                      <div className="flex justify-between items-center mb-6">
+                    <div className="glass border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8 animate-scale-in hover:border-violet-500/30 transition-colors">
+                      <div className="flex justify-between items-center mb-4 sm:mb-6">
                         <div className="text-sm font-semibold text-gray-300">Fakturaöversikt</div>
                         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20">
                           <span className="relative flex h-2 w-2">
@@ -230,7 +230,7 @@ const HowItWorks = () => {
                   )}
 
                   {activeStep === 3 && (
-                    <div className="glass border border-white/10 rounded-2xl p-8 text-center animate-scale-in hover:border-amber-500/30 transition-colors">
+                    <div className="glass border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8 text-center animate-scale-in hover:border-amber-500/30 transition-colors">
                       <div className="w-20 h-20 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
                         <Zap className="w-10 h-10 text-amber-400" />
                       </div>

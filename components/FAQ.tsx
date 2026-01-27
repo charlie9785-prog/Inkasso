@@ -64,20 +64,20 @@ const FAQ = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-32 px-6 relative overflow-hidden">
+    <section ref={sectionRef} className="py-16 md:py-32 px-6 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute bottom-0 right-0 w-1/2 h-[500px] bg-blue-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
       <div className="absolute top-0 left-0 w-1/3 h-[400px] bg-violet-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-3xl mx-auto relative z-10">
         {/* Section header */}
-        <div className={`text-center mb-16 reveal ${isVisible ? 'visible' : ''}`}>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 hover:border-violet-500/30 transition-colors mb-8 hover-glow cursor-default">
+        <div className={`text-center mb-10 md:mb-16 reveal ${isVisible ? 'visible' : ''}`}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 hover:border-violet-500/30 transition-colors mb-6 md:mb-8 hover-glow cursor-default">
             <HelpCircle className="w-4 h-4 text-violet-400" />
             <span className="text-sm font-medium text-gray-400">FAQ</span>
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-4 md:mb-6 text-white tracking-tight">
             Vanliga frågor
           </h2>
 
@@ -102,7 +102,7 @@ const FAQ = () => {
                 }`}>
                   <button
                     onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className="w-full px-6 py-6 flex items-center justify-between text-left"
+                    className="w-full px-4 py-4 sm:px-6 sm:py-5 md:py-6 flex items-center justify-between text-left"
                   >
                     <span className={`font-medium pr-4 transition-colors ${
                       isOpen ? 'text-white' : 'text-gray-300 group-hover:text-white'
@@ -110,7 +110,7 @@ const FAQ = () => {
                       {faq.question}
                     </span>
 
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
                       isOpen
                         ? 'bg-violet-500/20 border border-violet-500/30'
                         : 'bg-white/5 border border-white/10 group-hover:border-violet-500/30'
@@ -128,7 +128,7 @@ const FAQ = () => {
                       isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                     }`}
                   >
-                    <div className="px-6 pb-6 text-gray-400 leading-relaxed">
+                    <div className="px-4 pb-4 sm:px-6 sm:pb-6 text-gray-400 leading-relaxed">
                       {faq.answer}
                     </div>
                   </div>
@@ -140,7 +140,7 @@ const FAQ = () => {
 
         {/* Contact CTA */}
         <div className={`mt-12 text-center reveal ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '600ms' }}>
-          <div className="glass border border-white/10 rounded-2xl p-8 hover:border-violet-500/20 transition-colors hover-glow">
+          <div className="glass border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8 hover:border-violet-500/20 transition-colors hover-glow">
             <p className="text-gray-400 mb-4">Hittar du inte svaret du söker?</p>
             <a
               href="#contact"
