@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     question: "Vad kostar tjänsten?",
-    answer: "Ingen månadsavgift. Du betalar 5% på återvunnet belopp, max 5 000 kr per faktura. Inga dolda avgifter, ingen bindningstid."
+    answer: "Ingen månadsavgift, ingen startavgift och ingen bindningstid. Du betalar 5% på återvunnet belopp, max 5 000 kr per faktura. Har du många ärenden sänks avgiften automatiskt — ner till 3% för större volymer."
   },
   {
     question: "Hur lång tid tar det?",
@@ -23,16 +23,16 @@ const faqs = [
     answer: "I de få fall (cirka 4%) där vi inte lyckas kan vi hjälpa dig vidare till nästa steg. Men då har vi åtminstone försökt med personlig uppföljning först, och du vet att du gjort allt för att bevara relationen."
   },
   {
-    question: "Hur fungerar Fortnox-integrationen?",
-    answer: "Superenkelt! Du ansluter ditt Fortnox-konto till Zylora på 60 sekunder. Sedan tar vårt team över — du behöver aldrig logga in igen. Vi ser alla förfallna fakturor och börjar uppföljningen."
+    question: "Hur fungerar integrationen med mitt ekonomisystem?",
+    answer: "Superenkelt! Du ansluter Fortnox, Visma eller Björn Lundén till Zylora på 60 sekunder. Sedan tar vårt team över och ser alla förfallna fakturor automatiskt."
   },
   {
-    question: "Vad händer om jag inte använder Fortnox?",
-    answer: "Just nu stödjer vi endast Fortnox, men fler integrationer är på väg. Kontakta oss så berättar vi mer om när ditt ekonomisystem får stöd."
+    question: "Vad händer om jag inte använder Fortnox, Visma eller Björn Lundén?",
+    answer: "Vi stödjer Fortnox, Visma och Björn Lundén. Använder du ett annat system — kontakta oss så hittar vi en lösning. Fler integrationer är på väg."
   },
   {
     question: "Hur vet jag vad som händer i ärendet?",
-    answer: "Varje fredag får du en veckorapport via mejl med allt som hänt — vilka fakturor vårt team arbetar med, vilka betalningar som är på väg, och vilka ärenden som är lösta. Inga inloggningar, inga extra system."
+    answer: "Du har en dashboard där du kan följa varje ärende i realtid. Dessutom får du en veckorapport via mejl varje fredag med allt som hänt — vilka fakturor vårt team arbetar med, vilka betalningar som är på väg, och vilka ärenden som är lösta."
   },
   {
     question: "Vilka typer av företag hjälper ni?",
