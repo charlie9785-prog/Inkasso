@@ -4,7 +4,7 @@ import { Eye, Link, HeartHandshake, Zap } from 'lucide-react';
 const features = [
   {
     title: "Proaktiv Uppföljning",
-    description: "Vårt team ser när fakturor förfaller och agerar direkt — du behöver inte göra något.",
+    description: "Vårt team tar kontakt direkt när fakturor förfaller — via email, SMS och telefon.",
     icon: Eye,
     colSpan: "lg:col-span-2",
     color: "violet",
@@ -112,7 +112,7 @@ const ValueProps = () => {
           </h2>
 
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl leading-relaxed">
-            Inga kravbrev eller hotfulla meddelanden. Vårt team hanterar era förfallna fakturor med personlig uppföljning och respekt.
+            Inga kravbrev eller hotfulla meddelanden. Vårt team hanterar era förfallna fakturor med personlig dialog och respekt.
           </p>
         </div>
 

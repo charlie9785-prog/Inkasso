@@ -35,7 +35,7 @@ const Footer = () => {
             </a>
 
             <p className="text-gray-500 leading-relaxed mb-6">
-              Vi tar hand om era sena betalningar — hela vägen till bankkontot.
+              Vi sköter dialogen med era kunder – tills ni fått betalt.
             </p>
 
           </div>

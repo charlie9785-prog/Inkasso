@@ -104,7 +104,7 @@ const Comparison = () => {
 
               <div className="mt-6 space-y-6">
                 {[
-                  { title: 'Personlig uppföljning', desc: 'Vårt team kontaktar kunden direkt' },
+                  { title: 'Personlig dialog', desc: 'Vårt team för en dialog med kunden via email, SMS och telefon' },
                   { title: 'Bevarad relation', desc: 'Kunden fortsätter handla hos dig' },
                   { title: 'Ingen anmärkning', desc: 'Vi löser det innan det går så långt' },
                   { title: 'Du får betalt', desc: 'Hög lösningsgrad' },

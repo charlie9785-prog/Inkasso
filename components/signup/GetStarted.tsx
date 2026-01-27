@@ -731,7 +731,7 @@ const GetStarted: React.FC = () => {
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
                     <div>
-                      <div className="text-white">Du betalar 5% på återvunnet belopp</div>
+                      <div className="text-white">Du betalar 5% på betalningar som kommer in</div>
                       <div className="text-sm text-gray-400">max 5 000 kr per faktura</div>
                     </div>
                   </div>

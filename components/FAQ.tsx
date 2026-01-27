@@ -8,11 +8,11 @@ const faqs = [
   },
   {
     question: "När börjar ni agera på en förfallen faktura?",
-    answer: "Vi kommer överens om en gräns som passar dig — vanligast är 7-14 dagar efter förfallodatum. Sen tar vårt team över uppföljningen utan att du behöver göra något. Ju tidigare vi kommer in, desto större chans att lösa det smidigt."
+    answer: "Vi kommer överens om en gräns som passar dig — vanligast är 7-14 dagar efter förfallodatum. Sen tar vårt team över dialogen utan att du behöver göra något. Ju tidigare vi kommer in, desto större chans att lösa det smidigt."
   },
   {
     question: "Vad kostar tjänsten?",
-    answer: "Ingen månadsavgift, ingen startavgift och ingen bindningstid. Du betalar 5% på återvunnet belopp, max 5 000 kr per faktura. Har du många ärenden sänks avgiften automatiskt — ner till 3% för större volymer."
+    answer: "Ingen månadsavgift, ingen startavgift och ingen bindningstid. Du betalar 5% på betalningar som kommer in, max 5 000 kr per faktura. Har du många ärenden sänks avgiften automatiskt — ner till 3% för större volymer."
   },
   {
     question: "Hur lång tid tar det?",

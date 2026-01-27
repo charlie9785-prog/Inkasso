@@ -24,7 +24,7 @@ const Hero = () => {
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-violet-500"></span>
           </span>
           <span className="text-sm font-medium text-gray-300 tracking-wide">
-            Personlig uppföljning — inte automatiserade kravbrev
+            Personlig dialog — inte automatiserade kravbrev
           </span>
           <ChevronRight className="w-4 h-4 text-violet-400 group-hover:translate-x-2 group-hover:text-violet-300 transition-all duration-300" />
         </div>
@@ -34,10 +34,10 @@ const Hero = () => {
           className={`text-5xl md:text-7xl lg:text-[5.5rem] font-display font-bold tracking-tight mb-8 max-w-5xl mx-auto leading-[1.05] ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
           style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}
         >
-          <span className="text-white">Vi tar hand om era</span>
+          <span className="text-white">Vi sköter dialogen med era kunder</span>
           <br />
           <span className="gradient-text">
-            sena betalningar
+            – tills ni fått betalt
           </span>
         </h1>
 
@@ -46,8 +46,7 @@ const Hero = () => {
           className={`text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-14 leading-relaxed ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
           style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}
         >
-          <span className="text-white font-medium">Anslut ert ekonomisystem på 60 sekunder</span> — Fortnox, Visma eller Björn Lundén.
-          Sen behöver ni aldrig göra något mer. Vi sköter resten.
+          <span className="text-white font-medium">Anslut Fortnox, Visma eller Björn Lundén på 60 sekunder.</span> Vi tar kontakt, följer upp och ser till att pengarna kommer in.
         </p>
 
         {/* CTA */}

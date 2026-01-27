@@ -79,13 +79,13 @@ const Pricing = () => {
                   <Zap className="w-6 h-6 text-violet-400" />
                   <div className="text-left">
                     <div className="text-2xl font-display font-bold text-white">5% success fee</div>
-                    <div className="text-gray-300">på återvunnet belopp</div>
+                    <div className="text-gray-300">på betalningar som kommer in</div>
                   </div>
                 </div>
 
                 {/* Simple explanation */}
                 <p className="text-gray-300 text-lg mb-8 max-w-md mx-auto">
-                  Vi tar 5% på återvunnet belopp. Max 5 000 kr per faktura. Ingen återvinning — ingen kostnad.
+                  Vi tar 5% på betalningar som kommer in. Max 5 000 kr per faktura. Ingen betalning — ingen kostnad.
                 </p>
 
                 {/* CTA */}
@@ -193,8 +193,8 @@ const Pricing = () => {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               { icon: Receipt, title: 'Ingen månadsavgift', desc: 'Ingen fast kostnad. Ingen startavgift. Ingen bindningstid.', color: 'violet' },
-              { icon: CreditCard, title: '5% success fee', desc: 'Vi tar 5% på återvunnet belopp. Max 5 000 kr per faktura.', color: 'blue' },
-              { icon: Shield, title: 'Ingen risk', desc: 'Ingen återvinning? Då kostar det dig ingenting.', color: 'emerald' },
+              { icon: CreditCard, title: '5% success fee', desc: 'Vi tar 5% på betalningar som kommer in. Max 5 000 kr per faktura.', color: 'blue' },
+              { icon: Shield, title: 'Ingen risk', desc: 'Ingen betalning? Då kostar det dig ingenting.', color: 'emerald' },
             ].map((item, index) => {
               const colorMap: Record<string, { bg: string; border: string; text: string }> = {
                 violet: { bg: 'bg-violet-500/15', border: 'border-violet-500/30', text: 'text-violet-400' },
@@ -231,10 +231,10 @@ const Pricing = () => {
               </div>
               <div>
                 <h4 className="text-lg font-display font-semibold text-white mb-2">
-                  Vad räknas som återvunnet belopp?
+                  Vilka betalningar gäller success fee för?
                 </h4>
                 <p className="text-gray-300 leading-relaxed">
-                  Som återvunnet belopp räknas betalningar som inkommit efter att Zylora tagit över uppföljningen av fakturan. Betalningar som skett innan uppdragets start omfattas inte.
+                  Success fee gäller betalningar som inkommit efter att Zylora tagit över dialogen kring fakturan. Betalningar som skett innan uppdragets start omfattas inte.
                 </p>
               </div>
             </div>

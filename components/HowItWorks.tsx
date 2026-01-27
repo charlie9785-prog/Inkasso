@@ -12,14 +12,14 @@ const steps = [
   {
     id: 2,
     title: "Vi tar över",
-    description: "Vårt team ser förfallna fakturor och börjar uppföljningen.",
+    description: "Vårt team ser förfallna fakturor och börjar dialogen.",
     icon: Eye,
     color: "violet",
   },
   {
     id: 3,
-    title: "Personlig kontakt",
-    description: "Vi ringer och mejlar kunden tills ni får betalt.",
+    title: "Personlig dialog",
+    description: "Vi mejlar, SMSar och ringer era kunder tills fakturan är betald.",
     icon: Zap,
     color: "amber",
   },
@@ -235,9 +235,9 @@ const HowItWorks = () => {
                         <Zap className="w-10 h-10 text-amber-400" />
                       </div>
 
-                      <h3 className="text-xl font-display font-semibold text-white mb-3">Personlig uppföljning</h3>
+                      <h3 className="text-xl font-display font-semibold text-white mb-3">Personlig dialog</h3>
                       <p className="text-gray-400 mb-8">
-                        Vårt team ringer och mejlar kunden tills ni får betalt — du behöver inte göra något.
+                        Vårt team mejlar, SMSar och ringer era kunder tills fakturan är betald.
                       </p>
 
                       <div className="bg-white/[0.03] border border-white/5 rounded-xl p-4 text-left hover:bg-white/[0.05] transition-colors">
@@ -268,7 +268,7 @@ const HowItWorks = () => {
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-50"></span>
                           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                         </span>
-                        <span className="text-sm text-emerald-400">+15 840 kr återvunnen</span>
+                        <span className="text-sm text-emerald-400">+15 840 kr inbetald</span>
                       </div>
                     </div>
                   )}
