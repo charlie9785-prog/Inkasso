@@ -194,55 +194,23 @@ const GetStarted: React.FC = () => {
     setCurrentStep('bjorn-lunden-credentials');
   };
 
-  const handleBjornLundenCredentials = async () => {
+  const handleBjornLundenCredentials = () => {
     if (!bjornLundenApiKey.trim()) {
       setError('Ange din API-nyckel');
       return;
     }
 
-    setIsLoading(true);
     setError(null);
 
-    try {
-      // Call backend to validate and connect with Björn Lundén API key
-      const response = await fetch(
-        `${SUPABASE_URL}/functions/v1/bjorn-lunden-connect`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            api_key: bjornLundenApiKey,
-            mode: 'signup',
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || 'Kunde inte ansluta till Björn Lundén');
-      }
-
-      const data = await response.json();
-
-      sessionStorage.setItem('zylora_connected_system', 'bjorn_lunden');
-      setCompanyData(prev => ({
-        ...prev,
-        company_name: data.company_name || prev.company_name,
-        org_number: data.org_number || prev.org_number,
-        email: data.email || prev.email,
-        phone: data.phone || prev.phone,
-        bjorn_lunden_state: data.state || bjornLundenApiKey,
-        connectedSystem: 'bjorn_lunden',
-      }));
-      setCurrentStep('confirm');
-    } catch (err) {
-      console.error('Björn Lundén connect error:', err);
-      setError(err instanceof Error ? err.message : 'Något gick fel. Försök igen.');
-    } finally {
-      setIsLoading(false);
-    }
+    // Store the User-Key - it will be sent to backend during signup
+    // The actual BL connection is created after the tenant exists
+    sessionStorage.setItem('zylora_connected_system', 'bjorn_lunden');
+    setCompanyData(prev => ({
+      ...prev,
+      bjorn_lunden_state: bjornLundenApiKey,
+      connectedSystem: 'bjorn_lunden',
+    }));
+    setCurrentStep('confirm');
   };
 
   const handleSignup = async () => {
