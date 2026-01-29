@@ -1,11 +1,6 @@
 import React from 'react';
 import { ShieldCheck, Sparkles, Globe, Lock } from 'lucide-react';
-
-const stats = [
-  { value: '24h', label: 'Snabb uppstart' },
-  { value: '5%', label: 'Endast vid resultat' },
-  { value: '0 kr', label: 'Månadsavgift' },
-];
+import AnimatedCounter from './AnimatedCounter';
 
 const ProofBar: React.FC = () => {
   const [isVisible, setIsVisible] = React.useState(false);
@@ -52,15 +47,19 @@ const ProofBar: React.FC = () => {
           </div>
 
           <div className={`grid grid-cols-3 gap-3 reveal-stagger ${isVisible ? 'visible' : ''}`}>
-          {stats.map((stat) => (
-            <div key={stat.label} className="glass border border-white/10 rounded-2xl px-3 py-3 text-center min-w-0">
-              <div className="text-lg font-display font-bold text-white">{stat.value}</div>
-              <div className="text-[10px] sm:text-xs text-gray-500 leading-tight">
-                {stat.label}
-              </div>
+            <div className="glass border border-white/10 rounded-2xl px-3 py-3 text-center min-w-0">
+              <div className="text-lg font-display font-bold text-white">24h</div>
+              <div className="text-[10px] sm:text-xs text-gray-500 leading-tight">Snabb uppstart</div>
             </div>
-          ))}
-        </div>
+            <div className="glass border border-white/10 rounded-2xl px-3 py-3 text-center min-w-0">
+              <div className="text-lg font-display font-bold text-white"><AnimatedCounter end={5} suffix="%" duration={1500} /></div>
+              <div className="text-[10px] sm:text-xs text-gray-500 leading-tight">Endast vid resultat</div>
+            </div>
+            <div className="glass border border-white/10 rounded-2xl px-3 py-3 text-center min-w-0">
+              <div className="text-lg font-display font-bold text-white"><AnimatedCounter end={0} suffix=" kr" duration={1500} /></div>
+              <div className="text-[10px] sm:text-xs text-gray-500 leading-tight">Månadsavgift</div>
+            </div>
+          </div>
         </div>
 
         <div className="mt-6 flex items-center justify-center gap-3 text-xs text-gray-500">

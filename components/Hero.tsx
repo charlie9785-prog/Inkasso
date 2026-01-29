@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowRight, ChevronRight, CheckCircle2, Clock3, MessageCircle, Zap } from 'lucide-react';
+import AnimatedCounter from './AnimatedCounter';
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -12,6 +13,13 @@ const Hero = () => {
 
   return (
     <section className="relative pt-20 pb-12 md:pt-24 md:pb-16 px-6 overflow-hidden min-h-[70vh] md:min-h-[80vh] flex flex-col justify-center">
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-950/40 via-transparent to-blue-950/30 animate-gradient-x" style={{ backgroundSize: '400% 400%' }} />
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-violet-500/[0.08] rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-blue-500/[0.06] rounded-full blur-[100px]" />
+      </div>
+
       <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
 
         {/* Premium Badge */}
@@ -151,16 +159,18 @@ const Hero = () => {
           </div>
 
           <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-3">
-            {[
-              { label: 'Kontakt inom 24h', value: 'Snabb uppstart' },
-              { label: '1–2 veckor', value: 'Vanlig lösningstid' },
-              { label: '60 sek', value: 'Integrationstid' },
-            ].map((stat) => (
-              <div key={stat.label} className="glass border border-white/10 rounded-xl px-2 py-2 sm:px-3 sm:py-3 text-left hover:border-violet-500/30 transition-all">
-                <p className="text-[10px] sm:text-xs text-gray-500 truncate">{stat.label}</p>
-                <p className="text-xs sm:text-sm text-white font-medium truncate">{stat.value}</p>
-              </div>
-            ))}
+            <div className="glass border border-white/10 rounded-xl px-2 py-2 sm:px-3 sm:py-3 text-left hover:border-violet-500/30 transition-all">
+              <p className="text-[10px] sm:text-xs text-gray-500 truncate">Kontakt inom 24h</p>
+              <p className="text-xs sm:text-sm text-white font-medium truncate">Snabb uppstart</p>
+            </div>
+            <div className="glass border border-white/10 rounded-xl px-2 py-2 sm:px-3 sm:py-3 text-left hover:border-violet-500/30 transition-all">
+              <p className="text-[10px] sm:text-xs text-gray-500 truncate">1–2 veckor</p>
+              <p className="text-xs sm:text-sm text-white font-medium truncate">Vanlig lösningstid</p>
+            </div>
+            <div className="glass border border-white/10 rounded-xl px-2 py-2 sm:px-3 sm:py-3 text-left hover:border-violet-500/30 transition-all">
+              <p className="text-[10px] sm:text-xs text-gray-500 truncate"><AnimatedCounter end={60} suffix=" sek" duration={1500} /></p>
+              <p className="text-xs sm:text-sm text-white font-medium truncate">Integrationstid</p>
+            </div>
           </div>
         </div>
       </div>

@@ -11,7 +11,8 @@ interface CompanyData {
   password: string;
   fortnox_state: string;
   visma_state: string;
-  connectedSystem: 'fortnox' | 'visma' | null;
+  bjorn_lunden_state: string;
+  connectedSystem: 'fortnox' | 'visma' | 'bjorn_lunden' | null;
 }
 
 interface OverdueInvoice {
@@ -39,7 +40,7 @@ const GetStarted: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [companyData, setCompanyData] = useState<CompanyData>(() => {
     // Try to restore connectedSystem from sessionStorage
-    const savedSystem = sessionStorage.getItem('zylora_connected_system') as 'fortnox' | 'visma' | null;
+    const savedSystem = sessionStorage.getItem('zylora_connected_system') as 'fortnox' | 'visma' | 'bjorn_lunden' | null;
     return {
       company_name: '',
       org_number: '',
@@ -48,6 +49,7 @@ const GetStarted: React.FC = () => {
       password: '',
       fortnox_state: '',
       visma_state: '',
+      bjorn_lunden_state: '',
       connectedSystem: savedSystem,
     };
   });
@@ -67,11 +69,10 @@ const GetStarted: React.FC = () => {
     const phone = params.get('phone');
     const provider = params.get('provider'); // 'fortnox' or 'visma'
 
-    // Coming back from OAuth with state token (either Fortnox or Visma)
+    // Coming back from OAuth with state token (Fortnox, Visma, or Björn Lundén)
     // Works for both /kom-igang and /kom-igang/bekrafta
     if (state && provider) {
-      const isVisma = provider === 'visma';
-      const connectedSystem = isVisma ? 'visma' : 'fortnox';
+      const connectedSystem = provider === 'visma' ? 'visma' : provider === 'bjorn_lunden' ? 'bjorn_lunden' : 'fortnox';
       // Save to sessionStorage for persistence
       sessionStorage.setItem('zylora_connected_system', connectedSystem);
       setCompanyData(prev => ({
@@ -80,8 +81,9 @@ const GetStarted: React.FC = () => {
         org_number: orgNumber ? decodeURIComponent(orgNumber) : prev.org_number,
         email: email ? decodeURIComponent(email) : prev.email,
         phone: phone ? decodeURIComponent(phone) : prev.phone,
-        fortnox_state: isVisma ? '' : state,
-        visma_state: isVisma ? state : '',
+        fortnox_state: provider === 'fortnox' ? state : '',
+        visma_state: provider === 'visma' ? state : '',
+        bjorn_lunden_state: provider === 'bjorn_lunden' ? state : '',
         connectedSystem,
       }));
       setCurrentStep('confirm');
@@ -101,7 +103,7 @@ const GetStarted: React.FC = () => {
 
     const oauthError = params.get('error');
     if (oauthError) {
-      const errorProvider = provider === 'visma' ? 'Visma' : 'Fortnox';
+      const errorProvider = provider === 'visma' ? 'Visma' : provider === 'bjorn_lunden' ? 'Björn Lundén' : 'Fortnox';
       setError(`Kunde inte ansluta till ${errorProvider}. Försök igen.`);
       window.history.replaceState({}, '', '/kom-igang');
     }
@@ -185,6 +187,24 @@ const GetStarted: React.FC = () => {
     }
   };
 
+  const startBjornLundenOAuth = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    // Björn Lundén använder manuell inmatning (ingen OAuth än)
+    // Simulera kort laddning och gå direkt till bekräftelse-steget
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    sessionStorage.setItem('zylora_connected_system', 'bjorn_lunden');
+    setCompanyData(prev => ({
+      ...prev,
+      connectedSystem: 'bjorn_lunden',
+      bjorn_lunden_state: 'manual_entry',
+    }));
+    setCurrentStep('confirm');
+    setIsLoading(false);
+  };
+
   const handleSignup = async () => {
     setIsLoading(true);
     setError(null);
@@ -201,6 +221,7 @@ const GetStarted: React.FC = () => {
           phone: companyData.phone || undefined,
           fortnox_state: companyData.fortnox_state || undefined,
           visma_state: companyData.visma_state || undefined,
+          bjorn_lunden_state: companyData.bjorn_lunden_state || undefined,
         }),
       });
 
@@ -415,19 +436,27 @@ const GetStarted: React.FC = () => {
                   )}
                 </button>
 
-                {/* Björn Lundén - Coming soon */}
-                <div className="w-full flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/5 opacity-60 cursor-not-allowed">
+                {/* Björn Lundén - Active */}
+                <button
+                  onClick={startBjornLundenOAuth}
+                  disabled={isLoading}
+                  className="w-full flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:border-violet-500/50 hover:bg-violet-500/5 transition-all group"
+                >
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-xl bg-[#003366]/20 flex items-center justify-center">
-                      <span className="text-[#003366] font-bold text-lg opacity-50">BL</span>
+                      <span className="text-[#4A90D9] font-bold text-lg">BL</span>
                     </div>
                     <div className="text-left">
-                      <div className="font-semibold text-gray-500">Björn Lundén</div>
-                      <div className="text-sm text-gray-600">Kommer snart</div>
+                      <div className="font-semibold text-white">Björn Lundén</div>
+                      <div className="text-sm text-gray-400">Anslut med ett klick</div>
                     </div>
                   </div>
-                  <span className="text-xs text-gray-600 px-2 py-1 rounded-full bg-white/5">Kommer snart</span>
-                </div>
+                  {isLoading ? (
+                    <Loader2 className="w-5 h-5 text-violet-400 animate-spin" />
+                  ) : (
+                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-violet-400 group-hover:translate-x-1 transition-all" />
+                  )}
+                </button>
               </div>
 
               <div className="mt-8 pt-6 border-t border-white/10 text-center">
@@ -451,7 +480,7 @@ const GetStarted: React.FC = () => {
               <div className="flex items-center gap-2 text-emerald-400 mb-4">
                 <Check className="w-5 h-5" />
                 <span className="font-medium">
-                  {companyData.connectedSystem === 'visma' ? 'Visma kopplat!' : 'Fortnox kopplat!'}
+                  {companyData.connectedSystem === 'visma' ? 'Visma kopplat!' : companyData.connectedSystem === 'bjorn_lunden' ? 'Björn Lundén valt!' : 'Fortnox kopplat!'}
                 </span>
               </div>
 
@@ -459,7 +488,10 @@ const GetStarted: React.FC = () => {
                 Bekräfta dina uppgifter
               </h2>
               <p className="text-gray-400 mb-8">
-                Vi har hämtat informationen från {companyData.connectedSystem === 'visma' ? 'Visma' : 'Fortnox'}
+                {companyData.connectedSystem === 'bjorn_lunden'
+                  ? 'Fyll i dina uppgifter nedan'
+                  : `Vi har hämtat informationen från ${companyData.connectedSystem === 'visma' ? 'Visma' : 'Fortnox'}`
+                }
               </p>
 
               {error && (
@@ -578,7 +610,7 @@ const GetStarted: React.FC = () => {
               <div className="flex items-center gap-2 text-emerald-400 mb-6">
                 <Check className="w-5 h-5" />
                 <span className="font-medium">
-                  {companyData.connectedSystem === 'visma' ? 'Visma' : 'Fortnox'} kopplat!
+                  {companyData.connectedSystem === 'visma' ? 'Visma' : companyData.connectedSystem === 'bjorn_lunden' ? 'Björn Lundén' : 'Fortnox'} kopplat!
                 </span>
               </div>
 
@@ -718,7 +750,7 @@ const GetStarted: React.FC = () => {
                     <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
                     <div>
                       <div className="text-white">Vi hämtar förfallna fakturor</div>
-                      <div className="text-sm text-gray-400">från {companyData.connectedSystem === 'visma' ? 'Visma' : companyData.connectedSystem === 'fortnox' ? 'Fortnox' : 'ditt bokföringssystem'} varje dag</div>
+                      <div className="text-sm text-gray-400">från {companyData.connectedSystem === 'visma' ? 'Visma' : companyData.connectedSystem === 'bjorn_lunden' ? 'Björn Lundén' : companyData.connectedSystem === 'fortnox' ? 'Fortnox' : 'ditt bokföringssystem'} varje dag</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">

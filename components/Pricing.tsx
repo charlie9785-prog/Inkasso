@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Check, CreditCard, Receipt, Shield, ArrowRight, HelpCircle, Zap } from 'lucide-react';
+import AnimatedCounter from './AnimatedCounter';
 
 const mainFeatures = [
   'Vårt team tar hand om era förfallna fakturor',
@@ -35,8 +36,8 @@ const Pricing = () => {
   return (
     <section ref={sectionRef} id="pricing" className="py-14 md:py-20 px-6 relative overflow-hidden">
       {/* Background effects */}
-      <div className="absolute top-[-80px] left-1/4 w-[620px] h-[620px] bg-violet-500/[0.05] blur-[170px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-[-120px] right-1/4 w-[520px] h-[520px] bg-blue-500/[0.05] blur-[170px] rounded-full pointer-events-none" />
+      <div className="absolute top-[-80px] left-1/4 w-[500px] h-[500px] bg-violet-500/[0.05] blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-[-80px] right-1/4 w-[400px] h-[400px] bg-blue-500/[0.04] blur-[130px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section header */}
@@ -84,7 +85,7 @@ const Pricing = () => {
                 {/* Big zero */}
                 <div className="mb-8">
                   <div className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-white mb-2">
-                    0 kr
+                    <AnimatedCounter end={0} suffix=" kr" duration={1500} />
                   </div>
                   <div className="text-base sm:text-lg text-gray-400 font-medium">
                     i månadsavgift
@@ -95,7 +96,7 @@ const Pricing = () => {
                 <div className="inline-flex items-center gap-3 px-4 py-3 sm:px-6 sm:py-4 rounded-2xl bg-violet-500/10 border border-violet-500/30 mb-6">
                   <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-violet-400" />
                   <div className="text-left">
-                    <div className="text-lg sm:text-xl font-display font-bold text-white">5% success fee</div>
+                    <div className="text-lg sm:text-xl font-display font-bold text-white"><AnimatedCounter end={5} suffix="%" duration={1500} /> success fee</div>
                     <div className="text-gray-300">på betalningar som kommer in</div>
                   </div>
                 </div>
@@ -178,7 +179,7 @@ const Pricing = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between py-2 border-b border-white/10">
                   <span className="text-gray-300">Success fee</span>
-                  <span className="text-2xl font-display font-bold text-white">5%</span>
+                  <span className="text-2xl font-display font-bold text-white"><AnimatedCounter end={5} suffix="%" duration={1500} /></span>
                 </div>
                 <div className="flex items-center justify-between py-2">
                   <span className="text-gray-300">Max per faktura</span>
@@ -194,7 +195,7 @@ const Pricing = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between py-2 border-b border-white/10">
                   <span className="text-gray-300">Success fee</span>
-                  <span className="text-2xl font-display font-bold text-white">4%</span>
+                  <span className="text-2xl font-display font-bold text-white"><AnimatedCounter end={4} suffix="%" duration={1500} /></span>
                 </div>
                 <div className="flex items-center justify-between py-2">
                   <span className="text-gray-300">Max per faktura</span>
@@ -210,7 +211,7 @@ const Pricing = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between py-2 border-b border-white/10">
                   <span className="text-gray-300">Success fee</span>
-                  <span className="text-2xl font-display font-bold text-white">3%</span>
+                  <span className="text-2xl font-display font-bold text-white"><AnimatedCounter end={3} suffix="%" duration={1500} /></span>
                 </div>
                 <div className="flex items-center justify-between py-2">
                   <span className="text-gray-300">Cap</span>
