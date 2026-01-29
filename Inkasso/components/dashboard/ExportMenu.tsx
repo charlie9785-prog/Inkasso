@@ -89,7 +89,7 @@ const ExportMenu: React.FC<ExportMenuProps> = ({
           />
 
           {/* Dropdown Menu */}
-          <div className="absolute right-0 mt-2 w-56 glass-strong border border-white/10 rounded-xl overflow-hidden z-50">
+          <div className="absolute right-0 mt-2 w-48 sm:w-56 glass-strong border border-white/10 rounded-xl overflow-hidden z-50">
             <div className="p-2 space-y-1">
               {showCaseList && cases && cases.length > 0 && (
                 <button

@@ -26,33 +26,49 @@ const Comparison = () => {
   return (
     <section ref={sectionRef} className="py-16 md:py-32 px-6 relative overflow-hidden" id="services">
       {/* Background decoration */}
-      <div className="absolute top-1/2 right-0 w-1/3 h-[600px] bg-emerald-500/[0.04] blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute top-1/2 left-0 w-1/3 h-[600px] bg-rose-500/[0.04] blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute top-10 right-0 w-[420px] h-[420px] bg-emerald-500/[0.06] blur-[160px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[420px] h-[420px] bg-rose-500/[0.06] blur-[160px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section header */}
-        <div className={`text-center mb-12 md:mb-20 reveal ${isVisible ? 'visible' : ''}`}>
+        <div className={`mb-12 md:mb-20 reveal ${isVisible ? 'visible' : ''}`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 hover:border-violet-500/50 hover:bg-violet-500/10 transition-all duration-300 mb-8 cursor-default badge-hover">
             <Sparkles className="w-4 h-4 text-violet-400" />
-            <span className="text-sm font-medium text-gray-400">Vad gör oss unika</span>
+            <span className="text-xs uppercase tracking-[0.25em] text-gray-400">Vad gör oss unika</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-4 md:mb-6 tracking-tight">
-            <span className="text-white">Vi är </span>
-            <span className="text-rose-400 line-through decoration-2 decoration-rose-500/70">inte</span>
-            <span className="text-white"> ett inkassobolag</span>
-          </h2>
+          <div className="flex flex-col lg:flex-row lg:items-end gap-6 lg:gap-10">
+            <div className="flex-1">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-4 md:mb-6 tracking-tight leading-[1.05]">
+                <span className="text-white">Vi är </span>
+                <span className="text-rose-400 line-through decoration-2 decoration-rose-500/70">inte</span>
+                <span className="text-white"> ett inkassobolag</span>
+              </h2>
 
-          <p className="text-gray-400 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            Vi arbetar <span className="text-white font-medium">innan</span> inkasso blir aktuellt.
-            Det är en helt annan approach — och det gör hela skillnaden för dina kundrelationer.
-          </p>
+              <p className="text-gray-400 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed">
+                Vi arbetar <span className="text-white font-medium">innan</span> inkasso blir aktuellt.
+                Det är därför relationerna bevaras och betalningen kommer in på ett tryggt sätt.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              {['Personlig dialog', 'Före inkasso', 'Bevarade relationer'].map((label) => (
+                <div
+                  key={label}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm text-gray-400"
+                >
+                  <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400/70" />
+                  <span>{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
           {/* Inkasso Column */}
           <div className={`relative group reveal-left ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '200ms' }}>
-            <div className="relative rounded-2xl glass border border-white/10 p-5 sm:p-6 md:p-8 h-full hover:border-rose-500/40 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(244,63,94,0.15)]">
+            <div className="relative rounded-3xl glass border border-white/10 p-6 sm:p-7 md:p-9 h-full hover:border-rose-500/40 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(244,63,94,0.15)]">
               {/* Badge */}
               <div className="absolute -top-4 left-8">
                 <div className="px-4 py-2 rounded-full bg-rose-500/20 border border-rose-500/30 text-rose-300 text-sm font-semibold backdrop-blur-sm">
@@ -60,12 +76,12 @@ const Comparison = () => {
                 </div>
               </div>
 
-              <div className="mt-6 space-y-6">
+              <div className="mt-8 space-y-6">
                 {[
                   { title: 'Automatiska kravbrev', desc: 'Opersonligt och aggressivt' },
-                  { title: 'Skadar kundrelationen', desc: 'Kunden känner sig hotad' },
-                  { title: 'Betalningsanmärkning', desc: 'Långsiktiga konsekvenser för kunden' },
-                  { title: 'Förlorad framtida affär', desc: 'Kunden kommer aldrig tillbaka' },
+                  { title: 'Skadar kundrelationen', desc: 'Kunden känner sig pressad' },
+                  { title: 'Risk för anmärkning', desc: 'Långsiktiga konsekvenser för kunden' },
+                  { title: 'Förlorad framtida affär', desc: 'Kunden kommer sällan tillbaka' },
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-4 group/item cursor-default">
                     <div className="w-9 h-9 rounded-lg bg-rose-500/20 border border-rose-500/30 flex items-center justify-center flex-shrink-0 group-hover/item:scale-125 group-hover/item:bg-rose-500/30 group-hover/item:shadow-[0_0_20px_rgba(244,63,94,0.3)] transition-all duration-300">
@@ -90,7 +106,7 @@ const Comparison = () => {
 
           {/* Zylora Column */}
           <div className={`relative group reveal-right ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '400ms' }}>
-            <div className="relative rounded-2xl glass border border-white/10 hover:border-emerald-500/50 transition-all duration-500 p-5 sm:p-6 md:p-8 h-full hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(16,185,129,0.2)]">
+            <div className="relative rounded-3xl glass-strong border border-white/10 hover:border-emerald-500/50 transition-all duration-500 p-6 sm:p-7 md:p-9 h-full hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(16,185,129,0.2)]">
               {/* Badge */}
               <div className="absolute -top-4 left-8">
                 <div className="px-4 py-2 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-sm font-semibold backdrop-blur-sm flex items-center gap-2">
@@ -102,12 +118,12 @@ const Comparison = () => {
                 </div>
               </div>
 
-              <div className="mt-6 space-y-6">
+              <div className="mt-8 space-y-6">
                 {[
-                  { title: 'Personlig dialog', desc: 'Vårt team för en dialog med kunden via email, SMS och telefon' },
+                  { title: 'Personlig dialog', desc: 'Vårt team för en dialog med kunden i rätt ton' },
                   { title: 'Bevarad relation', desc: 'Kunden fortsätter handla hos dig' },
-                  { title: 'Ingen anmärkning', desc: 'Vi löser det innan det går så långt' },
-                  { title: 'Du får betalt', desc: 'Hög lösningsgrad' },
+                  { title: 'Före inkasso', desc: 'Vi löser det innan det går så långt' },
+                  { title: 'Du får betalt', desc: 'Trygg och tydlig uppföljning' },
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-4 group/item cursor-default">
                     <div className="w-9 h-9 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 group-hover/item:scale-125 group-hover/item:bg-emerald-500/30 group-hover/item:shadow-[0_0_20px_rgba(16,185,129,0.4)] transition-all duration-300">

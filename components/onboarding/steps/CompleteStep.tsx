@@ -120,7 +120,7 @@ const CompleteStep: React.FC<CompleteStepProps> = ({ onboarding }) => {
         <p className="text-sm text-gray-500">
           {isB2C
             ? 'Tack för att du valde Zylora! Vi tar hand om dina förfallna fakturor.'
-            : 'Tack för att du valde Zylora! Vid frågor, kontakta oss på support@zylora.se'}
+            : 'Tack för att du valde Zylora! Vid frågor, kontakta oss på supprt@zylora.se'}
         </p>
       </div>
     </div>

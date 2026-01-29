@@ -248,8 +248,8 @@ const Charts: React.FC<ChartsProps> = ({ collectedOverTime, statusDistribution, 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Line Chart - Collected Over Time */}
-      <div className="glass border border-white/10 rounded-xl p-6">
-        <div className="flex items-center gap-3 mb-6">
+      <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
+        <div className="flex items-center gap-3 mb-4 sm:mb-6">
           <div className="w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center">
             <TrendingUp className="w-5 h-5 text-violet-400" />
           </div>
@@ -260,7 +260,7 @@ const Charts: React.FC<ChartsProps> = ({ collectedOverTime, statusDistribution, 
             <p className="text-sm text-gray-500">Senaste 12 månaderna</p>
           </div>
         </div>
-        <div className="h-64">
+        <div className="h-48 sm:h-64">
           {collectedOverTime.length > 0 ? (
             <LineChart data={collectedOverTime} />
           ) : (
@@ -272,12 +272,12 @@ const Charts: React.FC<ChartsProps> = ({ collectedOverTime, statusDistribution, 
       </div>
 
       {/* Donut Chart - Status Distribution */}
-      <div className="glass border border-white/10 rounded-xl p-6">
-        <h3 className="text-lg font-display font-semibold text-white mb-6">
+      <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
+        <h3 className="text-lg font-display font-semibold text-white mb-4 sm:mb-6">
           Statusfördelning
         </h3>
         <div className="flex flex-col sm:flex-row items-center gap-6">
-          <div className="w-48 h-48 flex-shrink-0">
+          <div className="w-36 h-36 sm:w-48 sm:h-48 flex-shrink-0">
             {statusDistribution.length > 0 ? (
               <DonutChart data={statusDistribution} />
             ) : (

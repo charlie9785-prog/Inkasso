@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Phone, Mail, Sparkles } from 'lucide-react';
+import { ArrowRight, Mail, Sparkles } from 'lucide-react';
 
 const CTA = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -42,20 +42,20 @@ const CTA = () => {
                 <span className="text-sm font-medium text-violet-300">Kom igång idag</span>
               </div>
 
-              <h2 className="mb-4 md:mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold tracking-tight">
-                <span className="text-white">Låt oss sköta det tråkiga.</span>
+              <h2 className="mb-4 md:mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold tracking-tight leading-[1.05]">
+                <span className="text-white">Låt oss ta ansvar för dialogen.</span>
                 <br />
                 <span className="gradient-text">Så kan du fokusera på affärerna.</span>
               </h2>
 
               <p className="mx-auto mb-8 md:mb-12 max-w-2xl text-base sm:text-lg md:text-xl text-gray-400">
-                Vårt team hjälper dagligen svenska företag att få betalt. Inga bindningstider, inga dolda avgifter.
+                Vi arbetar diskret och professionellt, och rapporterar tydligt hela vägen.
               </p>
 
               <div className="flex flex-col items-center justify-center gap-4">
                 <a
                   href="/kom-igang"
-                  className="group h-12 px-8 sm:h-14 sm:px-10 rounded-full btn-premium inline-flex items-center"
+                  className="group h-12 px-8 sm:h-14 sm:px-10 rounded-full btn-premium inline-flex items-center w-full sm:w-auto justify-center"
                 >
                   <span className="relative z-10 inline-flex items-center text-base font-semibold text-white">
                     Kom igång gratis
@@ -77,15 +77,10 @@ const CTA = () => {
               </div>
 
               {/* Contact info */}
-              <div className="mt-8 sm:mt-10 md:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-gray-500">
-                <a href="tel:0729626822" className="flex items-center gap-2 hover:text-violet-400 transition-colors group">
-                  <Phone className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                  <span>072-962 68 22</span>
-                </a>
-                <span className="hidden sm:block text-gray-700">|</span>
-                <a href="mailto:kundservice@zylora.se" className="flex items-center gap-2 hover:text-violet-400 transition-colors group">
+              <div className="mt-8 sm:mt-10 md:mt-12 flex items-center justify-center gap-4 text-sm text-gray-500">
+                <a href="mailto:supprt@zylora.se" className="flex items-center gap-2 hover:text-violet-400 transition-colors group">
                   <Mail className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                  <span>kundservice@zylora.se</span>
+                  <span>supprt@zylora.se</span>
                 </a>
               </div>
             </div>

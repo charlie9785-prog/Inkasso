@@ -156,7 +156,7 @@ const Privacy = () => {
                 <li><strong className="text-white">Invändning:</strong> Rätt att invända mot behandling baserad på berättigat intresse</li>
               </ul>
               <p className="mt-4">
-                För att utöva dina rättigheter, kontakta oss på <a href="mailto:kundservice@zylora.se" className="text-violet-400 hover:text-violet-300">kundservice@zylora.se</a>.
+                För att utöva dina rättigheter, kontakta oss på <a href="mailto:supprt@zylora.se" className="text-violet-400 hover:text-violet-300">supprt@zylora.se</a>.
               </p>
             </section>
 
@@ -203,8 +203,7 @@ const Privacy = () => {
               </p>
               <div className="mt-4 text-gray-400">
                 <p><strong className="text-white">Zylora AB</strong></p>
-                <p>E-post: <a href="mailto:kundservice@zylora.se" className="text-violet-400 hover:text-violet-300">kundservice@zylora.se</a></p>
-                <p>Telefon: 072-962 68 22</p>
+                <p>E-post: <a href="mailto:supprt@zylora.se" className="text-violet-400 hover:text-violet-300">supprt@zylora.se</a></p>
               </div>
               <p className="mt-4">
                 Du har även rätt att lämna klagomål till Integritetsskyddsmyndigheten (IMY) om du

@@ -322,7 +322,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({
       {/* Content */}
       {viewMode === 'list' ? (
         /* List View */
-        <div className="max-h-[600px] overflow-y-auto">
+        <div className="max-h-[65vh] sm:max-h-[600px] overflow-y-auto">
           {groupedEvents.length === 0 ? (
             <div className="p-8 text-center text-gray-500">
               <Clock className="w-12 h-12 mx-auto mb-3 opacity-50" />
@@ -409,7 +409,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({
               return (
                 <div
                   key={index}
-                  className={`min-h-[80px] p-1 rounded-lg border transition-colors ${
+                  className={`min-h-[60px] sm:min-h-[80px] p-1 rounded-lg border transition-colors ${
                     day.isCurrentMonth
                       ? 'bg-white/5 border-white/10'
                       : 'bg-transparent border-transparent'

@@ -129,7 +129,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({
 
   if (isLoading) {
     return (
-      <div className="glass border border-white/10 rounded-xl p-6">
+      <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
         <h3 className="text-lg font-display font-semibold text-white mb-4">
           Senaste aktivitet
         </h3>
@@ -150,7 +150,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({
 
   if (displayedActivities.length === 0) {
     return (
-      <div className="glass border border-white/10 rounded-xl p-6">
+      <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
         <h3 className="text-lg font-display font-semibold text-white mb-4">
           Senaste aktivitet
         </h3>
@@ -163,7 +163,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({
   }
 
   return (
-    <div className="glass border border-white/10 rounded-xl p-6">
+    <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
       <h3 className="text-lg font-display font-semibold text-white mb-4">
         Senaste aktivitet
       </h3>

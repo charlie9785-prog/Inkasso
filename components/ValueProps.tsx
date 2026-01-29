@@ -90,42 +90,58 @@ const ValueProps = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-32 px-6 relative">
+    <section ref={sectionRef} className="py-16 md:py-32 px-6 relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute top-0 left-0 w-1/2 h-[600px] bg-violet-500/[0.04] blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-1/2 h-[600px] bg-blue-500/[0.04] blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-0 w-[520px] h-[520px] bg-violet-500/[0.05] blur-[160px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[520px] h-[520px] bg-blue-500/[0.05] blur-[160px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section header */}
         <div className={`mb-12 md:mb-20 reveal ${isVisible ? 'visible' : ''}`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 hover:border-violet-500/50 hover:bg-violet-500/10 transition-all duration-300 mb-8 cursor-default badge-hover">
             <Zap className="w-4 h-4 text-violet-400" />
-            <span className="text-sm font-medium text-gray-400">Varför Zylora</span>
+            <span className="text-xs uppercase tracking-[0.25em] text-gray-400">Varför Zylora</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-4 md:mb-6 tracking-tight">
-            <span className="text-white">Designat för </span>
-            <span className="gradient-text">människor</span>
-            <span className="text-white">,</span>
-            <br />
-            <span className="text-white">inte system.</span>
-          </h2>
+          <div className="flex flex-col lg:flex-row lg:items-end gap-6 lg:gap-10">
+            <div className="flex-1">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-4 md:mb-6 tracking-tight leading-[1.05]">
+                <span className="text-white">Designat för </span>
+                <span className="gradient-text">relationer</span>
+                <span className="text-white">,</span>
+                <br />
+                <span className="text-white">och resultat.</span>
+              </h2>
 
-          <p className="text-gray-400 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed">
-            Inga kravbrev eller hotfulla meddelanden. Vårt team hanterar era förfallna fakturor med personlig dialog och respekt.
-          </p>
+              <p className="text-gray-400 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed">
+                Vi arbetar med människor, inte kravbrev. Respektfull dialog som ger betalning utan friktion.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              {['Personlig dialog', 'Full insyn', 'Inga bindningstider'].map((label) => (
+                <div
+                  key={label}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm text-gray-400"
+                >
+                  <span className="inline-flex h-2 w-2 rounded-full bg-violet-400/70" />
+                  <span>{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 reveal-stagger ${isVisible ? 'visible' : ''}`}>
           {features.map((feature, index) => {
             const colors = colorConfig[feature.color];
             return (
               <div
                 key={index}
-                className={`${feature.colSpan} group relative reveal ${isVisible ? 'visible' : ''}`}
-                style={{ transitionDelay: `${200 + index * 150}ms` }}
+                className={`${feature.colSpan} group relative`}
               >
-                <div className={`relative h-full p-5 sm:p-6 md:p-8 glass border border-white/10 rounded-2xl ${colors.hoverBorder} transition-all duration-500 overflow-hidden cursor-default hover:-translate-y-3 ${colors.glow}`}>
+                <div className={`relative h-full p-5 sm:p-6 md:p-8 glass-strong border border-white/10 rounded-2xl ${colors.hoverBorder} transition-all duration-500 overflow-hidden cursor-default hover:-translate-y-3 ${colors.glow}`}>
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(139,92,246,0.08),transparent_45%)] opacity-0 group-hover:opacity-100 transition-opacity" />
                   {/* Icon */}
                   <div className={`mb-5 sm:mb-6 md:mb-8 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-2xl ${colors.bg} ${colors.border} border flex items-center justify-center group-hover:scale-125 ${colors.hoverBg} transition-all duration-300`}>
                     <feature.icon className={`w-8 h-8 ${colors.text} group-hover:scale-110 transition-transform duration-300`} strokeWidth={1.5} />

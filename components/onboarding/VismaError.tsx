@@ -126,8 +126,8 @@ const VismaError: React.FC = () => {
               <p className="text-sm text-gray-300 font-medium">Behöver du hjälp?</p>
               <p className="text-xs text-gray-500 mt-1">
                 Om problemet kvarstår, kontakta vår support på{' '}
-                <a href="mailto:support@zylora.se" className="text-violet-400 hover:text-violet-300">
-                  support@zylora.se
+                <a href="mailto:supprt@zylora.se" className="text-violet-400 hover:text-violet-300">
+                  supprt@zylora.se
                 </a>
               </p>
             </div>

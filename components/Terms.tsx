@@ -232,7 +232,7 @@ const Terms = () => {
               <h3 className="text-lg font-semibold text-white mt-6 mb-3">Uppsägning:</h3>
               <ul className="list-disc list-inside space-y-2 text-gray-400">
                 <li>Båda parter kan säga upp avtalet med <strong className="text-white">30 dagars</strong> skriftlig uppsägningstid</li>
-                <li>Uppsägning sker via e-post till <a href="mailto:kundservice@zylora.se" className="text-violet-400 hover:text-violet-300">kundservice@zylora.se</a></li>
+                <li>Uppsägning sker via e-post till <a href="mailto:supprt@zylora.se" className="text-violet-400 hover:text-violet-300">supprt@zylora.se</a></li>
                 <li>Vid uppsägning slutförs pågående ärenden under uppsägningstiden</li>
                 <li>Success fee för betalningar som inkommer under uppsägningstiden faktureras enligt vanliga villkor</li>
               </ul>
@@ -300,14 +300,8 @@ const Terms = () => {
                 <p className="text-gray-400">Org.nr: 559XXX-XXXX</p>
                 <p className="text-gray-400 mt-3">
                   <strong className="text-white">E-post:</strong>{' '}
-                  <a href="mailto:kundservice@zylora.se" className="text-violet-400 hover:text-violet-300">
-                    kundservice@zylora.se
-                  </a>
-                </p>
-                <p className="text-gray-400">
-                  <strong className="text-white">Telefon:</strong>{' '}
-                  <a href="tel:0729626822" className="text-violet-400 hover:text-violet-300">
-                    072-962 68 22
+                  <a href="mailto:supprt@zylora.se" className="text-violet-400 hover:text-violet-300">
+                    supprt@zylora.se
                   </a>
                 </p>
               </div>

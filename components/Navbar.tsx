@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 import { navigate } from '../lib/navigation';
 import logoImg from '../assets/logo.png';
 
@@ -8,10 +8,16 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        setIsScrolled(window.scrollY > 20);
+        ticking = false;
+      });
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -69,34 +75,32 @@ const Navbar = () => {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-4">
-          <a
-            href="tel:0729626822"
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors"
-          >
-            <Phone className="w-4 h-4" />
-            <span>072-962 68 22</span>
-          </a>
           <button
             onClick={() => navigate('/login')}
             className="px-5 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors"
           >
             Logga in
           </button>
-          <a
-            href="/kom-igang"
+          <button
+            onClick={() => navigate('/kom-igang')}
             className="btn-premium group relative h-10 px-6 rounded-full overflow-hidden text-sm font-semibold text-white inline-flex items-center"
+            type="button"
           >
             <span className="relative z-10 inline-flex items-center">
               Kom igång gratis
               <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-0.5 transition-transform" />
             </span>
-          </a>
+          </button>
         </div>
 
         {/* Mobile Toggle */}
         <button
           className="md:hidden relative w-10 h-10 rounded-lg glass border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-violet-500/30 transition-all"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          type="button"
+          aria-label={mobileMenuOpen ? 'Stäng meny' : 'Öppna meny'}
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-menu"
         >
           {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
@@ -104,6 +108,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div
+        id="mobile-menu"
         className={`md:hidden absolute top-20 left-0 right-0 glass-strong border-b border-white/10 overflow-hidden transition-all duration-300 ${
           mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}
@@ -141,13 +146,6 @@ const Navbar = () => {
             Om oss
           </button>
           <div className="h-px bg-white/10 my-3" />
-          <a
-            href="tel:0729626822"
-            className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-          >
-            <Phone className="w-4 h-4" />
-            <span>072-962 68 22</span>
-          </a>
           <button
             onClick={() => {
               navigate('/login');
@@ -157,12 +155,13 @@ const Navbar = () => {
           >
             Logga in
           </button>
-          <a
-            href="/kom-igang"
+          <button
+            onClick={() => navigate('/kom-igang')}
             className="btn-premium mt-2 w-full h-12 rounded-xl text-white font-semibold inline-flex items-center justify-center"
+            type="button"
           >
             <span className="relative z-10">Kom igång gratis</span>
-          </a>
+          </button>
         </div>
       </div>
     </nav>

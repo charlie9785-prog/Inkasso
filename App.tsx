@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import ProofBar from './components/ProofBar';
 import LogoCloud from './components/LogoCloud';
 import PainPoints from './components/PainPoints';
 import Comparison from './components/Comparison';
@@ -36,9 +37,15 @@ type Page = 'home' | 'terms' | 'privacy' | 'about' | 'thankyou' | 'login' | 'das
 // Background Effects Component
 const BackgroundEffects: React.FC = () => (
   <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-    <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-violet-600/[0.07] rounded-full blur-[150px] animate-blob-1" />
-    <div className="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-blue-600/[0.05] rounded-full blur-[150px] animate-blob-2" />
-    <div className="absolute bottom-1/4 left-1/3 w-[700px] h-[700px] bg-purple-600/[0.04] rounded-full blur-[150px] animate-blob-3" />
+    <div className="absolute top-0 left-1/4 parallax-slow">
+      <div className="w-[800px] h-[800px] bg-violet-600/[0.07] rounded-full blur-[150px] animate-blob-1" />
+    </div>
+    <div className="absolute top-1/3 right-1/4 parallax-mid">
+      <div className="w-[600px] h-[600px] bg-blue-600/[0.05] rounded-full blur-[150px] animate-blob-2" />
+    </div>
+    <div className="absolute bottom-1/4 left-1/3 parallax-fast">
+      <div className="w-[700px] h-[700px] bg-purple-600/[0.04] rounded-full blur-[150px] animate-blob-3" />
+    </div>
     <div
       className="absolute inset-0 opacity-[0.02]"
       style={{
@@ -54,26 +61,23 @@ const BackgroundEffects: React.FC = () => (
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
-  const [showSpinner, setShowSpinner] = useState(true);
+  const [minDelayDone, setMinDelayDone] = useState(false);
 
-  // Force stop spinner after 2 seconds max
+  // Avoid flash by keeping the spinner visible for a short minimum time.
   useEffect(() => {
-    const timeout = setTimeout(() => setShowSpinner(false), 2000);
+    const timeout = setTimeout(() => setMinDelayDone(true), 300);
     return () => clearTimeout(timeout);
   }, []);
 
-  // Stop spinner when loading is done
   useEffect(() => {
-    if (!isLoading) setShowSpinner(false);
-  }, [isLoading]);
-
-  useEffect(() => {
-    if (!showSpinner && !isAuthenticated) {
+    if (!isLoading && !isAuthenticated) {
       navigate('/login');
     }
-  }, [isAuthenticated, showSpinner]);
+  }, [isAuthenticated, isLoading]);
 
-  if (showSpinner && isLoading) {
+  const shouldShowSpinner = isLoading || !minDelayDone;
+
+  if (shouldShowSpinner) {
     return (
       <main className="min-h-screen bg-dark-950 text-white antialiased relative">
         <BackgroundEffects />
@@ -94,26 +98,23 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 // Login Route Component - redirects to dashboard if already authenticated
 const LoginRoute: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
-  const [showSpinner, setShowSpinner] = useState(true);
+  const [minDelayDone, setMinDelayDone] = useState(false);
 
-  // Force stop spinner after 2 seconds max
+  // Avoid flash by keeping the spinner visible for a short minimum time.
   useEffect(() => {
-    const timeout = setTimeout(() => setShowSpinner(false), 2000);
+    const timeout = setTimeout(() => setMinDelayDone(true), 300);
     return () => clearTimeout(timeout);
   }, []);
 
-  // Stop spinner when loading is done
   useEffect(() => {
-    if (!isLoading) setShowSpinner(false);
-  }, [isLoading]);
-
-  useEffect(() => {
-    if (!showSpinner && isAuthenticated) {
+    if (!isLoading && isAuthenticated) {
       navigate('/dashboard');
     }
-  }, [isAuthenticated, showSpinner]);
+  }, [isAuthenticated, isLoading]);
 
-  if (showSpinner && isLoading) {
+  const shouldShowSpinner = isLoading || !minDelayDone;
+
+  if (shouldShowSpinner) {
     return (
       <main className="min-h-screen bg-dark-950 text-white antialiased relative">
         <BackgroundEffects />
@@ -129,18 +130,46 @@ const LoginRoute: React.FC = () => {
   }
 
   return (
-    <main className="min-h-screen bg-dark-950 text-white antialiased relative">
-      <BackgroundEffects />
-      <div className="relative z-10">
-        <LoginPage />
-      </div>
-    </main>
+      <main className="min-h-screen bg-dark-950 text-white antialiased relative">
+        <div className="scroll-progress" />
+        <BackgroundEffects />
+        <div className="relative z-10">
+          <LoginPage />
+        </div>
+      </main>
   );
 };
 
 // Main App Router Component
 const AppRouter: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('home');
+
+  useEffect(() => {
+    let ticking = false;
+    const update = () => {
+      const doc = document.documentElement;
+      const scrollY = window.scrollY || 0;
+      const maxScroll = doc.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? Math.min(scrollY / maxScroll, 1) : 0;
+      doc.style.setProperty('--scroll-y', `${scrollY}`);
+      doc.style.setProperty('--scroll-progress', `${progress}`);
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
 
   const getPageFromPath = useCallback((pathname: string): Page => {
     switch (pathname) {
@@ -199,6 +228,7 @@ const AppRouter: React.FC = () => {
   if (currentPage === 'onboarding') {
     return (
       <main className="min-h-screen bg-dark-950 text-white antialiased relative">
+        <div className="scroll-progress" />
         <BackgroundEffects />
         <div className="relative z-10">
           <OnboardingFlow />
@@ -211,6 +241,7 @@ const AppRouter: React.FC = () => {
   if (currentPage === 'kom-igang') {
     return (
       <main className="min-h-screen bg-dark-950 text-white antialiased relative">
+        <div className="scroll-progress" />
         <BackgroundEffects />
         <div className="relative z-10">
           <GetStarted />
@@ -224,6 +255,7 @@ const AppRouter: React.FC = () => {
     return (
       <ProtectedRoute>
         <main className="min-h-screen bg-dark-950 text-white antialiased relative">
+          <div className="scroll-progress" />
           <BackgroundEffects />
           <div className="relative z-10">
             <Dashboard />
@@ -238,6 +270,7 @@ const AppRouter: React.FC = () => {
     return (
       <ProtectedRoute>
         <main className="min-h-screen bg-dark-950 text-white antialiased relative">
+          <div className="scroll-progress" />
           <BackgroundEffects />
           <div className="relative z-10">
             <FortnoxSuccess />
@@ -252,6 +285,7 @@ const AppRouter: React.FC = () => {
     return (
       <ProtectedRoute>
         <main className="min-h-screen bg-dark-950 text-white antialiased relative">
+          <div className="scroll-progress" />
           <BackgroundEffects />
           <div className="relative z-10">
             <FortnoxError />
@@ -266,6 +300,7 @@ const AppRouter: React.FC = () => {
     return (
       <ProtectedRoute>
         <main className="min-h-screen bg-dark-950 text-white antialiased relative">
+          <div className="scroll-progress" />
           <BackgroundEffects />
           <div className="relative z-10">
             <VismaSuccess />
@@ -280,6 +315,7 @@ const AppRouter: React.FC = () => {
     return (
       <ProtectedRoute>
         <main className="min-h-screen bg-dark-950 text-white antialiased relative">
+          <div className="scroll-progress" />
           <BackgroundEffects />
           <div className="relative z-10">
             <VismaError />
@@ -293,6 +329,7 @@ const AppRouter: React.FC = () => {
   if (currentPage === 'thankyou') {
     return (
       <main className="min-h-screen bg-dark-950 text-white antialiased relative">
+        <div className="scroll-progress" />
         <BackgroundEffects />
         <div className="relative z-10">
           <ThankYou />
@@ -313,6 +350,7 @@ const AppRouter: React.FC = () => {
         return (
           <>
             <Hero />
+            <ProofBar />
             <LogoCloud />
             <PainPoints />
             <HowItWorks />
@@ -328,6 +366,7 @@ const AppRouter: React.FC = () => {
 
   return (
     <main className="min-h-screen bg-dark-950 text-white antialiased relative">
+      <div className="scroll-progress" />
       <BackgroundEffects />
       <Navbar />
       <div className="relative z-10">

@@ -29,7 +29,7 @@ const integrationConfigs: IntegrationConfig[] = [
   {
     id: 'fortnox',
     name: 'Fortnox',
-    description: 'Sveriges ledande molnbaserade affärssystem för ekonomi, fakturering och bokföring.',
+    description: 'Etablerat molnbaserat affärssystem för ekonomi, fakturering och bokföring.',
     color: 'text-green-400',
     bgColor: 'from-green-500/20 to-green-600/10',
   },
@@ -248,13 +248,13 @@ const Integrations: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="glass border border-white/10 rounded-xl p-6">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500/20 to-blue-500/20 flex items-center justify-center">
-            <Link2 className="w-6 h-6 text-violet-400" />
+      <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-violet-500/20 to-blue-500/20 flex items-center justify-center flex-shrink-0">
+            <Link2 className="w-5 h-5 sm:w-6 sm:h-6 text-violet-400" />
           </div>
           <div>
-            <h2 className="text-xl font-display font-semibold text-white">Integrationer</h2>
+            <h2 className="text-lg sm:text-xl font-display font-semibold text-white">Integrationer</h2>
             <p className="text-gray-400 text-sm mt-1">
               Anslut ditt ekonomisystem för att automatiskt hämta fakturor till Zylora
             </p>
@@ -263,7 +263,7 @@ const Integrations: React.FC = () => {
       </div>
 
       {/* Integration Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {integrationConfigs.map((config) => {
           const integration = getIntegration(config.id);
           const isConnected = integration?.status === 'connected';
@@ -308,7 +308,7 @@ const Integrations: React.FC = () => {
               }`}
             >
               {/* Card Header */}
-              <div className={`p-6 bg-gradient-to-br ${config.bgColor}`}>
+              <div className={`p-4 sm:p-6 bg-gradient-to-br ${config.bgColor}`}>
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
@@ -333,7 +333,7 @@ const Integrations: React.FC = () => {
               </div>
 
               {/* Card Body */}
-              <div className="p-6 space-y-4">
+              <div className="p-4 sm:p-6 space-y-4">
                 {isConnected ? (
                   <>
                     {/* Connection Info */}
@@ -491,11 +491,11 @@ const Integrations: React.FC = () => {
       </div>
 
       {/* Info Section */}
-      <div className="glass border border-white/10 rounded-xl p-6">
+      <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
         <h3 className="text-lg font-display font-semibold text-white mb-4">
           Hur fungerar det?
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           <div className="flex gap-4">
             <div className="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center flex-shrink-0">
               <span className="text-violet-400 font-bold">1</span>

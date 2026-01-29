@@ -174,11 +174,11 @@ const CaseDetails: React.FC<CaseDetailsProps> = ({ caseData, isLoading, onBack }
       </button>
 
       {/* Header */}
-      <div className="glass border border-white/10 rounded-xl p-6">
+      <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
-            <div className="flex items-center gap-3 mb-2">
-              <h2 className="text-xl font-display font-bold text-white">
+            <div className="flex items-center gap-3 mb-2 flex-wrap">
+              <h2 className="text-lg sm:text-xl font-display font-bold text-white">
                 {caseData.fortnox_invoice_number || caseData.id.slice(0, 8)}
               </h2>
               <span
@@ -193,8 +193,8 @@ const CaseDetails: React.FC<CaseDetailsProps> = ({ caseData, isLoading, onBack }
               <p className="text-sm text-gray-500">Org.nr: {caseData.customer_org_number}</p>
             )}
           </div>
-          <div className="text-right">
-            <p className="text-2xl font-display font-bold text-white">
+          <div className="text-left sm:text-right">
+            <p className="text-xl sm:text-2xl font-display font-bold text-white">
               {formatCurrency(caseData.remaining_amount_sek || 0)}
             </p>
             <p className="text-sm text-gray-500">Kvarvarande belopp</p>
@@ -204,7 +204,7 @@ const CaseDetails: React.FC<CaseDetailsProps> = ({ caseData, isLoading, onBack }
         {/* Progress Bar */}
         <div className="mt-6">
           <div className="flex justify-between text-sm mb-2">
-            <span className="text-gray-400">Betalningsförlopp</span>
+            <span className="text-gray-400">Betalningsstatus</span>
             <span className="text-white">{progress.toFixed(0)}%</span>
           </div>
           <div className="h-2 bg-white/10 rounded-full overflow-hidden">
@@ -223,9 +223,9 @@ const CaseDetails: React.FC<CaseDetailsProps> = ({ caseData, isLoading, onBack }
       {/* Three Column Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Customer Info */}
-        <div className="glass border border-white/10 rounded-xl p-6">
-          <h3 className="text-lg font-display font-semibold text-white mb-4">
-            Gäldenärsinformation
+        <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
+          <h3 className="text-base sm:text-lg font-display font-semibold text-white mb-4">
+            Kundinformation
           </h3>
           <div className="space-y-4">
             <div className="flex items-center gap-3">
@@ -257,7 +257,7 @@ const CaseDetails: React.FC<CaseDetailsProps> = ({ caseData, isLoading, onBack }
                 </div>
                 <div>
                   <p className="text-xs text-gray-500">E-post</p>
-                  <p className="text-sm text-white break-all">{caseData.customer_email}</p>
+                  <p className="text-sm text-white break-words">{caseData.customer_email}</p>
                 </div>
               </div>
             )}
@@ -293,8 +293,8 @@ const CaseDetails: React.FC<CaseDetailsProps> = ({ caseData, isLoading, onBack }
         </div>
 
         {/* Invoice Details */}
-        <div className="glass border border-white/10 rounded-xl p-6">
-          <h3 className="text-lg font-display font-semibold text-white mb-4">
+        <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
+          <h3 className="text-base sm:text-lg font-display font-semibold text-white mb-4">
             Fakturadetaljer
           </h3>
           <div className="space-y-4">
@@ -349,7 +349,7 @@ const CaseDetails: React.FC<CaseDetailsProps> = ({ caseData, isLoading, onBack }
                   <Clock className="w-5 h-5 text-amber-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">Inkasso startad</p>
+                  <p className="text-xs text-gray-500">Inkasso startat</p>
                   <p className="text-sm text-white">{formatDate(caseData.collection_started_at)}</p>
                 </div>
               </div>
@@ -400,8 +400,8 @@ const CaseDetails: React.FC<CaseDetailsProps> = ({ caseData, isLoading, onBack }
         </div>
 
         {/* Payments Summary */}
-        <div className="glass border border-white/10 rounded-xl p-6">
-          <h3 className="text-lg font-display font-semibold text-white mb-4">
+        <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
+          <h3 className="text-base sm:text-lg font-display font-semibold text-white mb-4">
             Betalningar
           </h3>
 
@@ -446,15 +446,15 @@ const CaseDetails: React.FC<CaseDetailsProps> = ({ caseData, isLoading, onBack }
       </div>
 
       {/* Communication History - Detailed */}
-      <div className="glass border border-white/10 rounded-xl p-6">
-        <div className="flex items-center justify-between mb-6">
+      <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
+        <div className="flex items-center justify-between mb-4 sm:mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
               <Mail className="w-5 h-5 text-blue-400" />
             </div>
             <div>
-              <h3 className="text-lg font-display font-semibold text-white">
-                Kommunikationshistorik
+              <h3 className="text-base sm:text-lg font-display font-semibold text-white">
+                Kommunikation
               </h3>
               <p className="text-sm text-gray-500">
                 {sortedActivities.length} meddelanden skickade för detta ärende
@@ -490,9 +490,9 @@ const CaseDetails: React.FC<CaseDetailsProps> = ({ caseData, isLoading, onBack }
                     onClick={() => toggleCommExpand(activity.id)}
                     className="w-full p-4 text-left hover:bg-white/5 transition-colors"
                   >
-                    <div className="flex items-start gap-4">
-                      <div className={`w-10 h-10 rounded-lg ${channelColors.bg} border ${channelColors.border} flex items-center justify-center flex-shrink-0`}>
-                        <ChannelIcon className={`w-5 h-5 ${channelColors.text}`} />
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg ${channelColors.bg} border ${channelColors.border} flex items-center justify-center flex-shrink-0`}>
+                        <ChannelIcon className={`w-4 h-4 sm:w-5 sm:h-5 ${channelColors.text}`} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
@@ -552,7 +552,7 @@ const CaseDetails: React.FC<CaseDetailsProps> = ({ caseData, isLoading, onBack }
                         {/* Full Content */}
                         {activity.content && (
                           <div>
-                            <p className="text-xs text-gray-500 mb-2">Fullständigt innehåll</p>
+                            <p className="text-xs text-gray-500 mb-2">Fullt innehåll</p>
                             <div className="p-3 rounded-lg bg-white/5 border border-white/10 max-h-60 overflow-y-auto">
                               <p className="text-sm text-gray-300 whitespace-pre-wrap">{activity.content}</p>
                             </div>

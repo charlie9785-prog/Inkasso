@@ -92,7 +92,7 @@ const LoginPage: React.FC = () => {
             {/* Forgot Password Link */}
             <div className="text-right">
               <a
-                href="#"
+                href="mailto:supprt@zylora.se?subject=Gl%C3%B6mt%20l%C3%B6senord"
                 className="text-sm text-gray-400 hover:text-violet-400 transition-colors"
               >
                 Glömt lösenord?

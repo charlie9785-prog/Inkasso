@@ -65,7 +65,7 @@ const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, periodComparison, 
       format: 'currency',
     },
     {
-      label: 'Success rate',
+      label: 'Lösningsgrad',
       value: stats.successRate,
       icon: Target,
       color: 'violet',
@@ -175,18 +175,18 @@ const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, periodComparison, 
     <div className="space-y-6">
       {/* Period Comparison Card */}
       {periodComparison && (
-        <div className="glass border border-white/10 rounded-xl p-6">
-          <div className="flex items-center justify-between mb-4">
+        <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
             <h3 className="text-lg font-display font-semibold text-white">
-              Denna månad vs förra
+              Denna månad jämfört med förra
             </h3>
             <span className="text-xs text-gray-500">
               Jämförelse med föregående period
             </span>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             {/* Collected Amount */}
-            <div className="p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+            <div className="p-3 sm:p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs text-gray-400">Återvunnet</span>
                 <ComparisonIndicator change={periodComparison.collectedChange} />
@@ -200,7 +200,7 @@ const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, periodComparison, 
             </div>
 
             {/* Cases Resolved */}
-            <div className="p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
+            <div className="p-3 sm:p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs text-gray-400">Avslutade</span>
                 <ComparisonIndicator change={periodComparison.casesResolvedChange} />
@@ -214,7 +214,7 @@ const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, periodComparison, 
             </div>
 
             {/* New Cases */}
-            <div className="p-4 rounded-lg bg-violet-500/10 border border-violet-500/20">
+            <div className="p-3 sm:p-4 rounded-lg bg-violet-500/10 border border-violet-500/20">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs text-gray-400">Nya ärenden</span>
                 <ComparisonIndicator change={periodComparison.newCasesChange} />
@@ -228,7 +228,7 @@ const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, periodComparison, 
             </div>
 
             {/* Average Days to Collect */}
-            <div className="p-4 rounded-lg bg-amber-500/10 border border-amber-500/20">
+            <div className="p-3 sm:p-4 rounded-lg bg-amber-500/10 border border-amber-500/20">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs text-gray-400">Snitt handläggningstid</span>
                 <ComparisonIndicator change={periodComparison.avgDaysChange} invertColors />
@@ -245,7 +245,7 @@ const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, periodComparison, 
       )}
 
       {/* Stats Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
         {statCards.map((card, index) => {
           const Icon = card.icon;
           const colors = colorConfig[card.color];
@@ -253,16 +253,16 @@ const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, periodComparison, 
           return (
             <div
               key={card.label}
-              className={`group glass border border-white/10 rounded-xl p-6 hover:border-${card.color}-500/30 transition-all duration-300 hover:-translate-y-1`}
+              className={`group glass border border-white/10 rounded-xl p-4 sm:p-6 hover:border-${card.color}-500/30 transition-all duration-300 hover:-translate-y-1`}
               style={{ animationDelay: `${index * 50}ms` }}
             >
-              <div className="flex items-start justify-between mb-4">
-                <div className={`w-12 h-12 rounded-xl ${colors.iconBg} ${colors.border} border flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                  <Icon className={`w-6 h-6 ${colors.text}`} />
+              <div className="flex items-start justify-between mb-3 sm:mb-4">
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl ${colors.iconBg} ${colors.border} border flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                  <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${colors.text}`} />
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-2xl font-display font-bold text-white">
+                <p className="text-lg sm:text-2xl font-display font-bold text-white">
                   {formatValue(card.value, card.format)}
                 </p>
                 <p className="text-sm text-gray-400">{card.label}</p>

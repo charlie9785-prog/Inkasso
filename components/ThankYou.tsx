@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle, Phone, Mail, Calendar, ArrowRight } from 'lucide-react';
+import { CheckCircle, Mail, Calendar, ArrowRight } from 'lucide-react';
 
 const ThankYou = () => {
   return (
@@ -72,21 +72,13 @@ const ThankYou = () => {
             <p className="text-gray-400 mb-4">
               Har du frågor innan samtalet? Kontakta oss gärna:
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm">
+            <div className="flex items-center justify-center gap-4 text-sm">
               <a
-                href="tel:0729626822"
-                className="flex items-center gap-2 text-gray-400 hover:text-violet-400 transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                <span>072-962 68 22</span>
-              </a>
-              <span className="hidden sm:block text-gray-700">|</span>
-              <a
-                href="mailto:kundservice@zylora.se"
+                href="mailto:supprt@zylora.se"
                 className="flex items-center gap-2 text-gray-400 hover:text-violet-400 transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                <span>kundservice@zylora.se</span>
+                <span>supprt@zylora.se</span>
               </a>
             </div>
           </div>

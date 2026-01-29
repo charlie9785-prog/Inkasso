@@ -203,7 +203,7 @@ const CaseList: React.FC<CaseListProps> = ({
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
             <input
               type="text"
-              placeholder="Sök fakturanummer, gäldenär eller org.nummer..."
+              placeholder="Sök faktura, kund..."
               value={filters.search || ''}
               onChange={(e) => setFilters({ ...filters, search: e.target.value })}
               className="w-full h-10 pl-10 pr-4 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-violet-500/50 transition-colors"
@@ -362,14 +362,14 @@ const CaseList: React.FC<CaseListProps> = ({
         )}
 
         {/* Sort & Results Count */}
-        <div className="mt-4 flex items-center justify-between">
-          <p className="text-sm text-gray-500">
+        <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <p className="text-xs sm:text-sm text-gray-500">
             Visar <span className="text-white font-medium">{filteredCases.length}</span> av{' '}
             <span className="text-white font-medium">{cases.length}</span> ärenden
           </p>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-500">Sortera:</span>
-            <div className="flex gap-1">
+            <span className="text-xs text-gray-500 hidden sm:inline">Sortera:</span>
+            <div className="flex gap-1 flex-wrap">
               {[
                 { field: 'due_date' as SortField, label: 'Datum' },
                 { field: 'amount' as SortField, label: 'Belopp' },
@@ -397,7 +397,7 @@ const CaseList: React.FC<CaseListProps> = ({
       </div>
 
       {/* Case List */}
-      <div className="divide-y divide-white/5 max-h-[600px] overflow-y-auto">
+      <div className="divide-y divide-white/5 max-h-[65vh] sm:max-h-[600px] overflow-y-auto">
         {filteredCases.length === 0 ? (
           <div className="p-8 text-center text-gray-500">
             <AlertCircle className="w-12 h-12 mx-auto mb-3 opacity-50" />
@@ -428,7 +428,7 @@ const CaseList: React.FC<CaseListProps> = ({
                     isSelected ? 'bg-violet-500/10' : ''
                   }`}
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3 sm:gap-4">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-1">
                         <span className="text-sm font-medium text-white">

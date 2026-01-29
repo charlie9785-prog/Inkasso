@@ -238,7 +238,7 @@ const Notifications: React.FC<NotificationsProps> = ({ onViewCase }) => {
           />
 
           {/* Dropdown Panel */}
-          <div className="fixed top-20 right-6 w-96 max-h-[70vh] overflow-hidden bg-[#1a1a2e] border border-white/20 rounded-xl shadow-2xl z-[99999]">
+          <div className="fixed top-16 sm:top-20 right-2 sm:right-6 w-[calc(100vw-1rem)] sm:w-96 max-h-[70vh] overflow-hidden bg-[#1a1a2e] border border-white/20 rounded-xl shadow-2xl z-[99999]">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-white/10 bg-[#1a1a2e]">
               <h3 className="text-lg font-display font-semibold text-white">

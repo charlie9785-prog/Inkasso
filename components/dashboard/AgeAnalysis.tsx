@@ -119,8 +119,8 @@ const AgeAnalysis: React.FC<AgeAnalysisProps> = ({ cases, isLoading, onSelectBuc
 
   if (isLoading) {
     return (
-      <div className="glass border border-white/10 rounded-xl p-6">
-        <div className="flex items-center gap-3 mb-6">
+      <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
+        <div className="flex items-center gap-3 mb-4 sm:mb-6">
           <div className="w-10 h-10 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
             <Clock className="w-5 h-5 text-amber-400" />
           </div>
@@ -137,9 +137,9 @@ const AgeAnalysis: React.FC<AgeAnalysisProps> = ({ cases, isLoading, onSelectBuc
   }
 
   return (
-    <div className="glass border border-white/10 rounded-xl p-6">
+    <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
             <Clock className="w-5 h-5 text-amber-400" />
@@ -156,7 +156,7 @@ const AgeAnalysis: React.FC<AgeAnalysisProps> = ({ cases, isLoading, onSelectBuc
       </div>
 
       {/* Summary Bar */}
-      <div className="h-4 rounded-full bg-white/10 overflow-hidden flex mb-6">
+      <div className="h-3 sm:h-4 rounded-full bg-white/10 overflow-hidden flex mb-4 sm:mb-6">
         {buckets.map((bucket) => {
           const colors = colorClasses[bucket.color];
           if (bucket.percentage === 0) return null;
@@ -182,7 +182,7 @@ const AgeAnalysis: React.FC<AgeAnalysisProps> = ({ cases, isLoading, onSelectBuc
               key={bucket.label}
               onClick={() => onSelectBucket && onSelectBucket(bucket.minDays, bucket.maxDays)}
               disabled={!hasData || !onSelectBucket}
-              className={`w-full p-4 rounded-lg border transition-all ${
+              className={`w-full p-3 sm:p-4 rounded-lg border transition-all ${
                 hasData
                   ? `${colors.bg} ${colors.border} hover:border-white/30 cursor-pointer`
                   : 'bg-white/5 border-white/10 opacity-50 cursor-default'
@@ -234,7 +234,7 @@ const AgeAnalysis: React.FC<AgeAnalysisProps> = ({ cases, isLoading, onSelectBuc
       )}
 
       {/* Legend */}
-      <div className="mt-6 pt-4 border-t border-white/10">
+      <div className="mt-4 sm:mt-6 pt-4 border-t border-white/10">
         <div className="flex items-center gap-2 text-xs text-gray-500">
           <TrendingUp className="w-4 h-4" />
           <span>Baserat på antal dagar sedan förfallodatum</span>

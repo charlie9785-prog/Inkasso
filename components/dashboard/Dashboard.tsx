@@ -140,17 +140,17 @@ const Dashboard: React.FC = () => {
           <div className="space-y-6">
             {/* Activation Banner */}
             {collectionActive === false && (
-              <div className="glass border border-amber-500/30 rounded-xl p-6 bg-amber-500/10">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center flex-shrink-0">
-                    <AlertTriangle className="w-6 h-6 text-amber-400" />
+              <div className="glass border border-amber-500/30 rounded-xl p-4 sm:p-6 bg-amber-500/10">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center flex-shrink-0">
+                    <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400" />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-lg font-display font-semibold text-white mb-1">
-                      Uppföljning ej aktiverad
+                      Automatisk uppföljning är avstängd
                     </h3>
                     <p className="text-gray-300 mb-4">
-                      Vi följer inte upp förfallna fakturor ännu. Aktivera för att börja automatisk uppföljning.
+                      Aktivera för att börja följa upp förfallna fakturor med trygg och respektfull dialog.
                     </p>
                     <button
                       onClick={handleActivateFromBanner}
@@ -161,7 +161,7 @@ const Dashboard: React.FC = () => {
                         <Loader2 className="w-4 h-4 animate-spin" />
                       ) : (
                         <>
-                          Starta uppföljning
+                          Aktivera uppföljning
                           <ArrowRight className="w-4 h-4" />
                         </>
                       )}
@@ -185,14 +185,14 @@ const Dashboard: React.FC = () => {
 
             {/* Zylora Fee Card */}
             {!billingLoading && (
-              <div className="glass border border-amber-500/20 rounded-xl p-6 bg-amber-500/5">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
-                    <Receipt className="w-6 h-6 text-amber-400" />
+              <div className="glass border border-amber-500/20 rounded-xl p-4 sm:p-6 bg-amber-500/5">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center flex-shrink-0">
+                    <Receipt className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400" />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-lg font-display font-semibold text-white mb-1">
-                      Zylora-avgift
+                      Månadens avgift
                     </h3>
                     <p className="text-2xl font-bold text-white mb-1">
                       {formatCurrency(billingFees)}
@@ -212,9 +212,9 @@ const Dashboard: React.FC = () => {
               isLoading={statsLoading}
             />
 
-            <div className="glass border border-white/10 rounded-xl p-6">
+            <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-display font-semibold text-white">
+                <h3 className="text-base sm:text-lg font-display font-semibold text-white">
                   Senaste ärenden
                 </h3>
                 <button

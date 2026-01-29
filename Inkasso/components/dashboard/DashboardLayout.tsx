@@ -2,7 +2,6 @@ import React, { ReactNode, useState } from 'react';
 import {
   LayoutDashboard,
   FileText,
-  BarChart3,
   LogOut,
   Menu,
   X,
@@ -37,7 +36,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   const navigation = [
     { id: 'overview' as DashboardView, label: 'Översikt', icon: LayoutDashboard },
     { id: 'cases' as DashboardView, label: 'Ärenden', icon: FileText },
-    { id: 'stats' as DashboardView, label: 'Statistik', icon: BarChart3 },
     { id: 'analysis' as DashboardView, label: 'Analys', icon: History },
     { id: 'integrations' as DashboardView, label: 'Integrationer', icon: Link2 },
   ];
@@ -132,7 +130,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
-        <header className="h-16 glass-strong border-b border-white/10 flex items-center justify-between px-6">
+        <header className="h-16 glass-strong border-b border-white/10 flex items-center justify-between px-4 sm:px-6 relative z-40">
           {/* Mobile Menu Button */}
           <button
             className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
@@ -159,48 +157,48 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             />
 
             {/* User Menu (Desktop) */}
-            <div className="relative hidden lg:block">
+            <div className="relative hidden lg:block z-50">
               <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
                 className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-white/5 transition-colors"
               >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-blue-600 flex items-center justify-center">
-                <User className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-sm font-medium text-white">{tenant?.name || user?.email}</span>
-              <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
-            </button>
-
-            {/* Dropdown Menu */}
-            {userMenuOpen && (
-              <>
-                <div
-                  className="fixed inset-0 z-40"
-                  onClick={() => setUserMenuOpen(false)}
-                />
-                <div className="absolute right-0 mt-2 w-48 glass-strong border border-white/10 rounded-xl overflow-hidden z-50">
-                  <div className="p-2">
-                    <div className="px-3 py-2 border-b border-white/10 mb-2">
-                      <p className="text-sm text-white font-medium">{tenant?.name || 'Användare'}</p>
-                      <p className="text-xs text-gray-500">{user?.email}</p>
-                    </div>
-                    <button
-                      onClick={logout}
-                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
-                    >
-                      <LogOut className="w-4 h-4" />
-                      <span>Logga ut</span>
-                    </button>
-                  </div>
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-blue-600 flex items-center justify-center">
+                  <User className="w-4 h-4 text-white" />
                 </div>
-              </>
-            )}
+                <span className="text-sm font-medium text-white">{tenant?.name || user?.email}</span>
+                <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Dropdown Menu */}
+              {userMenuOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 z-[60]"
+                    onClick={() => setUserMenuOpen(false)}
+                  />
+                  <div className="absolute right-0 mt-2 w-48 glass-strong border border-white/10 rounded-xl overflow-hidden z-[70] shadow-xl">
+                    <div className="p-2">
+                      <div className="px-3 py-2 border-b border-white/10 mb-2">
+                        <p className="text-sm text-white font-medium">{tenant?.name || 'Användare'}</p>
+                        <p className="text-xs text-gray-500">{user?.email}</p>
+                      </div>
+                      <button
+                        onClick={logout}
+                        className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        <span>Logga ut</span>
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-auto p-6">
+        <main className="flex-1 overflow-auto p-4 sm:p-6">
           {children}
         </main>
       </div>

@@ -74,7 +74,7 @@
       },
       "contactPoint": {
         "@type": "ContactPoint",
-        "telephone": "+46729626822",
+        "email": "supprt@zylora.se",
         "contactType": "customer service",
         "availableLanguage": "Swedish"
       },
@@ -477,6 +477,68 @@
       .reveal-scale.visible {
         opacity: 1;
         transform: scale(1);
+      }
+
+      .reveal-fade {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .reveal-fade.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .reveal-stagger > * {
+        opacity: 0;
+        transform: translateY(18px);
+        transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .reveal-stagger.visible > * {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .reveal-stagger.visible > *:nth-child(1) { transition-delay: 0ms; }
+      .reveal-stagger.visible > *:nth-child(2) { transition-delay: 80ms; }
+      .reveal-stagger.visible > *:nth-child(3) { transition-delay: 160ms; }
+      .reveal-stagger.visible > *:nth-child(4) { transition-delay: 240ms; }
+      .reveal-stagger.visible > *:nth-child(5) { transition-delay: 320ms; }
+      .reveal-stagger.visible > *:nth-child(6) { transition-delay: 400ms; }
+
+      /* Scroll-driven effects */
+      :root {
+        --scroll-y: 0;
+        --scroll-progress: 0;
+      }
+
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+        transform-origin: 0 50%;
+        transform: scaleX(var(--scroll-progress));
+        z-index: 9999;
+        opacity: 0.9;
+      }
+
+      .parallax-slow {
+        transform: translate3d(0, calc(var(--scroll-y) * 0.03px), 0);
+      }
+
+      .parallax-mid {
+        transform: translate3d(0, calc(var(--scroll-y) * 0.05px), 0);
+      }
+
+      .parallax-fast {
+        transform: translate3d(0, calc(var(--scroll-y) * 0.08px), 0);
       }
 
       /* Stagger delay utilities */

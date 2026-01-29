@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react';
+import { Mail, MapPin, ArrowUpRight } from 'lucide-react';
 import { navigate } from '../lib/navigation';
 
 const footerLinks = {
@@ -23,9 +23,9 @@ const Footer = () => {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Main footer content */}
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12 mb-10 md:mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12 mb-10 md:mb-16">
           {/* Brand */}
-          <div className="col-span-2 md:col-span-1 lg:col-span-1">
+          <div className="col-span-1 sm:col-span-2 lg:col-span-1">
             <a href="#" className="flex items-center gap-3 mb-6 group">
               <div className="relative">
                 <div className="w-8 h-8 bg-gradient-to-br from-violet-500 to-blue-600 rounded-lg rotate-45 group-hover:rotate-[405deg] transition-transform duration-700" />
@@ -92,24 +92,13 @@ const Footer = () => {
             <ul className="space-y-4">
               <li>
                 <a
-                  href="tel:0729626822"
-                  className="flex items-center gap-3 text-gray-500 hover:text-white transition-colors group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-violet-500/30 transition-colors">
-                    <Phone className="w-4 h-4" />
-                  </div>
-                  <span>072-962 68 22</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:kundservice@zylora.se"
+                  href="mailto:supprt@zylora.se"
                   className="flex items-center gap-3 text-gray-500 hover:text-white transition-colors group"
                 >
                   <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-violet-500/30 transition-colors">
                     <Mail className="w-4 h-4" />
                   </div>
-                  <span>kundservice@zylora.se</span>
+                  <span>supprt@zylora.se</span>
                 </a>
               </li>
               <li>
@@ -117,7 +106,7 @@ const Footer = () => {
                   <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
                     <MapPin className="w-4 h-4" />
                   </div>
-                  <span>Stockholm, Sverige</span>
+                  <span>Göteborg, Sverige</span>
                 </div>
               </li>
             </ul>

@@ -95,7 +95,7 @@ const AttentionNeeded: React.FC<AttentionNeededProps> = ({
 
   if (isLoading) {
     return (
-      <div className="glass border border-white/10 rounded-xl p-6">
+      <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
         <h3 className="text-lg font-display font-semibold text-white mb-4">
           Kräver uppmärksamhet
         </h3>
@@ -118,7 +118,7 @@ const AttentionNeeded: React.FC<AttentionNeededProps> = ({
 
   if (attentionCases.length === 0) {
     return (
-      <div className="glass border border-white/10 rounded-xl p-6">
+      <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
         <h3 className="text-lg font-display font-semibold text-white mb-4">
           Kräver uppmärksamhet
         </h3>
@@ -133,7 +133,7 @@ const AttentionNeeded: React.FC<AttentionNeededProps> = ({
   }
 
   return (
-    <div className="glass border border-white/10 rounded-xl p-6">
+    <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-display font-semibold text-white">
           Kräver uppmärksamhet

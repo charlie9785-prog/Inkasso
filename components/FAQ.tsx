@@ -4,39 +4,39 @@ import { ChevronDown, HelpCircle, Plus, Minus } from 'lucide-react';
 const faqs = [
   {
     question: "Vad är skillnaden mellan er och ett inkassobolag?",
-    answer: "Vi arbetar innan inkasso blir aktuellt. Istället för kravbrev och hot om betalningsanmärkning använder vårt team personlig uppföljning som bevarar kundrelationen. Målet är att du får betalt utan att förlora kunden."
+    answer: "Vi arbetar innan inkasso. Personlig uppföljning i rätt ton ger betalning utan onödig friktion."
   },
   {
     question: "När börjar ni agera på en förfallen faktura?",
-    answer: "Vi kommer överens om en gräns som passar dig — vanligast är 7-14 dagar efter förfallodatum. Sen tar vårt team över dialogen utan att du behöver göra något. Ju tidigare vi kommer in, desto större chans att lösa det smidigt."
+    answer: "Vi sätter en gräns tillsammans. När den passerats tar vi över och kontaktar kunden snabbt."
   },
   {
     question: "Vad kostar tjänsten?",
-    answer: "Ingen månadsavgift, ingen startavgift och ingen bindningstid. Du betalar 5% på betalningar som kommer in, max 5 000 kr per faktura. Har du många ärenden sänks avgiften automatiskt — ner till 3% för större volymer."
+    answer: "Ingen månadsavgift eller bindningstid. Du betalar bara när betalning kommer in."
   },
   {
     question: "Hur lång tid tar det?",
-    answer: "De flesta ärenden löser vi inom 1-2 veckor. När en faktura passerar gränsen kontaktar vårt team kunden inom 24 timmar. Du får en veckorapport varje fredag så du alltid vet läget."
+    answer: "De flesta ärenden löses snabbt. Du får tydlig veckorapport."
   },
   {
     question: "Vad händer om kunden ändå inte betalar?",
-    answer: "I de få fall (cirka 4%) där vi inte lyckas kan vi hjälpa dig vidare till nästa steg. Men då har vi åtminstone försökt med personlig uppföljning först, och du vet att du gjort allt för att bevara relationen."
+    answer: "Då hjälper vi dig vidare – efter en respektfull uppföljning."
   },
   {
     question: "Hur fungerar integrationen med mitt ekonomisystem?",
-    answer: "Superenkelt! Du ansluter Fortnox, Visma eller Björn Lundén till Zylora på 60 sekunder. Sedan tar vårt team över och ser alla förfallna fakturor automatiskt."
+    answer: "Anslut Fortnox, Visma eller Björn Lundén på en minut, sen sköter vi resten."
   },
   {
     question: "Vad händer om jag inte använder Fortnox, Visma eller Björn Lundén?",
-    answer: "Vi stödjer Fortnox, Visma och Björn Lundén. Använder du ett annat system — kontakta oss så hittar vi en lösning. Fler integrationer är på väg."
+    answer: "Kontakta oss så hittar vi en lösning."
   },
   {
     question: "Hur vet jag vad som händer i ärendet?",
-    answer: "Du har en dashboard där du kan följa varje ärende i realtid. Dessutom får du en veckorapport via mejl varje fredag med allt som hänt — vilka fakturor vårt team arbetar med, vilka betalningar som är på väg, och vilka ärenden som är lösta."
+    answer: "Följ allt i dashboarden, plus en tydlig veckorapport."
   },
   {
     question: "Vilka typer av företag hjälper ni?",
-    answer: "Vi hjälper alla typer av B2B-företag — från enmansföretag till större bolag. Konsulter, hantverkare, byråer, grossister — alla som fakturerar andra företag och ibland har svårt att få betalt i tid."
+    answer: "Alla B2B‑företag som fakturerar andra företag."
   }
 ];
 
@@ -74,15 +74,15 @@ const FAQ = () => {
         <div className={`text-center mb-10 md:mb-16 reveal ${isVisible ? 'visible' : ''}`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 hover:border-violet-500/30 transition-colors mb-6 md:mb-8 hover-glow cursor-default">
             <HelpCircle className="w-4 h-4 text-violet-400" />
-            <span className="text-sm font-medium text-gray-400">FAQ</span>
+            <span className="text-xs uppercase tracking-[0.25em] text-gray-400">FAQ</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-4 md:mb-6 text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-4 md:mb-6 text-white tracking-tight leading-[1.05]">
             Vanliga frågor
           </h2>
 
           <p className="text-gray-400 text-lg leading-relaxed">
-            Har du andra frågor? <a href="#contact" className="text-violet-400 hover:text-violet-300 transition-colors accent-underline">Kontakta oss</a> så svarar vi inom några timmar.
+            Har du andra frågor? <a href="#contact" className="text-violet-400 hover:text-violet-300 transition-colors accent-underline">Kontakta oss</a> så svarar vi snabbt och personligt.
           </p>
         </div>
 

@@ -71,28 +71,27 @@ const Testimonials = () => {
         <div className={`text-center mb-12 md:mb-20 reveal ${isVisible ? 'visible' : ''}`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 hover:border-violet-500/30 transition-colors mb-8 hover-glow cursor-default">
             <Users className="w-4 h-4 text-violet-400" />
-            <span className="text-sm font-medium text-gray-400">Kundberättelser</span>
+            <span className="text-xs uppercase tracking-[0.25em] text-gray-400">Kundberättelser</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-4 md:mb-6 tracking-tight">
-            <span className="text-white">Företag som fått </span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-4 md:mb-6 tracking-tight leading-[1.05]">
+            <span className="text-white">Företag som får </span>
             <span className="gradient-text">betalt</span>
           </h2>
 
           <p className="text-gray-400 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            Över 200 svenska företag använder Zylora för att få in sina fakturor — utan att förlora kunder.
+            Ett tryggt arbetssätt som skyddar relationen och säkrar kassaflödet.
           </p>
         </div>
 
         {/* Testimonials grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 reveal-stagger ${isVisible ? 'visible' : ''}`}>
           {testimonials.map((testimonial, index) => {
             const colors = colorMap[testimonial.color];
             return (
               <div
                 key={index}
-                className={`group relative reveal ${isVisible ? 'visible' : ''}`}
-                style={{ transitionDelay: `${200 + index * 150}ms` }}
+                className="group relative"
               >
                 <div className={`relative h-full glass border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8 hover:border-${testimonial.color}-500/30 transition-all duration-500 hover-lift`}>
                   {/* Quote icon */}

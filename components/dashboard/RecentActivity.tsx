@@ -63,7 +63,7 @@ const RecentActivity: React.FC<RecentActivityProps> = ({
 }) => {
   if (isLoading) {
     return (
-      <div className="glass border border-white/10 rounded-xl p-6">
+      <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
         <h3 className="text-lg font-display font-semibold text-white mb-4">
           Senaste aktivitet
         </h3>
@@ -84,7 +84,7 @@ const RecentActivity: React.FC<RecentActivityProps> = ({
 
   if (communications.length === 0) {
     return (
-      <div className="glass border border-white/10 rounded-xl p-6">
+      <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
         <h3 className="text-lg font-display font-semibold text-white mb-4">
           Senaste aktivitet
         </h3>
@@ -97,7 +97,7 @@ const RecentActivity: React.FC<RecentActivityProps> = ({
   }
 
   return (
-    <div className="glass border border-white/10 rounded-xl p-6">
+    <div className="glass border border-white/10 rounded-xl p-4 sm:p-6">
       <h3 className="text-lg font-display font-semibold text-white mb-4">
         Senaste aktivitet
       </h3>

@@ -11,22 +11,22 @@ const steps = [
   },
   {
     id: 2,
-    title: "Vi tar över",
-    description: "Vårt team ser förfallna fakturor och börjar dialogen.",
+    title: "Vi tar över dialogen",
+    description: "Vårt team ser förfallna fakturor och tar första kontakten.",
     icon: Eye,
     color: "violet",
   },
   {
     id: 3,
-    title: "Personlig dialog",
-    description: "Vi mejlar, SMSar och ringer era kunder tills fakturan är betald.",
+    title: "Respektfull uppföljning",
+    description: "Vi följer upp i rätt ton tills fakturan är betald.",
     icon: Zap,
     color: "amber",
   },
   {
     id: 4,
-    title: "Pengar på kontot",
-    description: "Ni får veckorapporter och resultat — utan att lyfta ett finger.",
+    title: "Betalning och rapport",
+    description: "Du får tydlig status och resultat — utan att lyfta ett finger.",
     icon: CheckCircle,
     color: "emerald",
   }
@@ -65,51 +65,47 @@ const HowItWorks = () => {
   const activeColors = colorMap[steps[activeStep - 1].color];
 
   return (
-    <section ref={sectionRef} id="process" className="py-16 md:py-32 px-6 relative overflow-hidden">
+    <section ref={sectionRef} id="process" className="py-20 md:py-32 px-6 relative overflow-hidden">
       {/* Background effects */}
-      <div className="absolute right-0 top-1/3 w-[500px] h-[500px] bg-violet-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute left-0 bottom-1/3 w-[400px] h-[400px] bg-blue-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute right-[-120px] top-10 w-[520px] h-[520px] bg-violet-500/[0.04] blur-[160px] rounded-full pointer-events-none" />
+      <div className="absolute left-[-140px] bottom-[-40px] w-[460px] h-[460px] bg-blue-500/[0.04] blur-[160px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16 items-start">
 
           {/* Left Side: Sticky Navigation */}
-          <div className={`lg:w-2/5 lg:sticky lg:top-32 reveal-left ${isVisible ? 'visible' : ''}`}>
+          <div className={`lg:sticky lg:top-28 reveal-left ${isVisible ? 'visible' : ''}`}>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 hover:border-violet-500/30 transition-colors mb-8 hover-glow cursor-default">
               <ArrowRight className="w-4 h-4 text-violet-400" />
-              <span className="text-sm font-medium text-gray-400">Så fungerar det</span>
+              <span className="text-xs uppercase tracking-[0.25em] text-gray-400">Så fungerar det</span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 md:mb-6 text-white tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 md:mb-6 text-white tracking-tight leading-[1.05]">
               Koppla en gång.
               <br />
-              <span className="gradient-text">Sen sköter vi resten.</span>
+              <span className="gradient-text">Sen tar vi ansvar.</span>
             </h2>
 
-            <p className="text-gray-400 text-base sm:text-lg mb-8 md:mb-12 leading-relaxed">
-              Anslut Fortnox, Visma eller Björn Lundén på 60 sekunder — sedan behöver du aldrig göra något mer.
+            <p className="text-gray-400 text-base sm:text-lg mb-8 md:mb-10 leading-relaxed max-w-xl">
+              Vårt team tar över dialogen, följer upp i rätt ton och rapporterar tydligt.
             </p>
 
-            <div className="space-y-3">
+            <div className={`space-y-4 reveal-stagger ${isVisible ? 'visible' : ''}`}>
               {steps.map((step) => {
                 const colors = colorMap[step.color];
+                const isActive = activeStep === step.id;
                 return (
                   <button
                     key={step.id}
                     onClick={() => setActiveStep(step.id)}
-                    className={`w-full text-left p-3 sm:p-4 md:p-5 rounded-xl transition-all duration-500 border flex items-center gap-3 sm:gap-4 md:gap-5 group relative overflow-hidden ${
-                      activeStep === step.id
+                    className={`w-full text-left p-4 sm:p-5 rounded-2xl transition-all duration-500 border flex items-center gap-4 group relative overflow-hidden ${
+                      isActive
                         ? `glass border-white/20 ${colors.activeBg}`
-                        : 'border-transparent hover:bg-white/[0.02] hover:border-white/5'
+                        : 'border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/10'
                     }`}
                   >
-                    {/* Active indicator line */}
-                    {activeStep === step.id && (
-                      <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 ${colors.bg} rounded-r-full`} style={{ background: `linear-gradient(180deg, ${colors.text.replace('text-', 'rgb(var(--')})` }} />
-                    )}
-
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${
-                      activeStep === step.id
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${
+                      isActive
                         ? `${colors.bg} ${colors.border} border ${colors.text}`
                         : 'bg-white/5 border border-white/10 text-gray-500 group-hover:border-white/20'
                     }`}>
@@ -118,20 +114,18 @@ const HowItWorks = () => {
 
                     <div className="flex-1">
                       <span className={`block font-semibold transition-colors ${
-                        activeStep === step.id ? 'text-white' : 'text-gray-400 group-hover:text-gray-300'
+                        isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-300'
                       }`}>
                         {step.title}
                       </span>
                       <span className={`text-sm transition-colors ${
-                        activeStep === step.id ? 'text-gray-400' : 'text-gray-600'
+                        isActive ? 'text-gray-400' : 'text-gray-600'
                       }`}>
                         {step.description}
                       </span>
                     </div>
 
-                    {activeStep === step.id && (
-                      <div className={`w-2 h-2 rounded-full ${colors.bg}`} style={{ background: colors.text.includes('violet') ? '#8b5cf6' : colors.text.includes('blue') ? '#3b82f6' : colors.text.includes('amber') ? '#f59e0b' : '#10b981' }} />
-                    )}
+                    <div className={`w-2 h-2 rounded-full ${colors.bg}`} style={{ background: step.color === 'violet' ? '#8b5cf6' : step.color === 'blue' ? '#3b82f6' : step.color === 'amber' ? '#f59e0b' : '#10b981' }} />
                   </button>
                 );
               })}
@@ -139,13 +133,23 @@ const HowItWorks = () => {
           </div>
 
           {/* Right Side: Visualization */}
-          <div className={`flex-1 w-full lg:pt-20 reveal-right ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '200ms' }}>
+          <div className={`flex-1 w-full lg:pt-6 reveal-right ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '200ms' }}>
             <div className="relative group">
-              <div className="relative rounded-3xl glass border border-white/10 overflow-hidden min-h-[350px] sm:min-h-[400px] lg:min-h-[500px] flex items-center justify-center p-4 sm:p-6 md:p-10 hover:border-violet-500/20 transition-all duration-500">
+              <div className="relative rounded-[32px] glass border border-white/10 overflow-hidden min-h-[360px] sm:min-h-[420px] lg:min-h-[520px] flex items-center justify-center p-4 sm:p-6 md:p-10 hover:border-violet-500/20 transition-all duration-500">
                 {/* Grid background */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px]" />
 
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(139,92,246,0.08),transparent_40%),radial-gradient(circle_at_80%_0%,rgba(59,130,246,0.08),transparent_45%)]" />
+
                 <div className="relative z-10 w-full max-w-md">
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-rose-400/80" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-amber-400/80" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/80" />
+                    </div>
+                    <div className="text-[11px] text-gray-500 uppercase tracking-[0.2em]">Zylora Flow</div>
+                  </div>
                   {activeStep === 1 && (
                     <div className="glass border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8 animate-scale-in hover:border-blue-500/30 transition-colors">
                       <div className="flex justify-between items-center mb-4 sm:mb-6">

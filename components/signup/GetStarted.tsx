@@ -748,7 +748,7 @@ const GetStarted: React.FC = () => {
 
               <p className="mt-6 text-sm text-gray-500">
                 Har du frågor? Ring{' '}
-                <a href="tel:0729626822" className="text-violet-400 hover:text-violet-300">072-962 68 22</a>
+                <a href="mailto:supprt@zylora.se" className="text-violet-400 hover:text-violet-300">supprt@zylora.se</a>
               </p>
             </div>
           )}

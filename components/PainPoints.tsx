@@ -82,74 +82,77 @@ const PainPoints: React.FC = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-14 md:py-24 px-6 relative overflow-hidden">
+    <section ref={sectionRef} className="py-16 md:py-28 px-6 relative overflow-hidden">
       {/* Background effects */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute top-10 left-10 w-[320px] h-[320px] bg-rose-500/[0.06] blur-[140px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[420px] h-[420px] bg-amber-500/[0.05] blur-[160px] rounded-full pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section header */}
-        <div className={`text-center mb-10 md:mb-16 reveal ${isVisible ? 'visible' : ''}`}>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold mb-4 md:mb-6 tracking-tight">
-            <span className="text-white">Känner du igen dig?</span>
+      <div className="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16 items-start">
+        {/* Left column */}
+        <div className={`reveal ${isVisible ? 'visible' : ''}`}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 mb-6">
+            <span className="text-xs uppercase tracking-[0.25em] text-gray-400">Utmaningar</span>
+          </div>
+
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold mb-4 md:mb-6 tracking-tight leading-[1.05]">
+            <span className="text-white">När betalningar dröjer kostar det mer än pengar.</span>
           </h2>
-          <p className="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto mb-6 md:mb-8">
-            Sena betalningar kostar mer än pengar. De kostar tid, energi och tillväxt.
+          <p className="text-gray-400 text-base sm:text-lg max-w-xl mb-8 leading-relaxed">
+            Tid, energi och tillväxt försvinner. Vi tar över innan problemet eskalerar.
           </p>
 
-          {/* External statistic */}
-          <div className="inline-flex flex-col items-center gap-2 px-4 py-3 sm:px-6 sm:py-4 rounded-xl glass border border-white/10">
-            <p className="text-white font-medium">
-              "Svenska företag lägger i snitt <span className="text-violet-400">10 timmar i veckan</span> på att jaga betalningar."
-            </p>
-            <p className="text-sm text-gray-500">
-              — European Payment Report 2023
-            </p>
+          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 sm:p-7">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(244,63,94,0.12),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(245,158,11,0.12),transparent_50%)]" />
+            <div className="relative z-10">
+              <p className="text-white font-medium text-lg mb-3">
+                "Svenska företag lägger i snitt <span className="text-violet-400">10 timmar i veckan</span> på att jaga betalningar."
+              </p>
+              <p className="text-sm text-gray-500">
+                — European Payment Report 2023
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8 flex items-center gap-3 text-sm text-gray-500">
+            <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400/80" />
+            <span><span className="text-white font-medium">Du ska inte behöva vara inkassoteam.</span> Det är vårt jobb.</span>
           </div>
         </div>
 
-        {/* Pain points grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Right column */}
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-5 reveal-stagger ${isVisible ? 'visible' : ''}`}>
           {painPoints.map((point, index) => {
             const colors = colorConfig[point.color];
             return (
               <div
                 key={point.id}
-                className={`reveal ${isVisible ? 'visible' : ''}`}
-                style={{ transitionDelay: `${150 + index * 100}ms` }}
+                className="relative"
               >
-                <div className={`group relative p-5 sm:p-6 md:p-8 rounded-2xl ${colors.bg} border ${colors.border} hover:border-white/20 transition-all duration-300 h-full`}>
-                  {/* Number badge */}
-                  <div className={`absolute -top-3 -left-3 w-8 h-8 rounded-full ${colors.iconBg} border ${colors.border} flex items-center justify-center`}>
-                    <span className={`text-sm font-bold ${colors.text}`}>{point.id}</span>
-                  </div>
-
-                  <div className="flex items-start gap-3 sm:gap-4 md:gap-5">
-                    {/* Icon */}
-                    <div className={`w-12 h-12 rounded-xl ${colors.iconBg} border ${colors.border} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`group relative h-full overflow-hidden rounded-2xl border ${colors.border} bg-white/5 p-5 sm:p-6 transition-all duration-500 hover:-translate-y-2 hover:border-white/20`}>
+                  <div className="absolute -right-8 -top-10 w-32 h-32 rounded-full blur-[70px] opacity-0 group-hover:opacity-100 transition-opacity"
+                    style={{ backgroundColor: point.color === 'rose' ? '#fb7185' : point.color === 'amber' ? '#f59e0b' : point.color === 'orange' ? '#fb923c' : '#f87171', opacity: 0.25 }}
+                  />
+                  <div className="relative z-10 flex items-start gap-4">
+                    <div className={`w-12 h-12 rounded-2xl ${colors.iconBg} border ${colors.border} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
                       <point.icon className={`w-6 h-6 ${colors.text}`} />
                     </div>
-
-                    {/* Content */}
                     <div className="flex-1">
-                      <h3 className="text-xl font-display font-semibold text-white mb-2">
+                      <h3 className="text-lg font-display font-semibold text-white mb-2">
                         {point.title}
                       </h3>
-                      <p className="text-gray-400 leading-relaxed">
+                      <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
                         {point.description}
                       </p>
                     </div>
+                  </div>
+                  <div className="mt-4 flex items-center gap-2 text-xs text-gray-500">
+                    <span className={`inline-flex h-1.5 w-1.5 rounded-full ${colors.text}`} />
+                    <span>Vanligt hinder</span>
                   </div>
                 </div>
               </div>
             );
           })}
-        </div>
-
-        {/* Bottom CTA hint */}
-        <div className={`mt-12 text-center reveal ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '600ms' }}>
-          <p className="text-gray-500">
-            <span className="text-white font-medium">Det behöver inte vara så.</span> Vi tar hand om det åt dig.
-          </p>
         </div>
       </div>
     </section>
