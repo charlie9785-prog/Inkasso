@@ -191,18 +191,39 @@ const GetStarted: React.FC = () => {
     setIsLoading(true);
     setError(null);
 
-    // Björn Lundén använder manuell inmatning (ingen OAuth än)
-    // Simulera kort laddning och gå direkt till bekräftelse-steget
-    await new Promise(resolve => setTimeout(resolve, 500));
+    try {
+      const response = await fetch(
+        `${SUPABASE_URL}/functions/v1/bjorn-lunden-oauth?action=authorize&mode=signup`,
+        {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          },
+          redirect: 'follow',
+        }
+      );
 
-    sessionStorage.setItem('zylora_connected_system', 'bjorn_lunden');
-    setCompanyData(prev => ({
-      ...prev,
-      connectedSystem: 'bjorn_lunden',
-      bjorn_lunden_state: 'manual_entry',
-    }));
-    setCurrentStep('confirm');
-    setIsLoading(false);
+      console.log('Björn Lundén OAuth response status:', response.status);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Björn Lundén OAuth error:', errorText);
+        throw new Error('Kunde inte starta anslutning');
+      }
+
+      const data = await response.json();
+      console.log('Björn Lundén OAuth data:', data);
+
+      if (data.authorization_url) {
+        window.location.href = data.authorization_url;
+      } else {
+        throw new Error('Ingen authorization_url i svaret');
+      }
+    } catch (err) {
+      console.error('Björn Lundén OAuth fetch error:', err);
+      setError('Något gick fel. Försök igen.');
+      setIsLoading(false);
+    }
   };
 
   const handleSignup = async () => {
@@ -480,7 +501,7 @@ const GetStarted: React.FC = () => {
               <div className="flex items-center gap-2 text-emerald-400 mb-4">
                 <Check className="w-5 h-5" />
                 <span className="font-medium">
-                  {companyData.connectedSystem === 'visma' ? 'Visma kopplat!' : companyData.connectedSystem === 'bjorn_lunden' ? 'Björn Lundén valt!' : 'Fortnox kopplat!'}
+                  {companyData.connectedSystem === 'visma' ? 'Visma kopplat!' : companyData.connectedSystem === 'bjorn_lunden' ? 'Björn Lundén kopplat!' : 'Fortnox kopplat!'}
                 </span>
               </div>
 
@@ -488,10 +509,7 @@ const GetStarted: React.FC = () => {
                 Bekräfta dina uppgifter
               </h2>
               <p className="text-gray-400 mb-8">
-                {companyData.connectedSystem === 'bjorn_lunden'
-                  ? 'Fyll i dina uppgifter nedan'
-                  : `Vi har hämtat informationen från ${companyData.connectedSystem === 'visma' ? 'Visma' : 'Fortnox'}`
-                }
+                Vi har hämtat informationen från {companyData.connectedSystem === 'visma' ? 'Visma' : companyData.connectedSystem === 'bjorn_lunden' ? 'Björn Lundén' : 'Fortnox'}
               </p>
 
               {error && (
