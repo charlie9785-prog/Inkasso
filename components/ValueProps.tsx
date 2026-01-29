@@ -90,14 +90,14 @@ const ValueProps = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-32 px-6 relative overflow-hidden">
+    <section ref={sectionRef} className="py-12 md:py-20 px-6 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-[520px] h-[520px] bg-violet-500/[0.05] blur-[160px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[520px] h-[520px] bg-blue-500/[0.05] blur-[160px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section header */}
-        <div className={`mb-12 md:mb-20 reveal ${isVisible ? 'visible' : ''}`}>
+        <div className={`mb-10 md:mb-14 reveal ${isVisible ? 'visible' : ''}`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 hover:border-violet-500/50 hover:bg-violet-500/10 transition-all duration-300 mb-8 cursor-default badge-hover">
             <Zap className="w-4 h-4 text-violet-400" />
             <span className="text-xs uppercase tracking-[0.25em] text-gray-400">Varför Zylora</span>
@@ -105,7 +105,7 @@ const ValueProps = () => {
 
           <div className="flex flex-col lg:flex-row lg:items-end gap-6 lg:gap-10">
             <div className="flex-1">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-4 md:mb-6 tracking-tight leading-[1.05]">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-3 md:mb-4 tracking-tight leading-[1.1]">
                 <span className="text-white">Designat för </span>
                 <span className="gradient-text">relationer</span>
                 <span className="text-white">,</span>
@@ -113,7 +113,7 @@ const ValueProps = () => {
                 <span className="text-white">och resultat.</span>
               </h2>
 
-              <p className="text-gray-400 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed">
+              <p className="text-gray-400 text-sm sm:text-base md:text-lg max-w-xl leading-relaxed">
                 Vi arbetar med människor, inte kravbrev. Respektfull dialog som ger betalning utan friktion.
               </p>
             </div>
@@ -140,15 +140,15 @@ const ValueProps = () => {
                 key={index}
                 className={`${feature.colSpan} group relative`}
               >
-                <div className={`relative h-full p-5 sm:p-6 md:p-8 glass-strong border border-white/10 rounded-2xl ${colors.hoverBorder} transition-all duration-500 overflow-hidden cursor-default hover:-translate-y-3 ${colors.glow}`}>
+                <div className={`relative h-full p-4 sm:p-5 md:p-6 glass-strong border border-white/10 rounded-xl ${colors.hoverBorder} transition-all duration-500 overflow-hidden cursor-default hover:-translate-y-2 ${colors.glow}`}>
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(139,92,246,0.08),transparent_45%)] opacity-0 group-hover:opacity-100 transition-opacity" />
                   {/* Icon */}
-                  <div className={`mb-5 sm:mb-6 md:mb-8 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-2xl ${colors.bg} ${colors.border} border flex items-center justify-center group-hover:scale-125 ${colors.hoverBg} transition-all duration-300`}>
-                    <feature.icon className={`w-8 h-8 ${colors.text} group-hover:scale-110 transition-transform duration-300`} strokeWidth={1.5} />
+                  <div className={`mb-4 sm:mb-5 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-xl ${colors.bg} ${colors.border} border flex items-center justify-center group-hover:scale-110 ${colors.hoverBg} transition-all duration-300`}>
+                    <feature.icon className={`w-5 h-5 sm:w-6 sm:h-6 ${colors.text} group-hover:scale-110 transition-transform duration-300`} strokeWidth={1.5} />
                   </div>
 
                   <div className="relative z-10">
-                    <h3 className="text-xl font-display font-semibold text-white mb-3 group-hover:text-violet-100 transition-colors">
+                    <h3 className="text-lg font-display font-semibold text-white mb-2 group-hover:text-violet-100 transition-colors">
                       {feature.title}
                     </h3>
                     <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">

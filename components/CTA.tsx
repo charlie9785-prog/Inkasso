@@ -24,10 +24,10 @@ const CTA = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-16 md:py-32 px-6" id="contact">
+    <section ref={sectionRef} className="relative py-12 md:py-20 px-6" id="contact">
       <div className="max-w-5xl mx-auto relative z-10">
         <div className={`relative group reveal-scale ${isVisible ? 'visible' : ''}`}>
-          <div className="relative overflow-hidden rounded-3xl glass border border-white/10 px-6 py-12 text-center sm:px-8 sm:py-16 md:px-16 md:py-20 lg:px-24 hover:border-violet-500/20 transition-all duration-500">
+          <div className="relative overflow-hidden rounded-2xl glass border border-white/10 px-5 py-10 text-center sm:px-6 sm:py-12 md:px-12 md:py-14 hover:border-violet-500/20 transition-all duration-500">
             {/* Background effects */}
             <div className="absolute -top-32 -left-32 h-96 w-96 bg-violet-500/[0.05] rounded-full blur-[120px] group-hover:bg-violet-500/[0.08] transition-colors duration-700" />
             <div className="absolute -bottom-32 -right-32 h-96 w-96 bg-blue-500/[0.05] rounded-full blur-[120px] group-hover:bg-blue-500/[0.08] transition-colors duration-700" />
@@ -42,20 +42,20 @@ const CTA = () => {
                 <span className="text-sm font-medium text-violet-300">Kom igång idag</span>
               </div>
 
-              <h2 className="mb-4 md:mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold tracking-tight leading-[1.05]">
+              <h2 className="mb-3 md:mb-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold tracking-tight leading-[1.1]">
                 <span className="text-white">Låt oss ta ansvar för dialogen.</span>
                 <br />
                 <span className="gradient-text">Så kan du fokusera på affärerna.</span>
               </h2>
 
-              <p className="mx-auto mb-8 md:mb-12 max-w-2xl text-base sm:text-lg md:text-xl text-gray-400">
+              <p className="mx-auto mb-6 md:mb-8 max-w-xl text-sm sm:text-base md:text-lg text-gray-400">
                 Vi arbetar diskret och professionellt, och rapporterar tydligt hela vägen.
               </p>
 
               <div className="flex flex-col items-center justify-center gap-4">
                 <a
                   href="/kom-igang"
-                  className="group h-12 px-8 sm:h-14 sm:px-10 rounded-full btn-premium inline-flex items-center w-full sm:w-auto justify-center"
+                  className="group h-11 px-6 sm:h-12 sm:px-8 rounded-full btn-premium inline-flex items-center w-full sm:w-auto justify-center"
                 >
                   <span className="relative z-10 inline-flex items-center text-base font-semibold text-white">
                     Kom igång gratis

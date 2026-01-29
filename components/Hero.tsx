@@ -11,7 +11,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 px-6 overflow-hidden min-h-[85vh] md:min-h-[95vh] flex flex-col justify-center">
+    <section className="relative pt-20 pb-12 md:pt-24 md:pb-16 px-6 overflow-hidden min-h-[70vh] md:min-h-[80vh] flex flex-col justify-center">
       <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
 
         {/* Premium Badge */}
@@ -32,7 +32,7 @@ const Hero = () => {
 
         {/* Main Headline */}
           <h1
-            className={`text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-[5.2rem] font-display font-bold tracking-tight mb-6 md:mb-8 max-w-3xl leading-[1.08] md:leading-[1.05] ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
+            className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold tracking-tight mb-4 md:mb-6 max-w-2xl leading-[1.1] ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
             style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}
           >
             <span className="text-white">Vi tar hand om dialogen</span>
@@ -44,7 +44,7 @@ const Hero = () => {
 
         {/* Subheadline */}
           <p
-            className={`text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mb-10 md:mb-12 leading-relaxed ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
+            className={`text-sm sm:text-base md:text-lg text-gray-400 max-w-xl mb-8 leading-relaxed ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
             style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}
           >
             <span className="text-white font-medium">Anslut Fortnox, Visma eller Björn Lundén på 60 sekunder.</span> Vårt team följer upp i rätt ton och säkrar betalningen utan att skada relationen.
@@ -57,7 +57,7 @@ const Hero = () => {
           >
             <a
               href="/kom-igang"
-              className="group h-12 px-8 sm:h-14 sm:px-10 rounded-full btn-premium magnetic-hover shine-hover inline-flex items-center justify-center w-full sm:w-auto"
+              className="group h-11 px-6 sm:h-12 sm:px-8 rounded-full btn-premium magnetic-hover shine-hover inline-flex items-center justify-center w-full sm:w-auto"
             >
               <span className="relative z-10 inline-flex items-center text-base font-semibold text-white">
                 Kom igång gratis
@@ -67,7 +67,7 @@ const Hero = () => {
             <button
               type="button"
               onClick={() => document.getElementById('process')?.scrollIntoView({ behavior: 'smooth' })}
-              className="h-12 sm:h-14 px-6 rounded-full border border-white/10 text-sm sm:text-base text-gray-300 hover:text-white hover:border-violet-500/40 hover:bg-white/5 transition-all w-full sm:w-auto"
+              className="h-11 sm:h-12 px-5 rounded-full border border-white/10 text-sm text-gray-300 hover:text-white hover:border-violet-500/40 hover:bg-white/5 transition-all w-full sm:w-auto"
             >
               Se hur det fungerar
             </button>
@@ -79,12 +79,12 @@ const Hero = () => {
 
         {/* Trust indicators */}
           <div
-            className={`mt-10 flex flex-wrap items-center gap-4 sm:gap-6 text-sm text-gray-500 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}
+            className={`mt-8 flex flex-wrap items-center gap-3 sm:gap-5 text-xs sm:text-sm text-gray-500 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}
             style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}
           >
             {['Inga dolda avgifter', 'Ingen bindningstid', '60 sek integration'].map((text, i) => (
               <div key={i} className="flex items-center gap-2 group cursor-default hover:scale-105 transition-transform">
-                <svg className="w-5 h-5 text-violet-400 group-hover:text-violet-300 group-hover:scale-125 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-violet-400 group-hover:text-violet-300 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
                 <span className="group-hover:text-white transition-colors">{text}</span>
@@ -99,7 +99,7 @@ const Hero = () => {
           <div className="absolute -bottom-14 left-6 h-48 w-48 bg-blue-500/10 blur-[90px] rounded-full" />
 
           <div className="animated-border p-[2px] rounded-3xl">
-            <div className="relative rounded-3xl glass-strong border border-white/10 p-6 sm:p-8 overflow-hidden">
+            <div className="relative rounded-2xl glass-strong border border-white/10 p-5 sm:p-6 overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(139,92,246,0.12),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(59,130,246,0.12),transparent_50%)]" />
 
               <div className="relative z-10">
@@ -150,15 +150,15 @@ const Hero = () => {
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-3">
             {[
               { label: 'Kontakt inom 24h', value: 'Snabb uppstart' },
               { label: '1–2 veckor', value: 'Vanlig lösningstid' },
               { label: '60 sek', value: 'Integrationstid' },
             ].map((stat) => (
-              <div key={stat.label} className="glass border border-white/10 rounded-2xl px-4 py-3 text-left hover:border-violet-500/30 transition-all">
-                <p className="text-xs text-gray-500">{stat.label}</p>
-                <p className="text-sm text-white font-medium">{stat.value}</p>
+              <div key={stat.label} className="glass border border-white/10 rounded-xl px-2 py-2 sm:px-3 sm:py-3 text-left hover:border-violet-500/30 transition-all">
+                <p className="text-[10px] sm:text-xs text-gray-500 truncate">{stat.label}</p>
+                <p className="text-xs sm:text-sm text-white font-medium truncate">{stat.value}</p>
               </div>
             ))}
           </div>

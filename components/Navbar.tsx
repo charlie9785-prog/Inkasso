@@ -29,15 +29,15 @@ const Navbar = () => {
           : 'bg-transparent border-b border-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <button onClick={() => navigate('/')} className="flex items-center gap-3 group">
           <img
             src={logoImg}
             alt="Zylora"
-            className="h-14 w-auto group-hover:scale-105 transition-transform duration-300"
+            className="h-10 w-auto group-hover:scale-105 transition-transform duration-300"
           />
-          <span className="font-display font-bold text-xl tracking-tight text-white">Zylora</span>
+          <span className="font-display font-bold text-lg tracking-tight text-white">Zylora</span>
         </button>
 
         {/* Desktop Links */}
@@ -109,7 +109,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div
         id="mobile-menu"
-        className={`md:hidden absolute top-20 left-0 right-0 glass-strong border-b border-white/10 overflow-hidden transition-all duration-300 ${
+        className={`md:hidden absolute top-16 left-0 right-0 glass-strong border-b border-white/10 overflow-hidden transition-all duration-300 ${
           mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
@@ -157,7 +157,7 @@ const Navbar = () => {
           </button>
           <button
             onClick={() => navigate('/kom-igang')}
-            className="btn-premium mt-2 w-full h-12 rounded-xl text-white font-semibold inline-flex items-center justify-center"
+            className="btn-premium mt-2 w-full h-11 rounded-xl text-white font-semibold inline-flex items-center justify-center"
             type="button"
           >
             <span className="relative z-10">Kom igång gratis</span>

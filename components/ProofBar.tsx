@@ -30,7 +30,7 @@ const ProofBar: React.FC = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className={`py-10 md:py-14 px-6 relative overflow-hidden reveal-fade ${isVisible ? 'visible' : ''}`}>
+    <section ref={sectionRef} className={`py-8 md:py-10 px-6 relative overflow-hidden reveal-fade ${isVisible ? 'visible' : ''}`}>
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
@@ -54,7 +54,7 @@ const ProofBar: React.FC = () => {
           <div className={`grid grid-cols-3 gap-3 reveal-stagger ${isVisible ? 'visible' : ''}`}>
           {stats.map((stat) => (
             <div key={stat.label} className="glass border border-white/10 rounded-2xl px-3 py-3 text-center min-w-0">
-              <div className="text-xl font-display font-bold text-white">{stat.value}</div>
+              <div className="text-lg font-display font-bold text-white">{stat.value}</div>
               <div className="text-[10px] sm:text-xs text-gray-500 leading-tight">
                 {stat.label}
               </div>

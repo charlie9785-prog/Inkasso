@@ -82,7 +82,7 @@ const PainPoints: React.FC = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-28 px-6 relative overflow-hidden">
+    <section ref={sectionRef} className="py-12 md:py-20 px-6 relative overflow-hidden">
       {/* Background effects */}
       <div className="absolute top-10 left-10 w-[320px] h-[320px] bg-rose-500/[0.06] blur-[140px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[420px] h-[420px] bg-amber-500/[0.05] blur-[160px] rounded-full pointer-events-none" />
@@ -94,17 +94,17 @@ const PainPoints: React.FC = () => {
             <span className="text-xs uppercase tracking-[0.25em] text-gray-400">Utmaningar</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold mb-4 md:mb-6 tracking-tight leading-[1.05]">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-3 md:mb-4 tracking-tight leading-[1.1]">
             <span className="text-white">När betalningar dröjer kostar det mer än pengar.</span>
           </h2>
-          <p className="text-gray-400 text-base sm:text-lg max-w-xl mb-8 leading-relaxed">
+          <p className="text-gray-400 text-sm sm:text-base max-w-lg mb-6 leading-relaxed">
             Tid, energi och tillväxt försvinner. Vi tar över innan problemet eskalerar.
           </p>
 
-          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 sm:p-7">
+          <div className="relative overflow-hidden rounded-xl border border-white/10 bg-white/5 p-4 sm:p-5">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(244,63,94,0.12),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(245,158,11,0.12),transparent_50%)]" />
             <div className="relative z-10">
-              <p className="text-white font-medium text-lg mb-3">
+              <p className="text-white font-medium text-base mb-2">
                 "Svenska företag lägger i snitt <span className="text-violet-400">10 timmar i veckan</span> på att jaga betalningar."
               </p>
               <p className="text-sm text-gray-500">
@@ -120,7 +120,7 @@ const PainPoints: React.FC = () => {
         </div>
 
         {/* Right column */}
-        <div className={`grid grid-cols-1 md:grid-cols-2 gap-5 reveal-stagger ${isVisible ? 'visible' : ''}`}>
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 reveal-stagger ${isVisible ? 'visible' : ''}`}>
           {painPoints.map((point, index) => {
             const colors = colorConfig[point.color];
             return (
@@ -128,16 +128,16 @@ const PainPoints: React.FC = () => {
                 key={point.id}
                 className="relative"
               >
-                <div className={`group relative h-full overflow-hidden rounded-2xl border ${colors.border} bg-white/5 p-5 sm:p-6 transition-all duration-500 hover:-translate-y-2 hover:border-white/20`}>
+                <div className={`group relative h-full overflow-hidden rounded-xl sm:rounded-2xl border ${colors.border} bg-white/5 p-4 sm:p-5 transition-all duration-500 hover:-translate-y-1 hover:border-white/20`}>
                   <div className="absolute -right-8 -top-10 w-32 h-32 rounded-full blur-[70px] opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{ backgroundColor: point.color === 'rose' ? '#fb7185' : point.color === 'amber' ? '#f59e0b' : point.color === 'orange' ? '#fb923c' : '#f87171', opacity: 0.25 }}
                   />
-                  <div className="relative z-10 flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-2xl ${colors.iconBg} border ${colors.border} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
-                      <point.icon className={`w-6 h-6 ${colors.text}`} />
+                  <div className="relative z-10 flex items-start gap-3 sm:gap-4">
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl ${colors.iconBg} border ${colors.border} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
+                      <point.icon className={`w-5 h-5 sm:w-6 sm:h-6 ${colors.text}`} />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-display font-semibold text-white mb-2">
+                      <h3 className="text-base sm:text-lg font-display font-semibold text-white mb-1 sm:mb-2">
                         {point.title}
                       </h3>
                       <p className="text-sm sm:text-base text-gray-400 leading-relaxed">

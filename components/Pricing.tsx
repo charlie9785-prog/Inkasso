@@ -33,7 +33,7 @@ const Pricing = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="pricing" className="py-16 md:py-32 px-6 relative overflow-hidden">
+    <section ref={sectionRef} id="pricing" className="py-14 md:py-20 px-6 relative overflow-hidden">
       {/* Background effects */}
       <div className="absolute top-[-80px] left-1/4 w-[620px] h-[620px] bg-violet-500/[0.05] blur-[170px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[-120px] right-1/4 w-[520px] h-[520px] bg-blue-500/[0.05] blur-[170px] rounded-full pointer-events-none" />
@@ -48,13 +48,13 @@ const Pricing = () => {
 
           <div className="flex flex-col lg:flex-row lg:items-end gap-6 lg:gap-10">
             <div className="flex-1">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-6 tracking-tight leading-[1.05]">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-4 tracking-tight leading-[1.1]">
                 <span className="text-white">Superenkel prissättning.</span>
                 <br />
                 <span className="gradient-text">Du betalar bara vid resultat.</span>
               </h2>
 
-              <p className="text-gray-300 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed">
+              <p className="text-gray-300 text-sm sm:text-base md:text-lg max-w-xl leading-relaxed">
                 Ingen månadsavgift. Ingen startavgift. Tydligt och tryggt.
               </p>
             </div>
@@ -80,10 +80,10 @@ const Pricing = () => {
             <div className="relative bg-[#0d0d1a] border border-white/10 rounded-[36px] overflow-hidden shadow-[0_30px_80px_rgba(10,10,30,0.6)]">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(139,92,246,0.1),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(59,130,246,0.1),transparent_45%)]" />
               {/* Main pricing */}
-              <div className="relative z-10 p-6 sm:p-8 md:p-10 lg:p-14 text-center">
+              <div className="relative z-10 p-5 sm:p-6 md:p-8 text-center">
                 {/* Big zero */}
                 <div className="mb-8">
-                  <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-bold text-white mb-2">
+                  <div className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-white mb-2">
                     0 kr
                   </div>
                   <div className="text-base sm:text-lg text-gray-400 font-medium">
@@ -95,13 +95,13 @@ const Pricing = () => {
                 <div className="inline-flex items-center gap-3 px-4 py-3 sm:px-6 sm:py-4 rounded-2xl bg-violet-500/10 border border-violet-500/30 mb-6">
                   <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-violet-400" />
                   <div className="text-left">
-                    <div className="text-xl sm:text-2xl font-display font-bold text-white">5% success fee</div>
+                    <div className="text-lg sm:text-xl font-display font-bold text-white">5% success fee</div>
                     <div className="text-gray-300">på betalningar som kommer in</div>
                   </div>
                 </div>
 
                 {/* Simple explanation */}
-                <p className="text-gray-300 text-base sm:text-lg mb-8 max-w-md mx-auto">
+                <p className="text-gray-300 text-sm sm:text-base mb-6 max-w-md mx-auto">
                   Vi tar 5% på betalningar som kommer in. Max 5 000 kr per faktura. Ingen betalning — ingen kostnad.
                 </p>
 
@@ -119,7 +119,7 @@ const Pricing = () => {
                 {/* CTA */}
                 <a
                   href="/kom-igang"
-                  className="group/btn inline-flex items-center justify-center h-14 px-8 rounded-full bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 transition-all duration-300 w-full sm:w-auto"
+                  className="group/btn inline-flex items-center justify-center h-11 sm:h-12 px-6 rounded-full bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 transition-all duration-300 w-full sm:w-auto"
                 >
                   <span className="inline-flex items-center justify-center text-base font-semibold text-white">
                     Kom igång gratis
@@ -168,13 +168,13 @@ const Pricing = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {/* Starter */}
-            <div className="relative p-6 rounded-2xl bg-violet-500/15 border-2 border-violet-500/40 shadow-[0_20px_50px_rgba(139,92,246,0.2)]">
+            <div className="relative p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-violet-500/15 border-2 border-violet-500/40 shadow-[0_20px_50px_rgba(139,92,246,0.2)]">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                 <span className="px-3 py-1 rounded-full bg-violet-500 text-white text-xs font-semibold">
                   Din start
                 </span>
               </div>
-              <h4 className="text-xl font-display font-bold text-white text-center mb-4">Starter</h4>
+              <h4 className="text-lg sm:text-xl font-display font-bold text-white text-center mb-4">Starter</h4>
               <div className="space-y-3">
                 <div className="flex items-center justify-between py-2 border-b border-white/10">
                   <span className="text-gray-300">Success fee</span>
@@ -188,8 +188,8 @@ const Pricing = () => {
             </div>
 
             {/* Growth */}
-            <div className="relative p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-violet-500/30 transition-colors">
-              <h4 className="text-xl font-display font-bold text-white text-center mb-1">Growth</h4>
+            <div className="relative p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 hover:border-violet-500/30 transition-colors">
+              <h4 className="text-lg sm:text-xl font-display font-bold text-white text-center mb-1">Growth</h4>
               <p className="text-sm text-gray-400 text-center mb-4">50+ ärenden</p>
               <div className="space-y-3">
                 <div className="flex items-center justify-between py-2 border-b border-white/10">
@@ -204,8 +204,8 @@ const Pricing = () => {
             </div>
 
             {/* Enterprise */}
-            <div className="relative p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-violet-500/30 transition-colors">
-              <h4 className="text-xl font-display font-bold text-white text-center mb-1">Enterprise</h4>
+            <div className="relative p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 hover:border-violet-500/30 transition-colors">
+              <h4 className="text-lg sm:text-xl font-display font-bold text-white text-center mb-1">Enterprise</h4>
               <p className="text-sm text-gray-400 text-center mb-4">Kontakta oss</p>
               <div className="space-y-3">
                 <div className="flex items-center justify-between py-2 border-b border-white/10">
@@ -231,7 +231,7 @@ const Pricing = () => {
 
         {/* How payment works */}
         <div className="max-w-5xl mx-auto">
-          <h3 className={`text-2xl md:text-3xl font-display font-bold text-white text-center mb-10 reveal ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '400ms' }}>
+          <h3 className={`text-xl md:text-2xl font-display font-bold text-white text-center mb-8 reveal ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '400ms' }}>
             Hur betalningen fungerar
           </h3>
 
@@ -254,9 +254,9 @@ const Pricing = () => {
                   className={`reveal ${isVisible ? 'visible' : ''}`}
                   style={{ transitionDelay: `${500 + index * 100}ms` }}
                 >
-                  <div className="bg-[#0d0d1a] border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8 h-full hover:border-white/20 transition-colors">
-                    <div className={`w-12 h-12 rounded-xl ${colors.bg} ${colors.border} border flex items-center justify-center mb-6`}>
-                      <item.icon className={`w-6 h-6 ${colors.text}`} />
+                  <div className="bg-[#0d0d1a] border border-white/10 rounded-2xl p-4 sm:p-5 md:p-6 h-full hover:border-white/20 transition-colors">
+                    <div className={`w-10 h-10 rounded-xl ${colors.bg} ${colors.border} border flex items-center justify-center mb-4`}>
+                      <item.icon className={`w-5 h-5 ${colors.text}`} />
                     </div>
                     <h4 className="text-lg font-display font-semibold text-white mb-3">{item.title}</h4>
                     <p className="text-gray-300 leading-relaxed">{item.desc}</p>

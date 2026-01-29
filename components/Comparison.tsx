@@ -24,14 +24,14 @@ const Comparison = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-32 px-6 relative overflow-hidden" id="services">
+    <section ref={sectionRef} className="py-12 md:py-20 px-6 relative overflow-hidden" id="services">
       {/* Background decoration */}
       <div className="absolute top-10 right-0 w-[420px] h-[420px] bg-emerald-500/[0.06] blur-[160px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[420px] h-[420px] bg-rose-500/[0.06] blur-[160px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section header */}
-        <div className={`mb-12 md:mb-20 reveal ${isVisible ? 'visible' : ''}`}>
+        <div className={`mb-10 md:mb-14 reveal ${isVisible ? 'visible' : ''}`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 hover:border-violet-500/50 hover:bg-violet-500/10 transition-all duration-300 mb-8 cursor-default badge-hover">
             <Sparkles className="w-4 h-4 text-violet-400" />
             <span className="text-xs uppercase tracking-[0.25em] text-gray-400">Vad gör oss unika</span>
@@ -39,13 +39,13 @@ const Comparison = () => {
 
           <div className="flex flex-col lg:flex-row lg:items-end gap-6 lg:gap-10">
             <div className="flex-1">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-display font-bold mb-4 md:mb-6 tracking-tight leading-[1.05]">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-3 md:mb-4 tracking-tight leading-[1.1]">
                 <span className="text-white">Vi är </span>
                 <span className="text-rose-400 line-through decoration-2 decoration-rose-500/70">inte</span>
                 <span className="text-white"> ett inkassobolag</span>
               </h2>
 
-              <p className="text-gray-400 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed">
+              <p className="text-gray-400 text-sm sm:text-base md:text-lg max-w-xl leading-relaxed">
                 Vi arbetar <span className="text-white font-medium">innan</span> inkasso blir aktuellt.
                 Det är därför relationerna bevaras och betalningen kommer in på ett tryggt sätt.
               </p>
@@ -68,7 +68,7 @@ const Comparison = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
           {/* Inkasso Column */}
           <div className={`relative group reveal-left ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '200ms' }}>
-            <div className="relative rounded-3xl glass border border-white/10 p-6 sm:p-7 md:p-9 h-full hover:border-rose-500/40 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(244,63,94,0.15)]">
+            <div className="relative rounded-2xl glass border border-white/10 p-5 sm:p-6 md:p-7 h-full hover:border-rose-500/40 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(244,63,94,0.15)]">
               {/* Badge */}
               <div className="absolute -top-4 left-8">
                 <div className="px-4 py-2 rounded-full bg-rose-500/20 border border-rose-500/30 text-rose-300 text-sm font-semibold backdrop-blur-sm">
@@ -106,7 +106,7 @@ const Comparison = () => {
 
           {/* Zylora Column */}
           <div className={`relative group reveal-right ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '400ms' }}>
-            <div className="relative rounded-3xl glass-strong border border-white/10 hover:border-emerald-500/50 transition-all duration-500 p-6 sm:p-7 md:p-9 h-full hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(16,185,129,0.2)]">
+            <div className="relative rounded-2xl glass-strong border border-white/10 hover:border-emerald-500/50 transition-all duration-500 p-5 sm:p-6 md:p-7 h-full hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(16,185,129,0.2)]">
               {/* Badge */}
               <div className="absolute -top-4 left-8">
                 <div className="px-4 py-2 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-sm font-semibold backdrop-blur-sm flex items-center gap-2">
@@ -148,9 +148,9 @@ const Comparison = () => {
         </div>
 
         {/* Bottom note */}
-        <div className={`mt-16 text-center reveal ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '600ms' }}>
-          <div className="inline-flex items-center gap-3 px-6 py-4 rounded-full glass border border-white/10 hover:border-violet-500/30 hover:bg-violet-500/5 transition-all duration-300 cursor-default">
-            <span className="text-gray-400 text-sm">
+        <div className={`mt-12 text-center reveal ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '600ms' }}>
+          <div className="inline-flex items-center gap-3 px-4 py-3 sm:px-6 sm:py-4 rounded-2xl sm:rounded-full glass border border-white/10 hover:border-violet-500/30 hover:bg-violet-500/5 transition-all duration-300 cursor-default max-w-lg mx-auto">
+            <span className="text-gray-400 text-xs sm:text-sm text-center sm:text-left">
               Om kunden trots allt inte betalar kan vi hjälpa dig vidare — men <span className="text-emerald-400 font-medium">i de allra flesta fall löser vi det innan dess</span>.
             </span>
           </div>

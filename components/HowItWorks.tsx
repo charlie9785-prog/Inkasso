@@ -65,7 +65,7 @@ const HowItWorks = () => {
   const activeColors = colorMap[steps[activeStep - 1].color];
 
   return (
-    <section ref={sectionRef} id="process" className="py-20 md:py-32 px-6 relative overflow-hidden">
+    <section ref={sectionRef} id="process" className="py-14 md:py-20 px-6 relative overflow-hidden">
       {/* Background effects */}
       <div className="absolute right-[-120px] top-10 w-[520px] h-[520px] bg-violet-500/[0.04] blur-[160px] rounded-full pointer-events-none" />
       <div className="absolute left-[-140px] bottom-[-40px] w-[460px] h-[460px] bg-blue-500/[0.04] blur-[160px] rounded-full pointer-events-none" />
@@ -80,17 +80,17 @@ const HowItWorks = () => {
               <span className="text-xs uppercase tracking-[0.25em] text-gray-400">Så fungerar det</span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 md:mb-6 text-white tracking-tight leading-[1.05]">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-3 md:mb-4 text-white tracking-tight leading-[1.1]">
               Koppla en gång.
               <br />
               <span className="gradient-text">Sen tar vi ansvar.</span>
             </h2>
 
-            <p className="text-gray-400 text-base sm:text-lg mb-8 md:mb-10 leading-relaxed max-w-xl">
+            <p className="text-gray-400 text-sm sm:text-base mb-6 md:mb-8 leading-relaxed max-w-lg">
               Vårt team tar över dialogen, följer upp i rätt ton och rapporterar tydligt.
             </p>
 
-            <div className={`space-y-4 reveal-stagger ${isVisible ? 'visible' : ''}`}>
+            <div className={`space-y-3 sm:space-y-4 reveal-stagger ${isVisible ? 'visible' : ''}`}>
               {steps.map((step) => {
                 const colors = colorMap[step.color];
                 const isActive = activeStep === step.id;
@@ -104,7 +104,7 @@ const HowItWorks = () => {
                         : 'border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/10'
                     }`}
                   >
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${
                       isActive
                         ? `${colors.bg} ${colors.border} border ${colors.text}`
                         : 'bg-white/5 border border-white/10 text-gray-500 group-hover:border-white/20'
@@ -118,7 +118,7 @@ const HowItWorks = () => {
                       }`}>
                         {step.title}
                       </span>
-                      <span className={`text-sm transition-colors ${
+                      <span className={`text-xs sm:text-sm transition-colors line-clamp-2 ${
                         isActive ? 'text-gray-400' : 'text-gray-600'
                       }`}>
                         {step.description}
@@ -135,7 +135,7 @@ const HowItWorks = () => {
           {/* Right Side: Visualization */}
           <div className={`flex-1 w-full lg:pt-6 reveal-right ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '200ms' }}>
             <div className="relative group">
-              <div className="relative rounded-[32px] glass border border-white/10 overflow-hidden min-h-[360px] sm:min-h-[420px] lg:min-h-[520px] flex items-center justify-center p-4 sm:p-6 md:p-10 hover:border-violet-500/20 transition-all duration-500">
+              <div className="relative rounded-2xl glass border border-white/10 overflow-hidden min-h-[320px] sm:min-h-[360px] lg:min-h-[420px] flex items-center justify-center p-4 sm:p-5 md:p-6 hover:border-violet-500/20 transition-all duration-500">
                 {/* Grid background */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px]" />
 
