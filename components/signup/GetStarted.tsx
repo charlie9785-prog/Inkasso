@@ -187,43 +187,21 @@ const GetStarted: React.FC = () => {
     }
   };
 
-  const startBjornLundenOAuth = async () => {
+  const startBjornLundenConnect = async () => {
     setIsLoading(true);
     setError(null);
 
-    try {
-      const response = await fetch(
-        `${SUPABASE_URL}/functions/v1/bjorn-lunden-oauth?action=authorize&mode=signup`,
-        {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          },
-          redirect: 'follow',
-        }
-      );
+    // Björn Lundén uses mock/manual entry (same as dashboard)
+    // Simulate connection delay like dashboard does
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
-      console.log('Björn Lundén OAuth response status:', response.status);
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Björn Lundén OAuth error:', errorText);
-        throw new Error('Kunde inte starta anslutning');
-      }
-
-      const data = await response.json();
-      console.log('Björn Lundén OAuth data:', data);
-
-      if (data.authorization_url) {
-        window.location.href = data.authorization_url;
-      } else {
-        throw new Error('Ingen authorization_url i svaret');
-      }
-    } catch (err) {
-      console.error('Björn Lundén OAuth fetch error:', err);
-      setError('Något gick fel. Försök igen.');
-      setIsLoading(false);
-    }
+    sessionStorage.setItem('zylora_connected_system', 'bjorn_lunden');
+    setCompanyData(prev => ({
+      ...prev,
+      connectedSystem: 'bjorn_lunden',
+    }));
+    setCurrentStep('confirm');
+    setIsLoading(false);
   };
 
   const handleSignup = async () => {
@@ -459,7 +437,7 @@ const GetStarted: React.FC = () => {
 
                 {/* Björn Lundén - Active */}
                 <button
-                  onClick={startBjornLundenOAuth}
+                  onClick={startBjornLundenConnect}
                   disabled={isLoading}
                   className="w-full flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:border-violet-500/50 hover:bg-violet-500/5 transition-all group"
                 >
@@ -501,7 +479,7 @@ const GetStarted: React.FC = () => {
               <div className="flex items-center gap-2 text-emerald-400 mb-4">
                 <Check className="w-5 h-5" />
                 <span className="font-medium">
-                  {companyData.connectedSystem === 'visma' ? 'Visma kopplat!' : companyData.connectedSystem === 'bjorn_lunden' ? 'Björn Lundén kopplat!' : 'Fortnox kopplat!'}
+                  {companyData.connectedSystem === 'visma' ? 'Visma kopplat!' : companyData.connectedSystem === 'bjorn_lunden' ? 'Björn Lundén valt!' : 'Fortnox kopplat!'}
                 </span>
               </div>
 
@@ -509,7 +487,9 @@ const GetStarted: React.FC = () => {
                 Bekräfta dina uppgifter
               </h2>
               <p className="text-gray-400 mb-8">
-                Vi har hämtat informationen från {companyData.connectedSystem === 'visma' ? 'Visma' : companyData.connectedSystem === 'bjorn_lunden' ? 'Björn Lundén' : 'Fortnox'}
+                {companyData.connectedSystem === 'bjorn_lunden'
+                  ? 'Fyll i dina företagsuppgifter nedan'
+                  : `Vi har hämtat informationen från ${companyData.connectedSystem === 'visma' ? 'Visma' : 'Fortnox'}`}
               </p>
 
               {error && (

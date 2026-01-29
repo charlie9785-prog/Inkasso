@@ -16,7 +16,6 @@ import { Integration, IntegrationProvider, IntegrationStatus } from '../../types
 import { useAuth } from '../../hooks/useAuth';
 import { useFortnoxIntegration } from '../../hooks/useFortnoxIntegration';
 import { useVismaIntegration } from '../../hooks/useVismaIntegration';
-import { useBjornLundenIntegration } from '../../hooks/useBjornLundenIntegration';
 
 interface IntegrationConfig {
   id: IntegrationProvider;
@@ -57,7 +56,6 @@ const Integrations: React.FC = () => {
   const { tenant } = useAuth();
   const fortnox = useFortnoxIntegration(tenant?.id);
   const visma = useVismaIntegration(tenant?.id);
-  const bjornLunden = useBjornLundenIntegration(tenant?.id);
 
   const [integrations, setIntegrations] = useState<Integration[]>(mockIntegrations);
   const [connectingProvider, setConnectingProvider] = useState<IntegrationProvider | null>(null);
@@ -69,7 +67,6 @@ const Integrations: React.FC = () => {
     if (tenant?.id) {
       fortnox.checkStatus();
       visma.checkStatus();
-      bjornLunden.checkStatus();
     }
   }, [tenant?.id]);
 
@@ -92,16 +89,6 @@ const Integrations: React.FC = () => {
         status: visma.isConnected ? 'connected' : 'disconnected',
         lastSyncAt: visma.status.last_sync_at || undefined,
         invoicesImported: visma.syncResult?.stats.invoices.imported,
-      };
-    }
-    // For Björn Lundén, use real status from hook
-    if (provider === 'bjorn_lunden' && bjornLunden.status) {
-      return {
-        id: 'bjorn-lunden-integration',
-        provider: 'bjorn_lunden',
-        status: bjornLunden.isConnected ? 'connected' : 'disconnected',
-        lastSyncAt: bjornLunden.status.last_sync_at || undefined,
-        invoicesImported: bjornLunden.syncResult?.stats.invoices.imported,
       };
     }
     return integrations.find((i) => i.provider === provider);
@@ -152,16 +139,7 @@ const Integrations: React.FC = () => {
       return;
     }
 
-    // Björn Lundén uses real OAuth
-    if (provider === 'bjorn_lunden') {
-      const authUrl = await bjornLunden.startOAuth();
-      if (authUrl) {
-        window.location.href = authUrl;
-      }
-      return;
-    }
-
-    // Other providers still use mock
+    // Other providers (including Björn Lundén) use mock
     setConnectingProvider(provider);
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -190,13 +168,7 @@ const Integrations: React.FC = () => {
       return;
     }
 
-    // Björn Lundén uses real API
-    if (provider === 'bjorn_lunden') {
-      await bjornLunden.disconnect();
-      return;
-    }
-
-    // Other providers still use mock
+    // Other providers (including Björn Lundén) use mock
     setConnectingProvider(provider);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     setIntegrations((prev) => prev.filter((i) => i.provider !== provider));
@@ -216,13 +188,7 @@ const Integrations: React.FC = () => {
       return;
     }
 
-    // Björn Lundén uses real sync
-    if (provider === 'bjorn_lunden') {
-      await bjornLunden.syncData();
-      return;
-    }
-
-    // Other providers still use mock
+    // Other providers (including Björn Lundén) use mock
     setSyncingProvider(provider);
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -249,13 +215,7 @@ const Integrations: React.FC = () => {
       return;
     }
 
-    // Björn Lundén uses real sync
-    if (provider === 'bjorn_lunden') {
-      await bjornLunden.syncData();
-      return;
-    }
-
-    // Other providers still use mock
+    // Other providers (including Björn Lundén) use mock
     setFetchingProvider(provider);
     await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -308,48 +268,36 @@ const Integrations: React.FC = () => {
           const integration = getIntegration(config.id);
           const isConnected = integration?.status === 'connected';
 
-          // Use hook states for Fortnox, Visma, and Björn Lundén providers
+          // Use hook states for Fortnox and Visma providers
           const isConnecting = config.id === 'fortnox'
             ? fortnox.isConnecting
             : config.id === 'visma'
             ? visma.isConnecting
-            : config.id === 'bjorn_lunden'
-            ? bjornLunden.isConnecting
             : connectingProvider === config.id;
           const isSyncing = config.id === 'fortnox'
             ? fortnox.isSyncing
             : config.id === 'visma'
             ? visma.isSyncing
-            : config.id === 'bjorn_lunden'
-            ? bjornLunden.isSyncing
             : syncingProvider === config.id;
           const isFetching = config.id === 'fortnox'
             ? fortnox.isSyncing
             : config.id === 'visma'
             ? visma.isSyncing
-            : config.id === 'bjorn_lunden'
-            ? bjornLunden.isSyncing
             : fetchingProvider === config.id;
           const isDisconnecting = config.id === 'fortnox'
             ? fortnox.isDisconnecting
             : config.id === 'visma'
             ? visma.isDisconnecting
-            : config.id === 'bjorn_lunden'
-            ? bjornLunden.isDisconnecting
             : false;
           const integrationError = config.id === 'fortnox'
             ? fortnox.error
             : config.id === 'visma'
             ? visma.error
-            : config.id === 'bjorn_lunden'
-            ? bjornLunden.error
             : null;
           const clearIntegrationError = config.id === 'fortnox'
             ? fortnox.clearError
             : config.id === 'visma'
             ? visma.clearError
-            : config.id === 'bjorn_lunden'
-            ? bjornLunden.clearError
             : () => {};
 
           return (
@@ -408,7 +356,7 @@ const Integrations: React.FC = () => {
                           <span className="text-white">{integration.invoicesImported} st</span>
                         </div>
                       )}
-                      {/* Show customers for Fortnox/Visma/Björn Lundén */}
+                      {/* Show customers for Fortnox/Visma */}
                       {config.id === 'fortnox' && fortnox.syncResult?.stats.customers && (
                         <div className="flex justify-between text-gray-400">
                           <span>Kunder importerade</span>
@@ -419,12 +367,6 @@ const Integrations: React.FC = () => {
                         <div className="flex justify-between text-gray-400">
                           <span>Kunder importerade</span>
                           <span className="text-white">{visma.syncResult.stats.customers.imported} st</span>
-                        </div>
-                      )}
-                      {config.id === 'bjorn_lunden' && bjornLunden.syncResult?.stats.customers && (
-                        <div className="flex justify-between text-gray-400">
-                          <span>Kunder importerade</span>
-                          <span className="text-white">{bjornLunden.syncResult.stats.customers.imported} st</span>
                         </div>
                       )}
                     </div>
