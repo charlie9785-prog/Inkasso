@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, ArrowLeft, Check, ExternalLink, Phone, Building2, Mail, Lock, Loader2, Eye, EyeOff, FileText, Clock, CheckCircle, PartyPopper } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, ExternalLink, Phone, Building2, Mail, Lock, Loader2, Eye, EyeOff, FileText, Clock, CheckCircle, PartyPopper, Key } from 'lucide-react';
 import { navigate } from '../../lib/navigation';
 import { supabase } from '../../lib/supabase';
 
@@ -30,7 +30,7 @@ interface ActivationData {
   example_invoice: OverdueInvoice | null;
 }
 
-type Step = 'connect' | 'confirm' | 'activation' | 'complete';
+type Step = 'connect' | 'bjorn-lunden-credentials' | 'confirm' | 'activation' | 'complete';
 
 const SUPABASE_URL = 'https://bosofhcunxbvfusvllsm.supabase.co';
 
@@ -57,6 +57,7 @@ const GetStarted: React.FC = () => {
   const [tenantId, setTenantId] = useState<string | null>(null);
   const [activationData, setActivationData] = useState<ActivationData | null>(null);
   const [activationLoading, setActivationLoading] = useState(false);
+  const [bjornLundenApiKey, setBjornLundenApiKey] = useState('');
 
   // Check for OAuth callback on mount
   useEffect(() => {
@@ -187,21 +188,61 @@ const GetStarted: React.FC = () => {
     }
   };
 
-  const startBjornLundenConnect = async () => {
+  const startBjornLundenConnect = () => {
+    setError(null);
+    // Go to credentials step where user enters API key
+    setCurrentStep('bjorn-lunden-credentials');
+  };
+
+  const handleBjornLundenCredentials = async () => {
+    if (!bjornLundenApiKey.trim()) {
+      setError('Ange din API-nyckel');
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
 
-    // Björn Lundén uses mock/manual entry (same as dashboard)
-    // Simulate connection delay like dashboard does
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      // Call backend to validate and connect with Björn Lundén API key
+      const response = await fetch(
+        `${SUPABASE_URL}/functions/v1/bjorn-lunden-connect`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            api_key: bjornLundenApiKey,
+            mode: 'signup',
+          }),
+        }
+      );
 
-    sessionStorage.setItem('zylora_connected_system', 'bjorn_lunden');
-    setCompanyData(prev => ({
-      ...prev,
-      connectedSystem: 'bjorn_lunden',
-    }));
-    setCurrentStep('confirm');
-    setIsLoading(false);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Kunde inte ansluta till Björn Lundén');
+      }
+
+      const data = await response.json();
+
+      sessionStorage.setItem('zylora_connected_system', 'bjorn_lunden');
+      setCompanyData(prev => ({
+        ...prev,
+        company_name: data.company_name || prev.company_name,
+        org_number: data.org_number || prev.org_number,
+        email: data.email || prev.email,
+        phone: data.phone || prev.phone,
+        bjorn_lunden_state: data.state || bjornLundenApiKey,
+        connectedSystem: 'bjorn_lunden',
+      }));
+      setCurrentStep('confirm');
+    } catch (err) {
+      console.error('Björn Lundén connect error:', err);
+      setError(err instanceof Error ? err.message : 'Något gick fel. Försök igen.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSignup = async () => {
@@ -329,7 +370,17 @@ const GetStarted: React.FC = () => {
     navigate('/dashboard');
   };
 
-  const stepNumber = currentStep === 'connect' ? 1 : currentStep === 'confirm' ? 2 : currentStep === 'activation' ? 3 : 4;
+  const getStepNumber = () => {
+    switch (currentStep) {
+      case 'connect': return 1;
+      case 'bjorn-lunden-credentials': return 2;
+      case 'confirm': return 2;
+      case 'activation': return 3;
+      case 'complete': return 4;
+      default: return 1;
+    }
+  };
+  const stepNumber = getStepNumber();
   const totalSteps = 4;
 
   const formatCurrency = (amount: number): string => {
@@ -359,6 +410,7 @@ const GetStarted: React.FC = () => {
             <span className="text-sm text-gray-400">Steg {stepNumber} av {totalSteps}</span>
             <span className="text-sm text-white font-medium">
               {currentStep === 'connect' && 'Koppla bokföring'}
+              {currentStep === 'bjorn-lunden-credentials' && 'Ange API-nyckel'}
               {currentStep === 'confirm' && 'Skapa konto'}
               {currentStep === 'activation' && 'Starta uppföljning'}
               {currentStep === 'complete' && 'Klart!'}
@@ -447,7 +499,7 @@ const GetStarted: React.FC = () => {
                     </div>
                     <div className="text-left">
                       <div className="font-semibold text-white">Björn Lundén</div>
-                      <div className="text-sm text-gray-400">Anslut med ett klick</div>
+                      <div className="text-sm text-gray-400">Anslut med API-nyckel</div>
                     </div>
                   </div>
                   {isLoading ? (
@@ -473,13 +525,81 @@ const GetStarted: React.FC = () => {
             </div>
           )}
 
+          {/* Step: Björn Lundén Credentials */}
+          {currentStep === 'bjorn-lunden-credentials' && (
+            <div>
+              <button
+                onClick={() => setCurrentStep('connect')}
+                className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Tillbaka
+              </button>
+
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-[#003366]/20 flex items-center justify-center">
+                  <span className="text-[#4A90D9] font-bold text-lg">BL</span>
+                </div>
+                <div>
+                  <h2 className="text-xl font-display font-bold text-white">
+                    Anslut Björn Lundén
+                  </h2>
+                  <p className="text-sm text-gray-400">Ange din API-nyckel</p>
+                </div>
+              </div>
+
+              {error && (
+                <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
+
+              <div className="space-y-5">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <Key className="w-4 h-4 inline mr-2" />
+                    API-nyckel
+                  </label>
+                  <input
+                    type="text"
+                    value={bjornLundenApiKey}
+                    onChange={(e) => setBjornLundenApiKey(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-violet-500/50 focus:outline-none transition-colors"
+                    placeholder="Din Björn Lundén API-nyckel"
+                  />
+                  <p className="mt-2 text-xs text-gray-500">
+                    Hitta din API-nyckel under Inställningar → Integrationer i Björn Lundén
+                  </p>
+                </div>
+
+                <button
+                  onClick={handleBjornLundenCredentials}
+                  disabled={isLoading || !bjornLundenApiKey.trim()}
+                  className="w-full h-12 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Ansluter...
+                    </>
+                  ) : (
+                    <>
+                      Anslut
+                      <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Step 2: Confirm */}
           {currentStep === 'confirm' && (
             <div>
               <div className="flex items-center gap-2 text-emerald-400 mb-4">
                 <Check className="w-5 h-5" />
                 <span className="font-medium">
-                  {companyData.connectedSystem === 'visma' ? 'Visma kopplat!' : companyData.connectedSystem === 'bjorn_lunden' ? 'Björn Lundén valt!' : 'Fortnox kopplat!'}
+                  {companyData.connectedSystem === 'visma' ? 'Visma kopplat!' : companyData.connectedSystem === 'bjorn_lunden' ? 'Björn Lundén kopplat!' : 'Fortnox kopplat!'}
                 </span>
               </div>
 
