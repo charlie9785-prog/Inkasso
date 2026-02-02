@@ -33,7 +33,7 @@ const Hero = () => {
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-violet-500"></span>
             </span>
             <span className="text-sm font-medium text-gray-300 tracking-wide">
-              Personlig dialog före inkasso
+              0 kr i månadsavgift
             </span>
             <ChevronRight className="w-4 h-4 text-violet-400 group-hover:translate-x-2 group-hover:text-violet-300 transition-all duration-300" />
           </div>
@@ -43,11 +43,9 @@ const Hero = () => {
             className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold tracking-tight mb-4 md:mb-6 max-w-2xl leading-[1.1] ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
             style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}
           >
-            <span className="text-white">Vi tar hand om dialogen</span>
+            <span className="text-white">Slipp jaga kunder</span>
             <br />
-            <span className="text-white">– tills ni fått betalt</span>
-            <br />
-            <span className="gradient-text">Tryggt och respektfullt</span>
+            <span className="gradient-text">– få betalt i tid</span>
           </h1>
 
         {/* Subheadline */}
@@ -55,7 +53,7 @@ const Hero = () => {
             className={`text-sm sm:text-base md:text-lg text-gray-400 max-w-xl mb-8 leading-relaxed ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
             style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}
           >
-            <span className="text-white font-medium">Anslut Fortnox, Visma eller Björn Lundén på 60 sekunder.</span> Vårt team följer upp i rätt ton och säkrar betalningen utan att skada relationen.
+            Tid, relationer och fokus försvinner när ni själva måste jaga betalningar. <span className="text-white font-medium">Vårt team sköter betalningsuppföljningen dag 7–30 efter förfallodatum</span> – professionellt och konsekvent.
           </p>
 
         {/* CTA */}
@@ -85,10 +83,21 @@ const Hero = () => {
             eller mejla <a href="mailto:supprt@zylora.se" className="text-violet-400 hover:text-violet-300 transition-colors font-medium">supprt@zylora.se</a>
           </span>
 
+        {/* Value prop callout */}
+          <div
+            className={`mt-8 inline-flex items-center gap-3 px-5 py-3 rounded-2xl glass border border-violet-500/20 bg-violet-500/5 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}
+            style={{ animationDelay: '0.55s', animationFillMode: 'forwards' }}
+          >
+            <span className="text-lg">👉</span>
+            <span className="text-sm sm:text-base text-gray-300">
+              <span className="text-white font-semibold">0 kr i månadsavgift.</span> Vårt team tar bara betalt när fakturan blir betald.
+            </span>
+          </div>
+
         {/* Trust indicators */}
           <div
-            className={`mt-8 flex flex-wrap items-center gap-3 sm:gap-5 text-xs sm:text-sm text-gray-500 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}
-            style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}
+            className={`mt-6 flex flex-wrap items-center gap-3 sm:gap-5 text-xs sm:text-sm text-gray-500 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}
+            style={{ animationDelay: '0.65s', animationFillMode: 'forwards' }}
           >
             {['Inga dolda avgifter', 'Ingen bindningstid', '60 sek integration'].map((text, i) => (
               <div key={i} className="flex items-center gap-2 group cursor-default hover:scale-105 transition-transform">
