@@ -34,20 +34,27 @@ const Hero = () => {
           className={`text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-[5.5rem] font-display font-bold tracking-tight mb-6 md:mb-8 max-w-5xl mx-auto leading-[1.08] md:leading-[1.05] ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
           style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}
         >
-          <span className="text-white">Vi sköter dialogen med era kunder</span>
-          <br />
           <span className="gradient-text">
-            – tills ni fått betalt
+            Slipp jaga kunder – få betalt i tid
           </span>
         </h1>
 
         {/* Subheadline */}
         <p
-          className={`text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 md:mb-14 leading-relaxed ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
+          className={`text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-6 md:mb-8 leading-relaxed ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
           style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}
         >
-          <span className="text-white font-medium">Anslut Fortnox, Visma eller Björn Lundén på 60 sekunder.</span> Vi tar kontakt, följer upp och ser till att pengarna kommer in.
+          Tid, relationer och fokus försvinner när ni själva måste jaga betalningar.<br />
+          Vårt team sköter betalningsuppföljningen dag 7–30 – professionellt och konsekvent.
         </p>
+
+        {/* Pricing Highlight */}
+        <div
+          className={`text-lg sm:text-xl md:text-2xl font-semibold text-white max-w-2xl mx-auto mb-10 md:mb-14 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
+          style={{ animationDelay: '0.35s', animationFillMode: 'forwards' }}
+        >
+          👉 0 kr i månadsavgift. Vårt team tar bara betalt när fakturan blir betald.
+        </div>
 
         {/* CTA */}
         <div
