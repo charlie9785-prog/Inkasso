@@ -45,7 +45,7 @@ const Hero = () => {
           style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}
         >
           Tid, relationer och fokus försvinner när ni själva måste jaga betalningar.<br />
-          Vårt team sköter betalningsuppföljningen dag 7–30 – professionellt och konsekvent.
+          När en faktura är försenad tar vårt team över dag 7–30 efter förfallodatum – professionellt och konsekvent.
         </p>
 
         {/* Pricing Highlight */}
